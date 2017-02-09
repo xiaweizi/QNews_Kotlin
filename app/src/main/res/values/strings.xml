@@ -1,3 +1,28 @@
 <resources>
     <string name="app_name">QNews</string>
+
+    <string-array name="news_type_cn">
+        <item>头条</item>
+        <item>社会</item>
+        <item>国内</item>
+        <item>国际</item>
+        <item>娱乐</item>
+        <item>体育</item>
+        <item>军事</item>
+        <item>科技</item>
+        <item>财经</item>
+        <item>时尚</item>
+    </string-array>
+    <string-array name="news_type_en">
+        <item name="toutiao"/>
+        <item name="shehui"/>
+        <item name="guonei"/>
+        <item name="guoji"/>
+        <item name="yule"/>
+        <item name="tiyu"/>
+        <item name="junshi"/>
+        <item name="keji"/>
+        <item name="caijing"/>
+        <item name="shishang"/>
+    </string-array>
 </resources>

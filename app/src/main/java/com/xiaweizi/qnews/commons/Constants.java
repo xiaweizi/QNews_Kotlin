@@ -12,44 +12,22 @@ package com.xiaweizi.qnews.commons;
 public class Constants {
 
     /**
-     * 头条接口
+     * 新闻数据接口
      */
-    public static final String TOP_URL = "http://v.juhe.cn/toutiao/index?type=top&key=d78b502268f7456b79fbe7228cecdd46";
-    /**
-     * 社会接口
-     */
-    public static final String SHEHUI_URL = "http://v.juhe.cn/toutiao/index?type=shehui&key=d78b502268f7456b79fbe7228cecdd46";
-    /**
-     * 国内接口
-     */
-    public static final String GUONEI_URL = "http://v.juhe.cn/toutiao/index?type=guonei&key=d78b502268f7456b79fbe7228cecdd46";
-    /**
-     * 国际接口
-     */
-    public static final String GUOJI_URL = "http://v.juhe.cn/toutiao/index?type=guoji&key=d78b502268f7456b79fbe7228cecdd46";
-    /**
-     * 娱乐接口
-     */
-    public static final String YULE_URL = "http://v.juhe.cn/toutiao/index?type=yule&key=d78b502268f7456b79fbe7228cecdd46";
-    /**
-     * 体育接口
-     */
-    public static final String TIYU_URL = "http://v.juhe.cn/toutiao/index?type=tiyu&key=d78b502268f7456b79fbe7228cecdd46";
-    /**
-     * 军事接口
-     */
-    public static final String JUNSHI_URL = "http://v.juhe.cn/toutiao/index?type=junshi&key=d78b502268f7456b79fbe7228cecdd46";
-    /**
-     * 科技接口
-     */
-    public static final String KEJI_URL = "http://v.juhe.cn/toutiao/index?type=keji&key=d78b502268f7456b79fbe7228cecdd46";
-    /**
-     * 财经接口
-     */
-    public static final String CAIJING_URL = "http://v.juhe.cn/toutiao/index?type=caijing&key=d78b502268f7456b79fbe7228cecdd46";
-    /**
-     * 时尚接口
-     */
-    public static final String SHISHANG_URL = "http://v.juhe.cn/toutiao/index?type=shishang&key=d78b502268f7456b79fbe7228cecdd46";
+    public static final String NEWS_DATA_URL = "http://v.juhe.cn/toutiao/index?key=d78b502268f7456b79fbe7228cecdd46";
 
+    /**
+     * 问答机器人接口
+     */
+    public static final String Q_A_ROBOT_URL = "http://op.juhe.cn/robot/index?key=98b8f13ededd2f7e1d593819a6bb3639";
+
+    /**
+     * 历史上今天接口
+     */
+    public static final String TODAY_OF_HISTORY_URP = "http://v.juhe.cn/todayOnhistory/queryEvent.php?key=f5f7d655ef148f6bb777c80167f7f6de";
+
+    /**
+     * 历史上今天详情接口
+     */
+    public static final String TODAY_OF_HISTORY_DETAIL_URL = "http://v.juhe.cn/todayOnhistory/queryDetail.php?key=f5f7d655ef148f6bb777c80167f7f6de";
 }
