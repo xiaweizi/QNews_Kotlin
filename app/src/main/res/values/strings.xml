@@ -14,15 +14,15 @@
         <item>时尚</item>
     </string-array>
     <string-array name="news_type_en">
-        <item name="toutiao"/>
-        <item name="shehui"/>
-        <item name="guonei"/>
-        <item name="guoji"/>
-        <item name="yule"/>
-        <item name="tiyu"/>
-        <item name="junshi"/>
-        <item name="keji"/>
-        <item name="caijing"/>
-        <item name="shishang"/>
+        <item>toutiao</item>
+        <item>shehui</item>
+        <item>guonei</item>
+        <item>guoji</item>
+        <item>yule</item>
+        <item>tiyu</item>
+        <item>junshi</item>
+        <item>keji</item>
+        <item>caijing</item>
+        <item>shishang</item>
     </string-array>
 </resources>

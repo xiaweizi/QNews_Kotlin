@@ -39,5 +39,8 @@ dependencies {
     compile 'com.jakewharton:butterknife:8.5.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
     compile 'org.litepal.android:core:1.4.1'
+
+//    compile 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.8.0'
+    compile 'com.zhy:base-rvadapter:3.0.3'
     testCompile 'junit:junit:4.12'
 }

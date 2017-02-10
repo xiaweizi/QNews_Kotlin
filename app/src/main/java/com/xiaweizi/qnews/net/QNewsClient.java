@@ -1,7 +1,5 @@
 package com.xiaweizi.qnews.net;
 
-import android.util.Log;
-
 import com.google.gson.Gson;
 import com.xiaweizi.qnews.bean.NewsDataBean;
 import com.xiaweizi.qnews.bean.TodayOfHistoryBean;
@@ -108,6 +106,12 @@ public class QNewsClient {
                 });
     }
 
+    /**
+     * 根据年月，获取 历史上的今天 的概述
+     * @param month         查询的c月
+     * @param day           查询的日
+     * @param callback      查询回调的接口
+     */
     public void GetTodayOfHistoryData(int month, int day, QNewsCallback callback){
         mQNewsCallback = callback;
 
@@ -130,6 +134,12 @@ public class QNewsClient {
                     }
                 });
     }
+
+    /**
+     * 根据上一个方法成功查询后回调结果中的e_id，获取详细数据
+     * @param e_id          上一个方法成功查询后回调结果中的e_id
+     * @param callback      查询回调的接口
+     */
     public void GetTodayOfHistoryDetailData(int e_id, QNewsCallback callback){
 
         mQNewsCallback = callback;
@@ -146,7 +156,6 @@ public class QNewsClient {
 
                     @Override
                     public void onResponse(String response, int id) {
-                        Log.i("--->", "onResponse: "+response);
                         TodayOfHistoryDetailBean bean = mGson.fromJson(response, TodayOfHistoryDetailBean.class);
                         mQNewsCallback.onSuccess(bean, id);
                     }

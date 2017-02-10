@@ -8,22 +8,10 @@
     android:orientation="vertical"
     tools:context="com.xiaweizi.qnews.acctivity.MainActivity">
 
-    <include layout="@layout/appbar"/>
-    <android.support.design.widget.TabLayout
-        android:id="@+id/tabLayout"
-        app:tabMode="scrollable"
-        app:tabIndicatorHeight="0dp"
-        app:tabBackground="@color/mainTabBackground"
-        app:tabSelectedTextColor="#ff7a61"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-    </android.support.design.widget.TabLayout>
-
-    <android.support.v4.view.ViewPager
-        android:id="@+id/main_viewpager"
+    <FrameLayout
+        android:id="@+id/fl_news_data"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-    </android.support.v4.view.ViewPager>
+    </FrameLayout>
 </LinearLayout>

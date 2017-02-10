@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="5dp"
+    android:background="?android:attr/selectableItemBackground"
+    app:cardCornerRadius="1dp"
+    app:cardElevation="1dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:orientation="horizontal"
+        android:padding="6dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/tv_news_detail_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxLines="2"
+                android:padding="5dp"
+                android:text="朴槿惠“亲信干政”事件：崔顺实主动接受传讯 口罩遮面沉默不语【组图】"
+                android:textColor="#3e3d3d"
+                android:textSize="18sp"/>
+
+            <TextView
+                android:id="@+id/tv_news_detail_author_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_below="@id/tv_news_detail_title"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="10dp"
+                android:text="人民网" />
+
+            <TextView
+                android:id="@+id/tv_news_detail_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@id/tv_news_detail_author_name"
+                android:layout_marginLeft="5dp"
+                android:maxLines="1"
+                android:layout_toRightOf="@id/tv_news_detail_author_name"
+                android:text="2017-02-09 10:45" />
+
+        </RelativeLayout>
+
+        <android.support.v7.widget.CardView
+            android:layout_width="120dp"
+            android:layout_height="90dp"
+            android:background="?android:attr/selectableItemBackground"
+            app:cardCornerRadius="10dp"
+            app:cardElevation="2dp">
+        <ImageView
+            android:id="@+id/iv_news_detail_pic"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@mipmap/ic_launcher" />
+        </android.support.v7.widget.CardView>
+
+    </LinearLayout>
+
+</android.support.v7.widget.CardView>
