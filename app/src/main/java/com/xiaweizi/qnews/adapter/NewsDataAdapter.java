@@ -28,9 +28,19 @@ public class NewsDataAdapter extends CommonAdapter<NewsDataBean.ResultBean.DataB
 
     private Context context;
 
+    private List<NewsDataBean.ResultBean.DataBean> datas;
+
     public NewsDataAdapter(Context context, List<NewsDataBean.ResultBean.DataBean> datas) {
         super(context, R.layout.item_news_detail, datas);
         this.context = context;
+        this.datas = datas;
+    }
+
+    public void addDataToAadpter(List<NewsDataBean.ResultBean.DataBean> datas){
+        if (datas != null){
+            datas.clear();
+            datas.addAll(datas);
+        }
     }
 
     @Override

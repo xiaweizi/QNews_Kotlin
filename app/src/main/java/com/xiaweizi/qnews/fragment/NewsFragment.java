@@ -14,6 +14,8 @@ import android.view.ViewGroup;
 import com.xiaweizi.qnews.R;
 import com.xiaweizi.qnews.commons.LogUtils;
 
+import java.util.Timer;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -35,6 +37,7 @@ public class NewsFragment extends Fragment {
     ViewPager mainViewpager;
     private String[] types;
     private String[] typesCN;
+    private MyAdapter myAdapter;
 
 
     @Nullable
@@ -46,9 +49,15 @@ public class NewsFragment extends Fragment {
         types = getResources().getStringArray(R.array.news_type_en);
         typesCN = getResources().getStringArray(R.array.news_type_cn);
 
-        mainViewpager.setOffscreenPageLimit(1);
-        mainViewpager.setAdapter(new MyAdapter(getActivity().getSupportFragmentManager()));
+        myAdapter = new MyAdapter(getActivity().getSupportFragmentManager());
+
+        mainViewpager.setAdapter(myAdapter);
+        mainViewpager.setOffscreenPageLimit(0);
         tabLayout.setupWithViewPager(mainViewpager);
+
+        final String[] isFirst = {"is"};
+        final Timer timer = new Timer();
+
 
         return view;
     }
@@ -63,12 +72,12 @@ public class NewsFragment extends Fragment {
         @Override
         public Fragment getItem(int position) {
             LogUtils.i(types[position]);
-            return new NewsDetailFragment(types[0]);
+            return new NewsDetailFragment(types[position]);
         }
 
         @Override
         public int getCount() {
-            return 2;
+            return types.length;
         }
 
         @Override

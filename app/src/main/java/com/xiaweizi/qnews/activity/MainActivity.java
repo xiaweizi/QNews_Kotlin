@@ -12,8 +12,10 @@ import android.view.WindowManager;
 import android.widget.FrameLayout;
 
 import com.xiaweizi.qnews.R;
+import com.xiaweizi.qnews.commons.ActivityUtils;
 import com.xiaweizi.qnews.fragment.JokeFragment;
 import com.xiaweizi.qnews.fragment.NewsFragment;
+import com.xiaweizi.qnews.fragment.RobotFragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -30,8 +32,12 @@ public class MainActivity extends AppCompatActivity {
 
     private FragmentManager manager;
     private FragmentTransaction transaction;
+
     private NewsFragment newsFragment;
     private JokeFragment jokeFragment;
+    private RobotFragment robotFragment;
+
+    private ActivityUtils utils;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,8 +48,13 @@ public class MainActivity extends AppCompatActivity {
             //透明导航栏
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
         }
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+
+        utils = new ActivityUtils(this);
 
         /*************************** 第一次进入创建newsFragment ***************************/
         manager = getSupportFragmentManager();
@@ -71,7 +82,8 @@ public class MainActivity extends AppCompatActivity {
 
                         break;
                     case R.id.nav_robot:
-
+                        hideAllFragment();
+                        showRobotFragment();
                         break;
                     case R.id.nav_other:
 
@@ -142,9 +154,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    /**
-     * 隐藏所有的fragment
-     */
     private void showJokeFragment(){
         if (jokeFragment == null){
             jokeFragment = new JokeFragment();
@@ -154,6 +163,18 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    private void showRobotFragment(){
+        if (robotFragment == null){
+            robotFragment = new RobotFragment();
+            manager.beginTransaction().add(R.id.fl_content, robotFragment).commit();
+        }else {
+            manager.beginTransaction().show(robotFragment).commit();
+        }
+    }
+
+    /**
+     * 隐藏所有的fragment
+     */
     private void hideAllFragment(){
         FragmentTransaction hideTransaction = manager.beginTransaction();
         if (newsFragment != null){
@@ -162,7 +183,23 @@ public class MainActivity extends AppCompatActivity {
         if (jokeFragment != null){
             hideTransaction.hide(jokeFragment);
         }
+        if (robotFragment != null){
+            hideTransaction.hide(robotFragment);
+        }
         hideTransaction.commit();
     }
 
+
+    long lastTime = 0;
+
+    @Override
+    public void onBackPressed() {
+        long curTime = System.currentTimeMillis();
+        if ((curTime - lastTime) > 2000){
+            utils.showToast("再按一次退出应用");
+            lastTime = curTime;
+        }else {
+            finish();
+        }
+    }
 }
