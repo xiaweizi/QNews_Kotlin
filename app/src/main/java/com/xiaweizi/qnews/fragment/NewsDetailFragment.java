@@ -41,6 +41,30 @@ public class NewsDetailFragment extends Fragment {
 
     public NewsDetailFragment(String type) {
         this.type = type;
+        LogUtils.i("NewsDetailFragment:--->" + type);
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (false){
+            rvNewDetail.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+            QNewsClient.getInstance().GetNewsData(type, new QNewsCallback<NewsDataBean>() {
+                @Override
+                public void onSuccess(NewsDataBean response, int id) {
+                    List<NewsDataBean.ResultBean.DataBean> data = response.getResult().getData();
+                    mAdapter = new NewsDataAdapter(getActivity(), data);
+                    rvNewDetail.setAdapter(mAdapter);
+                    mAdapter.notifyDataSetChanged();
+                }
+
+                @Override
+                public void onError(Exception e, int id) {
+
+                }
+            });
+        }
     }
 
     @Nullable
@@ -49,28 +73,30 @@ public class NewsDetailFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_new_detail, null);
         ButterKnife.bind(this, view);
 
-        LogUtils.i("NewsDetailFragment被创建       " + type);
-
         rvNewDetail.setLayoutManager(new LinearLayoutManager(getActivity()));
-        QNewsClient.getInstance().GetNewsData(type, new QNewsCallback() {
-            @Override
-            public void onSuccess(Object response, int id) {
-                NewsDataBean bean = (NewsDataBean) response;
-                List<NewsDataBean.ResultBean.DataBean> data = bean.getResult().getData();
-                LogUtils.i("news详细结果" + data.toString());
-                mAdapter = new NewsDataAdapter(getActivity(), data);
-                rvNewDetail.setAdapter(mAdapter);
-                mAdapter.notifyDataSetChanged();
-                LogUtils.i(Thread.currentThread().getName());
-            }
 
-            @Override
-            public void onError(Exception e, int id) {
+                QNewsClient.getInstance().GetNewsData(type, new QNewsCallback<NewsDataBean>() {
+                    @Override
+                    public void onSuccess(NewsDataBean response, int id) {
+                        List<NewsDataBean.ResultBean.DataBean> data = response.getResult().getData();
+                        mAdapter = new NewsDataAdapter(getActivity(), data);
+                        rvNewDetail.setAdapter(mAdapter);
+                        mAdapter.notifyDataSetChanged();
+                    }
 
-            }
-        });
+                    @Override
+                    public void onError(Exception e, int id) {
+
+                    }
+                });
 
 
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        LogUtils.i("onresume");
     }
 }

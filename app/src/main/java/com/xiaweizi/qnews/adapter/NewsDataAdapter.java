@@ -1,10 +1,13 @@
 package com.xiaweizi.qnews.adapter;
 
 import android.content.Context;
+import android.content.Intent;
+import android.view.View;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.xiaweizi.qnews.R;
+import com.xiaweizi.qnews.activity.NewsDataShowActivity;
 import com.xiaweizi.qnews.bean.NewsDataBean;
 import com.xiaweizi.qnews.commons.LogUtils;
 import com.zhy.adapter.recyclerview.CommonAdapter;
@@ -31,11 +34,20 @@ public class NewsDataAdapter extends CommonAdapter<NewsDataBean.ResultBean.DataB
     }
 
     @Override
-    protected void convert(ViewHolder holder, NewsDataBean.ResultBean.DataBean dataBean, int position) {
-        LogUtils.i("convert");
+    protected void convert(final ViewHolder holder, final NewsDataBean.ResultBean.DataBean dataBean, int position) {
         holder.setText(R.id.tv_news_detail_title, dataBean.getTitle());
         holder.setText(R.id.tv_news_detail_author_name, dataBean.getAuthor_name());
         holder.setText(R.id.tv_news_detail_date, dataBean.getDate());
+        LogUtils.i("convert");
+        holder.setOnClickListener(R.id.ll_news_detail, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                LogUtils.i("url" + dataBean.getUrl());
+                Intent intent = new Intent(context, NewsDataShowActivity.class);
+                intent.putExtra("url", dataBean.getUrl());
+                context.startActivity(intent);
+            }
+        });
         Glide.with(context).
                 load(dataBean.getThumbnail_pic_s())
                 .crossFade()

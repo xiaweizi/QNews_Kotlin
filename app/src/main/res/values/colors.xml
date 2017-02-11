@@ -4,5 +4,12 @@
     <color name="colorPrimaryDark">#ff010e</color>
     <color name="colorAccent">#FF4081</color>
 
-    <color name="mainTabBackground">#dad5d4</color>
+    <!-- 主页上方tab背景 -->
+    <color name="mainTabBackground">#eaeaea</color>
+
+    <!-- 新闻详情页上方toolbar的背景 -->
+    <color name="showToolBarBackground">#fec4bfbf</color>
+
+    <!-- 正常字体颜色 -->
+    <color name="textNormalColor">#3e3d3d</color>
 </resources>

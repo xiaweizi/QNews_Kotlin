@@ -5,12 +5,14 @@
     android:layout_height="wrap_content"
     android:layout_margin="5dp"
     android:background="?android:attr/selectableItemBackground"
-    app:cardCornerRadius="1dp"
-    app:cardElevation="1dp">
+    app:cardCornerRadius="3dp"
+    app:cardElevation="0dp">
 
     <LinearLayout
+        android:id="@+id/ll_news_detail"
         android:layout_width="match_parent"
         android:layout_height="100dp"
+        android:background="?android:attr/selectableItemBackground"
         android:orientation="horizontal"
         android:padding="6dp">
 
@@ -26,7 +28,7 @@
                 android:maxLines="2"
                 android:padding="5dp"
                 android:text="朴槿惠“亲信干政”事件：崔顺实主动接受传讯 口罩遮面沉默不语【组图】"
-                android:textColor="#3e3d3d"
+                android:textColor="@color/textNormalColor"
                 android:textSize="18sp"/>
 
             <TextView
@@ -55,8 +57,8 @@
             android:layout_width="120dp"
             android:layout_height="90dp"
             android:background="?android:attr/selectableItemBackground"
-            app:cardCornerRadius="10dp"
-            app:cardElevation="2dp">
+            app:cardCornerRadius="15dp"
+            app:cardElevation="0dp">
         <ImageView
             android:id="@+id/iv_news_detail_pic"
             android:layout_width="match_parent"

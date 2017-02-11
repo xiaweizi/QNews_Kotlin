@@ -30,4 +30,9 @@ public class Constants {
      * 历史上今天详情接口
      */
     public static final String TODAY_OF_HISTORY_DETAIL_URL = "http://v.juhe.cn/todayOnhistory/queryDetail.php?key=f5f7d655ef148f6bb777c80167f7f6de";
+
+    /**
+     * 段子详情接口
+     */
+    public static final String JOKE_URL = "http://japi.juhe.cn/joke/content/text.from?key=ae240f7fba620fc370b803566654949e";
 }

@@ -1,4 +1,4 @@
-package com.xiaweizi.qnews.acctivity;
+package com.xiaweizi.qnews.activity;
 
 import android.app.Application;
 

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/activity_news_data_show"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.xiaweizi.qnews.activity.NewsDataShowActivity">
+
+   <android.support.v7.widget.Toolbar
+       android:id="@+id/tb_show"
+       android:fitsSystemWindows="true"
+       android:clipToPadding="true"
+       app:contentInsetStart="0.0dp"
+       android:background="@color/showToolBarBackground"
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content">
+
+       <LinearLayout
+           android:gravity="center"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content">
+           <TextView
+               android:id="@+id/tv_tb_title"
+               android:layout_marginRight="50dp"
+               android:text="载入中..."
+               android:textSize="15sp"
+               android:maxLines="1"
+               android:textColor="#252323"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content" />
+
+       </LinearLayout>
+
+   </android.support.v7.widget.Toolbar>
+
+    <WebView
+        android:id="@+id/wv_show"
+        android:layout_below="@id/tb_show"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"></WebView>
+</RelativeLayout>

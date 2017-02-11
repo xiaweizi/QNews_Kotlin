@@ -28,7 +28,7 @@
             app:tabIndicatorHeight="0dp"
             app:tabTextColor="#000"
             app:tabGravity="fill"
-            app:tabTextAppearance="@style/TextAppearance.AppCompat.Light.SearchResult.Title"
+            app:tabTextAppearance="@style/TextAppearance.AppCompat.Medium"
             app:tabMode="scrollable"
             app:tabSelectedTextColor="#ff000d">
 

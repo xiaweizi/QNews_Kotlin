@@ -18,6 +18,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
+ * 展示新闻视图
  * 工程名：  QNews
  * 包名：    com.xiaweizi.qnews.fragment
  * 类名：    NewsFragment
@@ -45,12 +46,13 @@ public class NewsFragment extends Fragment {
         types = getResources().getStringArray(R.array.news_type_en);
         typesCN = getResources().getStringArray(R.array.news_type_cn);
 
-        mainViewpager.setOffscreenPageLimit(0);
+        mainViewpager.setOffscreenPageLimit(1);
         mainViewpager.setAdapter(new MyAdapter(getActivity().getSupportFragmentManager()));
         tabLayout.setupWithViewPager(mainViewpager);
 
         return view;
     }
+
 
     private class MyAdapter extends FragmentStatePagerAdapter{
 
@@ -61,12 +63,12 @@ public class NewsFragment extends Fragment {
         @Override
         public Fragment getItem(int position) {
             LogUtils.i(types[position]);
-            return new NewsDetailFragment(types[position]);
+            return new NewsDetailFragment(types[0]);
         }
 
         @Override
         public int getCount() {
-            return types.length;
+            return 2;
         }
 
         @Override
