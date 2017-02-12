@@ -6,7 +6,6 @@ import com.xiaweizi.qnews.bean.NewsDataBean;
 import com.xiaweizi.qnews.bean.TodayOfHistoryBean;
 import com.xiaweizi.qnews.bean.TodayOfHistoryDetailBean;
 import com.xiaweizi.qnews.commons.Constants;
-import com.xiaweizi.qnews.commons.LogUtils;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
@@ -142,13 +141,13 @@ public class QNewsClient {
      * @param e_id          上一个方法成功查询后回调结果中的e_id
      * @param callback      查询回调的接口
      */
-    public void GetTodayOfHistoryDetailData(int e_id, QNewsCallback callback){
+    public void GetTodayOfHistoryDetailData(String e_id, QNewsCallback callback){
 
         mQNewsCallback = callback;
 
         OkHttpUtils.post()
                 .url(Constants.TODAY_OF_HISTORY_DETAIL_URL)
-                .addParams("e_id", e_id + "")
+                .addParams("e_id", e_id)
                 .build()
                 .execute(new StringCallback() {
                     @Override

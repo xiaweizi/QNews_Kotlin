@@ -12,7 +12,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.xiaweizi.qnews.R;
-import com.xiaweizi.qnews.commons.LogUtils;
 
 import java.util.Timer;
 
@@ -38,6 +37,7 @@ public class NewsFragment extends Fragment {
     private String[] types;
     private String[] typesCN;
     private MyAdapter myAdapter;
+
 
 
     @Nullable
@@ -71,7 +71,6 @@ public class NewsFragment extends Fragment {
 
         @Override
         public Fragment getItem(int position) {
-            LogUtils.i(types[position]);
             return new NewsDetailFragment(types[position]);
         }
 

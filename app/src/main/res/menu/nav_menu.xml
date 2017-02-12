@@ -3,18 +3,23 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_news"
+            android:icon="@drawable/ic_news"
             android:title="新闻" />
         <item
+            android:icon="@drawable/ic_joke"
             android:id="@+id/nav_duanzi"
             android:title="段子" />
         <item
+            android:icon="@drawable/ic_today"
             android:id="@+id/nav_today_of_history"
             android:title="历史上的今天" />
         <item
+            android:icon="@drawable/ic_robot"
             android:id="@+id/nav_robot"
             android:title="美女机器人" />
         <item
+            android:icon="@drawable/ic_about"
             android:id="@+id/nav_other"
-            android:title="其他" />
+            android:title="关于" />
     </group>
 </menu>

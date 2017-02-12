@@ -8,8 +8,8 @@
 
     <com.pkmmte.view.CircularImageView
         android:id="@+id/icon_image"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         app:border="true"
         app:border_color="#eeeeee"
         app:border_width="4dp"
