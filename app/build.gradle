@@ -44,7 +44,6 @@ dependencies {
     compile 'com.zhy:base-rvadapter:3.0.3'
 
     compile 'com.roughike:bottom-bar:2.1.1'
-
-    compile 'com.melnykov:floatingactionbutton:1.3.0'
+    compile 'com.github.hackware1993:MagicIndicator:1.5.0'
     testCompile 'junit:junit:4.12'
 }

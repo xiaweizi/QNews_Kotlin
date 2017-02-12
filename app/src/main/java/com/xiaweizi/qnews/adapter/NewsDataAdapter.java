@@ -60,6 +60,8 @@ public class NewsDataAdapter extends CommonAdapter<NewsDataBean.ResultBean.DataB
         });
         Glide.with(context).
                 load(dataBean.getThumbnail_pic_s())
+                .placeholder(R.mipmap.ic_error)
+                .error(R.mipmap.ic_error)
                 .crossFade()
                 .centerCrop()
                 .into((ImageView) holder.getView(R.id.iv_news_detail_pic));

@@ -24,21 +24,28 @@
                 android:layout_height="wrap_content" />
         </android.support.v7.widget.Toolbar>
 
-        <android.support.design.widget.TabLayout
-            android:id="@+id/tabLayout"
-            android:layout_width="match_parent"
-            android:layout_height="30dp"
-            app:tabBackground="@color/mainTabBackground"
-            app:tabIndicatorHeight="0dp"
-            app:tabTextColor="#000"
-            app:tabGravity="fill"
-            app:tabTextAppearance="@style/TextAppearance.AppCompat.Medium"
-            app:tabMode="scrollable"
-            app:tabSelectedTextColor="#ff000d">
+        <!--<android.support.design.widget.TabLayout-->
+            <!--android:id="@+id/tabLayout"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="30dp"-->
+            <!--app:tabBackground="@color/mainTabBackground"-->
+            <!--app:tabIndicatorHeight="0dp"-->
+            <!--app:tabTextColor="#000"-->
+            <!--app:tabGravity="fill"-->
+            <!--app:tabTextAppearance="@style/TextAppearance.AppCompat.Medium"-->
+            <!--app:tabMode="scrollable"-->
+            <!--app:tabSelectedTextColor="#ff000d">-->
+        <!--</android.support.design.widget.TabLayout>-->
 
-        </android.support.design.widget.TabLayout>
+
+        <net.lucode.hackware.magicindicator.MagicIndicator
+            android:id="@+id/magic_indicator"
+            android:layout_width="match_parent"
+            android:background="#fff"
+            android:layout_height="40dp" />
 
     </android.support.design.widget.AppBarLayout>
+
 
 
 

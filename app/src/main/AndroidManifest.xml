@@ -7,7 +7,7 @@
     <application
         android:name=".activity.MyApplication"
         android:allowBackup="true"
-        android:icon="@mipmap/qnewslan"
+        android:icon="@mipmap/iclan"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
