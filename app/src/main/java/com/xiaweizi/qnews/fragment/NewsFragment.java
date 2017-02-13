@@ -27,7 +27,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
- * 展示新闻视图
+ * 新闻数据 fragment
  * 工程名：  QNews
  * 包名：    com.xiaweizi.qnews.fragment
  * 类名：    NewsFragment
@@ -38,14 +38,12 @@ import butterknife.ButterKnife;
 
 public class NewsFragment extends Fragment {
 
-//    @BindView(R.id.tabLayout)
-//    TabLayout tabLayout;
     @BindView(R.id.main_viewpager)
-    ViewPager mainViewpager;
-    private String[] types;
-    private String[] typesCN;
-    private MyAdapter myAdapter;
+    ViewPager mainViewpager;        //新闻数据 ViewPager
 
+    private String[] types;         //顶部 tab 英文内容数组
+    private String[] typesCN;       //顶部 tab 中文内容数组
+    private NewsViewPagerAadpter newsViewPagerAadpter;    //ViewPager 适配器
 
 
     @Nullable
@@ -57,13 +55,11 @@ public class NewsFragment extends Fragment {
         types = getResources().getStringArray(R.array.news_type_en);
         typesCN = getResources().getStringArray(R.array.news_type_cn);
 
-        myAdapter = new MyAdapter(getActivity().getSupportFragmentManager());
+        //初始化ViewPager，设置适配器
+        newsViewPagerAadpter = new NewsViewPagerAadpter(getActivity().getSupportFragmentManager());
+        mainViewpager.setAdapter(newsViewPagerAadpter);
 
-        mainViewpager.setAdapter(myAdapter);
-        mainViewpager.setOffscreenPageLimit(0);
-//        tabLayout.setupWithViewPager(mainViewpager);
-
-        /***************************  ***************************/
+        /*************************** 顶部指示器数据加载 ***************************/
         MagicIndicator magicIndicator = (MagicIndicator) view.findViewById(R.id.magic_indicator);
         CommonNavigator commonNavigator = new CommonNavigator(getActivity());
         commonNavigator.setAdapter(new CommonNavigatorAdapter() {
@@ -97,19 +93,21 @@ public class NewsFragment extends Fragment {
         });
         magicIndicator.setNavigator(commonNavigator);
         ViewPagerHelper.bind(magicIndicator, mainViewpager);
+        /******************************************************/
 
         return view;
     }
 
 
-    private class MyAdapter extends FragmentStatePagerAdapter{
+    private class NewsViewPagerAadpter extends FragmentStatePagerAdapter {
 
-        public MyAdapter(FragmentManager fm) {
+        public NewsViewPagerAadpter(FragmentManager fm) {
             super(fm);
         }
 
         @Override
         public Fragment getItem(int position) {
+            //根据位置创建相应的fragment
             return new NewsDetailFragment(types[position]);
         }
 
@@ -118,10 +116,6 @@ public class NewsFragment extends Fragment {
             return types.length;
         }
 
-        @Override
-        public CharSequence getPageTitle(int position) {
-            return typesCN[position];
-        }
     }
 
 }

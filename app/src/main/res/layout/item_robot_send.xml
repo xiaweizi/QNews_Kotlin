@@ -38,10 +38,11 @@
             app:cardUseCompatPadding="true">
 
             <ImageView
+                android:id="@+id/iv_send"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:scaleType="centerCrop"
-                android:src="@mipmap/ic_launcher" />
+                android:src="@mipmap/send1" />
 
         </android.support.v7.widget.CardView>
 

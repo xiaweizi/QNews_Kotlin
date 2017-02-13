@@ -1,5 +1,10 @@
 <resources>
     <string name="app_name">QNews</string>
+    <string name="string_about_banquan">版权归作者所有</string>
+    <string name="string_about_notification">该项目为毕设项目，请勿用于商业用途</string>
+    <string name="string_about_github">github: https://github.com/xiaweizi</string>
+    <string name="string_about_jianshu">简书: http://www.jianshu.com/u/d36586119d8c</string>
+    <string name="string_about_blog">博客: http://my.csdn.net/qq_22656383</string>
 
     <string-array name="news_type_cn">
         <item>头条</item>

@@ -2,6 +2,7 @@ package com.xiaweizi.qnews.activity;
 
 import android.app.Application;
 
+import com.blankj.utilcode.utils.Utils;
 import com.zhy.http.okhttp.OkHttpUtils;
 
 import java.util.concurrent.TimeUnit;
@@ -22,6 +23,8 @@ public class MyApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+
+        Utils.init(getApplicationContext());
 
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
 //                .addInterceptor(new LoggerInterceptor("TAG"))

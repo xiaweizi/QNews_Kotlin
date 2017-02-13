@@ -35,4 +35,6 @@ public class Constants {
      * 段子详情接口
      */
     public static final String JOKE_URL = "http://japi.juhe.cn/joke/content/text.from?key=ae240f7fba620fc370b803566654949e";
+
+    public static final String WEATHER_URL = "http://op.juhe.cn/onebox/weather/query?key=ae0fb87a8f219261470673f9a31a0a3b";
 }

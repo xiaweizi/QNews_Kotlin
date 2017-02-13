@@ -87,17 +87,17 @@
                     <TextView
                         android:id="@+id/tv_about_github"
                         style="@style/TextAboutEditorItemStyle"
-                        android:text="@string/string_about_github" />
+                        android:text="github:     https://github.com/xiaweizi" />
 
                     <TextView
                         android:id="@+id/tv_about_jianshu"
                         style="@style/TextAboutEditorItemStyle"
-                        android:text="@string/string_about_jianshu" />
+                        android:text="简书:        http://www.jianshu.com/u/d36586119d8c" />
 
                     <TextView
                         android:id="@+id/tv_about_blog"
                         style="@style/TextAboutEditorItemStyle"
-                        android:text="@string/string_about_blog" />
+                        android:text="博客:        http://my.csdn.net/qq_22656383" />
 
 
                 </LinearLayout>

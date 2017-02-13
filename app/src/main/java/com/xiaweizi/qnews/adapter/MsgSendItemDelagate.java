@@ -1,5 +1,6 @@
 package com.xiaweizi.qnews.adapter;
 
+import com.bumptech.glide.Glide;
 import com.xiaweizi.qnews.R;
 import com.xiaweizi.qnews.bean.RobotMSGBean;
 import com.zhy.adapter.recyclerview.base.ItemViewDelegate;
@@ -29,5 +30,6 @@ public class MsgSendItemDelagate implements ItemViewDelegate<RobotMSGBean> {
     @Override
     public void convert(ViewHolder holder, RobotMSGBean robotMSGBean, int position) {
         holder.setText(R.id.tv_msg_right, robotMSGBean.getMsg());
+
     }
 }

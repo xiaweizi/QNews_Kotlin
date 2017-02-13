@@ -13,5 +13,6 @@
     <!-- 正常字体颜色 -->
     <color name="textNormalColor">#3e3d3d</color>
 
+    <color name="white">#fff</color>
 
 </resources>

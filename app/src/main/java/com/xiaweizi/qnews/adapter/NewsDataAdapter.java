@@ -52,7 +52,6 @@ public class NewsDataAdapter extends CommonAdapter<NewsDataBean.ResultBean.DataB
         holder.setOnClickListener(R.id.ll_news_detail, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                LogUtils.i("url" + dataBean.getUrl());
                 Intent intent = new Intent(context, NewsDataShowActivity.class);
                 intent.putExtra("url", dataBean.getUrl());
                 context.startActivity(intent);

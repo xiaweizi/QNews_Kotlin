@@ -5,7 +5,9 @@ import com.xiaweizi.qnews.bean.JokeBean;
 import com.xiaweizi.qnews.bean.NewsDataBean;
 import com.xiaweizi.qnews.bean.TodayOfHistoryBean;
 import com.xiaweizi.qnews.bean.TodayOfHistoryDetailBean;
+import com.xiaweizi.qnews.bean.WeatherDetailBean;
 import com.xiaweizi.qnews.commons.Constants;
+import com.xiaweizi.qnews.commons.LogUtils;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
@@ -189,6 +191,33 @@ public class QNewsClient {
                     @Override
                     public void onResponse(String response, int id) {
                         JokeBean bean = mGson.fromJson(response, JokeBean.class);
+                        mQNewsCallback.onSuccess(bean, id);
+                    }
+                });
+    }
+
+
+    /**
+     * 根据城市名查询天气状况
+     * @param cityname  要查询的城市名
+     * @param callback  查询结束回调接口
+     */
+    public void GetWeatherDetailData(String cityname, QNewsCallback callback){
+
+        mQNewsCallback = callback;
+        OkHttpUtils.post()
+                .url(Constants.WEATHER_URL)
+                .addParams("cityname", cityname)
+                .build()
+                .execute(new StringCallback() {
+                    @Override
+                    public void onError(Call call, Exception e, int id) {
+                        mQNewsCallback.onError(e, id);
+                    }
+
+                    @Override
+                    public void onResponse(String response, int id) {
+                        WeatherDetailBean bean = mGson.fromJson(response, WeatherDetailBean.class);
                         mQNewsCallback.onSuccess(bean, id);
                     }
                 });

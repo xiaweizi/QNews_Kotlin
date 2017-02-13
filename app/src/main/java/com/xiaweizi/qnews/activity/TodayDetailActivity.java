@@ -28,6 +28,9 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+/**
+ * 历史上的今天详情界面
+ */
 public class TodayDetailActivity extends AppCompatActivity {
 
 
@@ -59,6 +62,7 @@ public class TodayDetailActivity extends AppCompatActivity {
 
         String e_id = getIntent().getStringExtra("e_id");
 
+        //添加左侧后退按钮
         setSupportActionBar(tbToday);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -76,7 +80,6 @@ public class TodayDetailActivity extends AppCompatActivity {
                 }
                 TodayOfHistoryDetailBean.ResultBean resultBean = response.getResult().get(0);
                 String content = resultBean.getContent();
-                String picNo = resultBean.getPicNo();
                 String title = resultBean.getTitle();
                 picUrl = resultBean.getPicUrl();
 

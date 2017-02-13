@@ -7,11 +7,16 @@
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/tb_robot"
-        app:title="美女"
         app:titleTextColor="#fff"
         android:background="@color/colorPrimary"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="56dp">
+
+        <ImageView
+            android:src="@mipmap/robot"
+            android:scaleType="fitStart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
 
     </android.support.v7.widget.Toolbar>
 

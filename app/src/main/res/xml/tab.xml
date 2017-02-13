@@ -9,20 +9,20 @@
         id="@+id/tab_joke"
         icon="@drawable/ic_joke"
         title="段子"
-        barColorWhenSelected="#5D4037" />
+        barColorWhenSelected="#efe748" />
     <tab
         id="@+id/tab_today"
         icon="@drawable/ic_today"
         title="今日"
-        barColorWhenSelected="#7B1FA2" />
+        barColorWhenSelected="#9e2fce" />
     <tab
         id="@+id/tab_robot"
         icon="@drawable/ic_robot"
         title="机器人"
-        barColorWhenSelected="#FF5252" />
+        barColorWhenSelected="#5df25b" />
     <tab
         id="@+id/tab_about"
         icon="@drawable/ic_about"
         title="关于"
-        barColorWhenSelected="#FF9800" />
+        barColorWhenSelected="#6087ea" />
 </tabs>

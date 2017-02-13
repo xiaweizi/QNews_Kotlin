@@ -10,11 +10,13 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.pkmmte.view.CircularImageView;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnTabReselectListener;
 import com.roughike.bottombar.OnTabSelectListener;
@@ -60,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
             //透明导航栏
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
         }
-        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+        //设置软键盘的模式为适应屏幕模式
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 
         setContentView(R.layout.activity_main);
@@ -68,14 +70,43 @@ public class MainActivity extends AppCompatActivity {
 
         utils = new ActivityUtils(this);
 
-        ImageView iconImage = (ImageView) nvLeft.getHeaderView(0).findViewById(R.id.icon_image);
 
+//
+//        QNewsClient.getInstance().GetWeatherDetailData("南京", new QNewsCallback<WeatherDetailBean>() {
+//            @Override
+//            public void onSuccess(WeatherDetailBean response, int id) {
+//                WeatherDetailBean.ResultBean.DataBean.RealtimeBean realtime = response.getResult().getData().getRealtime();
+//
+//                String date = realtime.getDate();   //日期
+//                String time = realtime.getTime();   //更新时间
+//                int week = realtime.getWeek();      //星期
+//                String moon = realtime.getMoon();   //阴历
+//                String temperature = realtime.getWeather().getTemperature();  //温度
+//                String info = realtime.getWeather().getInfo();                //天气状况
+//                String direct = realtime.getWind().getDirect();               //风向
+//                String power = realtime.getWind().getPower();                 //风向级别
+//            }
+//
+//            @Override
+//            public void onError(Exception e, int id) {
+//
+//            }
+//        });
 
+        /*************************** 左侧 侧滑菜单 设置头像图片 ***************************/
+        CircularImageView iconImage = (CircularImageView) nvLeft.getHeaderView(0).findViewById(R.id.icon_image);
+        TextView tvTem = (TextView) nvLeft.getHeaderView(0).findViewById(R.id.tv_head_tem);
         Glide.with(this)
                 .load("http://img.17gexing.com/uploadfile/2016/07/2/20160725115642623.gif")
                 .asGif()
                 .centerCrop()
                 .into(iconImage);
+        iconImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                bottomBar.selectTabAtPosition(4, true);
+            }
+        });
 
         /*************************** 第一次进入创建newsFragment ***************************/
         manager = getSupportFragmentManager();
@@ -84,6 +115,7 @@ public class MainActivity extends AppCompatActivity {
         transaction.add(R.id.fl_content, newsFragment);
         transaction.commit();
 
+        /*************************** 底部bar 设置点击事件 ***************************/
         bottomBar = (BottomBar) findViewById(R.id.bottomBar);
         bottomBar.setOnTabSelectListener(new OnTabSelectListener() {
             @Override
@@ -117,6 +149,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+        //底部bar设置再次点击事件
         bottomBar.setOnTabReselectListener(new OnTabReselectListener() {
             @Override
             public void onTabReSelected(@IdRes int tabId) {
@@ -132,6 +165,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
+        /*************************** 左侧 侧滑菜单 设置选择事件 ***************************/
         nvLeft.setCheckedItem(R.id.nav_news);
         nvLeft.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -160,64 +194,21 @@ public class MainActivity extends AppCompatActivity {
                 return false;
             }
         });
-//        QNewsClient instance = QNewsClient.getInstance();
-//        instance.GetNewsData("top", new QNewsCallback() {
-//            @Override
-//            public void onSuccess(Object response, int id) {
-////                Log.i(TAG, "onSuccess: " + response.toString());
-//            }
-//
-//            @Override
-//            public void onError(Exception e, int id) {
-//
-//            }
-//        });
-//
-//        instance.GetQARobotData("你叫什么", new QNewsCallback() {
-//            @Override
-//            public void onSuccess(Object response, int id) {
-////                Log.i(TAG, "onSuccess: " + response.toString());
-//            }
-//
-//            @Override
-//            public void onError(Exception e, int id) {
-//
-//            }
-//        });
-//
-//        instance.GetTodayOfHistoryData(12, 1, new QNewsCallback() {
-//            @Override
-//            public void onSuccess(Object response, int id) {
-////                Log.i(TAG, "onSuccess: " + response.toString());
-//            }
-//
-//            @Override
-//            public void onError(Exception e, int id) {
-//
-//            }
-//        });
-//
-//        instance.GetTodayOfHistoryDetailData(13376, new QNewsCallback() {
-//            @Override
-//            public void onSuccess(Object response, int id) {
-//                TodayOfHistoryDetailBean bean = (TodayOfHistoryDetailBean) response;
-//                Log.i(TAG, "GetTodayOfHistoryDetailData: " + bean.toString());
-//            }
-//
-//            @Override
-//            public void onError(Exception e, int id) {
-//
-//            }
-//        });
-
     }
 
-    private void closeDrawerLayout(){
-        if (dlActivityMain.isDrawerOpen(Gravity.LEFT)){
+
+    /**
+     * 关闭左侧 侧滑菜单
+     */
+    private void closeDrawerLayout() {
+        if (dlActivityMain.isDrawerOpen(Gravity.LEFT)) {
             dlActivityMain.closeDrawers();
         }
     }
 
+    /**
+     * 展示 新闻数据 Fragment
+     */
     private void showNewsDataFragment() {
         hideAllFragment();
         if (newsFragment == null) {
@@ -227,6 +218,9 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * 展示 历史上的今天 Fragment
+     */
     private void showTodayFragment() {
         hideAllFragment();
         if (todayFragment == null) {
@@ -237,6 +231,9 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * 展示 关于 Fragment
+     */
     private void showAboutFragment() {
         hideAllFragment();
         if (aboutFragment == null) {
@@ -248,6 +245,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    /**
+     * 展示 段子 Fragment
+     */
     private void showJokeFragment() {
         hideAllFragment();
         if (jokeFragment == null) {
@@ -258,6 +258,9 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * 展示 图铃机器人 Fragment
+     */
     private void showRobotFragment() {
         hideAllFragment();
         if (robotFragment == null) {
@@ -294,6 +297,9 @@ public class MainActivity extends AppCompatActivity {
 
     long lastTime = 0;
 
+    /**
+     * 2秒内连续点击 back 键，退出应用
+     */
     @Override
     public void onBackPressed() {
         long curTime = System.currentTimeMillis();
@@ -304,4 +310,8 @@ public class MainActivity extends AppCompatActivity {
             finish();
         }
     }
+
+
+
+
 }

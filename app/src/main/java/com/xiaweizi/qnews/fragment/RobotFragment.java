@@ -68,6 +68,13 @@ public class RobotFragment extends Fragment {
         rvRobot.setLayoutManager(new LinearLayoutManager(getActivity()));
         rvRobot.setAdapter(adapter);
 
+        RobotMSGBean receiverBean = new RobotMSGBean();
+        receiverBean.setMsg("您好！我是图灵机器人，有什么可以帮助您吗？");
+        receiverBean.setType(RobotMSGBean.MSG_RECEIVED);
+        adapter.addDataToAdapter(receiverBean);
+        adapter.notifyDataSetChanged();
+        rvRobot.smoothScrollToPosition(adapter.getItemCount() - 1);
+
         return view;
     }
 

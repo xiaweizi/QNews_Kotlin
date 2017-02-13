@@ -13,10 +13,8 @@ import android.view.ViewGroup;
 import com.xiaweizi.qnews.R;
 import com.xiaweizi.qnews.adapter.NewsDataAdapter;
 import com.xiaweizi.qnews.bean.NewsDataBean;
-import com.xiaweizi.qnews.commons.LogUtils;
 import com.xiaweizi.qnews.net.QNewsCallback;
 import com.xiaweizi.qnews.net.QNewsClient;
-import com.zhy.adapter.recyclerview.MultiItemTypeAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +23,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
+ * 新闻详情 fragment，
  * 工程名：  QNews
  * 包名：    com.xiaweizi.qnews.fragment
  * 类名：    NewsDetailFragment
@@ -42,12 +41,14 @@ public class NewsDetailFragment extends Fragment {
 
     private NewsDataAdapter mAdapter;
 
+    /**
+     * 新闻数据类型
+     */
     private String type;
     private List<NewsDataBean.ResultBean.DataBean> data = new ArrayList<>();
 
     public NewsDetailFragment(String type) {
         this.type = type;
-        LogUtils.i("NewsDetailFragment:--->" + type);
     }
 
 
@@ -56,8 +57,8 @@ public class NewsDetailFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_new_detail, null);
         ButterKnife.bind(this, view);
-        LogUtils.i("onCreateView");
 
+        /*************************** 设置下拉刷新 ***************************/
         srl.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -78,9 +79,8 @@ public class NewsDetailFragment extends Fragment {
             }
         });
 
-
+        /*************************** recyclerView 初始化数据***************************/
         rvNewDetail.setLayoutManager(new LinearLayoutManager(getActivity()));
-
         QNewsClient.getInstance().GetNewsData(type, new QNewsCallback<NewsDataBean>() {
             @Override
             public void onSuccess(NewsDataBean response, int id) {
@@ -98,14 +98,5 @@ public class NewsDetailFragment extends Fragment {
 
         return view;
     }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        LogUtils.i("onResume");
-        View view = getView();
-        LogUtils.i("getview" + view.toString());
-    }
-
 
 }
