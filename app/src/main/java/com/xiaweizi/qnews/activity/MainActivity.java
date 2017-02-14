@@ -1,5 +1,6 @@
 package com.xiaweizi.qnews.activity;
 
+import android.content.DialogInterface;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
@@ -7,14 +8,16 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
-import android.widget.TextView;
+import android.widget.ImageView;
 
+import com.blankj.utilcode.utils.FileUtils;
 import com.bumptech.glide.Glide;
 import com.pkmmte.view.CircularImageView;
 import com.roughike.bottombar.BottomBar;
@@ -23,13 +26,17 @@ import com.roughike.bottombar.OnTabSelectListener;
 import com.xiaweizi.qnews.R;
 import com.xiaweizi.qnews.commons.ActivityUtils;
 import com.xiaweizi.qnews.fragment.AboutFragment;
+import com.xiaweizi.qnews.fragment.GIFFragment;
 import com.xiaweizi.qnews.fragment.JokeFragment;
 import com.xiaweizi.qnews.fragment.NewsFragment;
 import com.xiaweizi.qnews.fragment.RobotFragment;
 import com.xiaweizi.qnews.fragment.TodayFragment;
+import com.zhy.http.okhttp.OkHttpUtils;
+import com.zhy.http.okhttp.callback.StringCallback;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import okhttp3.Call;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -44,11 +51,12 @@ public class MainActivity extends AppCompatActivity {
     private FragmentManager manager;
     private FragmentTransaction transaction;
 
-    private NewsFragment newsFragment;
-    private JokeFragment jokeFragment;
-    private RobotFragment robotFragment;
-    private AboutFragment aboutFragment;
-    private TodayFragment todayFragment;
+    private NewsFragment newsFragment;      //新闻数据
+    private JokeFragment jokeFragment;      //段子
+    private RobotFragment robotFragment;    //机器人
+    private AboutFragment aboutFragment;    //关于
+    private TodayFragment todayFragment;    //历史上的今天
+    private GIFFragment gifFragment;        //动态图
 
     private ActivityUtils utils;
     private BottomBar bottomBar;
@@ -69,6 +77,8 @@ public class MainActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         utils = new ActivityUtils(this);
+
+
 
 
 //
@@ -95,12 +105,29 @@ public class MainActivity extends AppCompatActivity {
 
         /*************************** 左侧 侧滑菜单 设置头像图片 ***************************/
         CircularImageView iconImage = (CircularImageView) nvLeft.getHeaderView(0).findViewById(R.id.icon_image);
-        TextView tvTem = (TextView) nvLeft.getHeaderView(0).findViewById(R.id.tv_head_tem);
+        final ImageView ivBmp = (ImageView) nvLeft.getHeaderView(0).findViewById(R.id.iv_head_bg);
         Glide.with(this)
                 .load("http://img.17gexing.com/uploadfile/2016/07/2/20160725115642623.gif")
                 .asGif()
                 .centerCrop()
                 .into(iconImage);
+
+        OkHttpUtils.get().url("http://guolin.tech/api/bing_pic").build().execute(new StringCallback() {
+            @Override
+            public void onError(Call call, Exception e, int id) {
+
+            }
+
+            @Override
+            public void onResponse(String response, int id) {
+                Glide.with(MainActivity.this)
+                        .load(response)
+                        .crossFade()
+                        .centerCrop()
+                        .into(ivBmp);
+            }
+        });
+
         iconImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -157,6 +184,7 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.tab_news:
                         break;
                     case R.id.tab_joke:
+                        showGifFragment();
                         break;
                     case R.id.tab_robot:
                         break;
@@ -188,6 +216,8 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.nav_other:
                         bottomBar.selectTabAtPosition(4, true);
                         break;
+                    case R.id.nav_clear_cache:
+                        clearCache();
                     default:
                         break;
                 }
@@ -271,6 +301,16 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    private void showGifFragment() {
+        hideAllFragment();
+        if (gifFragment == null) {
+            gifFragment = new GIFFragment();
+            manager.beginTransaction().add(R.id.fl_content, gifFragment).commit();
+        } else {
+            manager.beginTransaction().show(gifFragment).commit();
+        }
+    }
+
     /**
      * 隐藏所有的fragment
      */
@@ -290,6 +330,9 @@ public class MainActivity extends AppCompatActivity {
         }
         if (todayFragment != null) {
             hideTransaction.hide(todayFragment);
+        }
+        if (gifFragment != null) {
+            hideTransaction.hide(gifFragment);
         }
         hideTransaction.commit();
     }
@@ -312,6 +355,21 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    private void clearCache(){
+        String dirSize = FileUtils.getDirSize(getCacheDir());
+        new AlertDialog.Builder(MainActivity.this)
+                .setTitle("确定要清理缓存")
+                .setMessage("缓存大小：" + dirSize)
+                .setPositiveButton("清理", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        FileUtils.deleteDir(getCacheDir());
+                        utils.showToast("清理成功");
+                    }
+                })
+                .setNegativeButton("取消", null)
+                .show();
+    }
 
 
 }

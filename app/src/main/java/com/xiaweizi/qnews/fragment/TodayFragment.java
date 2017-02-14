@@ -53,7 +53,9 @@ public class TodayFragment extends Fragment {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                fab.setImageResource(R.drawable.ic_joke);
+                if(rvToday != null){
+                    rvToday.scrollToPosition(0);
+                }
             }
         });
 

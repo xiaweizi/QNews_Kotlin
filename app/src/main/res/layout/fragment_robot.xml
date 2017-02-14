@@ -13,7 +13,7 @@
         android:layout_height="56dp">
 
         <ImageView
-            android:src="@mipmap/robot"
+            android:src="@mipmap/jiqiren"
             android:scaleType="fitStart"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />

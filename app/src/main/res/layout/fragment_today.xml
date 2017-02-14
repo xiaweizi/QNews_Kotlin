@@ -36,10 +36,10 @@
         android:clickable="true"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
-        android:src="@mipmap/ic_fb"
-        app:backgroundTint="#fff"
+        app:backgroundTint="#dc1586"
+        android:src="@drawable/ic_fb_top"
         app:elevation="6dp"
-        app:rippleColor="#f00"
+        app:rippleColor="#00ddff"
         app:pressedTranslationZ="25dp"
         app:fabSize="normal"/>
 

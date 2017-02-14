@@ -22,4 +22,8 @@
             android:id="@+id/nav_other"
             android:title="关于" />
     </group>
+    <item
+        android:icon="@drawable/ic_setting"
+        android:id="@+id/nav_clear_cache"
+        android:title="清理缓存"/>
 </menu>

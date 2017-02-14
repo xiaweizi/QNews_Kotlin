@@ -1,6 +1,7 @@
 package com.xiaweizi.qnews.net;
 
 import com.google.gson.Gson;
+import com.xiaweizi.qnews.bean.GIFBean;
 import com.xiaweizi.qnews.bean.JokeBean;
 import com.xiaweizi.qnews.bean.NewsDataBean;
 import com.xiaweizi.qnews.bean.TodayOfHistoryBean;
@@ -196,6 +197,28 @@ public class QNewsClient {
                 });
     }
 
+    public void GetNowJokeData(String time, QNewsCallback callback){
+
+        mQNewsCallback = callback;
+
+        OkHttpUtils.post()
+                .url(Constants.JOKE_DESC_URL)
+                .addParams("time", time)
+                .build()
+                .execute(new StringCallback() {
+                    @Override
+                    public void onError(Call call, Exception e, int id) {
+                        mQNewsCallback.onError(e, id);
+                    }
+
+                    @Override
+                    public void onResponse(String response, int id) {
+                        JokeBean bean = mGson.fromJson(response, JokeBean.class);
+                        mQNewsCallback.onSuccess(bean, id);
+                    }
+                });
+    }
+
 
     /**
      * 根据城市名查询天气状况
@@ -222,5 +245,27 @@ public class QNewsClient {
                     }
                 });
     }
+
+    public void GetGIFRandomData(QNewsCallback callback){
+
+        mQNewsCallback = callback;
+        OkHttpUtils.post()
+                .url(Constants.GIG_RANDOM_URL)
+                .build()
+                .execute(new StringCallback() {
+                    @Override
+                    public void onError(Call call, Exception e, int id) {
+                        mQNewsCallback.onError(e, id);
+                    }
+
+                    @Override
+                    public void onResponse(String response, int id) {
+                        LogUtils.i("response" + response);
+                        GIFBean bean = mGson.fromJson(response, GIFBean.class);
+                        mQNewsCallback.onSuccess(bean, id);
+                    }
+                });
+    }
+
 
 }
