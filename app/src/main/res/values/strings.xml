@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">QNews</string>
+    <string name="app_name">趣闻</string>
     <string name="string_about_banquan">版权归作者所有</string>
     <string name="string_about_notification">该项目为毕设项目，请勿用于商业用途</string>
     <string name="string_about_github">github: https://github.com/xiaweizi</string>

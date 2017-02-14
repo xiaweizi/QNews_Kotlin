@@ -25,6 +25,7 @@ import com.roughike.bottombar.OnTabReselectListener;
 import com.roughike.bottombar.OnTabSelectListener;
 import com.xiaweizi.qnews.R;
 import com.xiaweizi.qnews.commons.ActivityUtils;
+import com.xiaweizi.qnews.commons.VersionUtils;
 import com.xiaweizi.qnews.fragment.AboutFragment;
 import com.xiaweizi.qnews.fragment.GIFFragment;
 import com.xiaweizi.qnews.fragment.JokeFragment;
@@ -218,6 +219,10 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     case R.id.nav_clear_cache:
                         clearCache();
+                        break;
+                    case R.id.nav_version_update:
+                        VersionUtils.updateVersion(MainActivity.this);
+                        break;
                     default:
                         break;
                 }

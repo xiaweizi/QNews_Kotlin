@@ -72,7 +72,7 @@ public class NewsDataShowActivity extends AppCompatActivity {
             @Override
             public Bitmap getDefaultVideoPoster() {
                 if (mDefaultVideoPoster == null) {
-                    mDefaultVideoPoster = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
+                    mDefaultVideoPoster = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_error);
                     return mDefaultVideoPoster;
                 }
                 return super.getDefaultVideoPoster();

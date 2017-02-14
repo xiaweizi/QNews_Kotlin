@@ -11,7 +11,7 @@
     <LinearLayout
         android:id="@+id/ll_news_detail"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="wrap_content"
         android:background="?android:attr/selectableItemBackground"
         android:orientation="horizontal"
         android:padding="6dp">
@@ -63,7 +63,7 @@
             android:id="@+id/iv_news_detail_pic"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:src="@mipmap/ic_launcher" />
+            android:src="@mipmap/ic_error" />
         </android.support.v7.widget.CardView>
 
     </LinearLayout>

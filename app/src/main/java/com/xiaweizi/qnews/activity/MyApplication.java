@@ -25,6 +25,8 @@ public class MyApplication extends Application {
         super.onCreate();
 
         Utils.init(getApplicationContext());
+//        Bmob.initialize(this, "5597c24c18ec706d100033f915b79153");
+
 
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
 //                .addInterceptor(new LoggerInterceptor("TAG"))

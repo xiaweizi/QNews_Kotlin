@@ -26,4 +26,8 @@
         android:icon="@drawable/ic_setting"
         android:id="@+id/nav_clear_cache"
         android:title="清理缓存"/>
+    <item
+        android:icon="@drawable/ic_version_update"
+        android:id="@+id/nav_version_update"
+        android:title="版本更新"/>
 </menu>

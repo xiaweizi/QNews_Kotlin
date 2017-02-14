@@ -1,5 +1,6 @@
 package com.xiaweizi.qnews.fragment;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -31,7 +32,7 @@ import butterknife.ButterKnife;
  * 创建日期： 2017/2/10
  * 创建时间： 15:36
  */
-
+@SuppressLint("ValidFragment")
 public class NewsDetailFragment extends Fragment {
 
     @BindView(R.id.rv_new_detail)
@@ -47,10 +48,12 @@ public class NewsDetailFragment extends Fragment {
     private String type;
     private List<NewsDataBean.ResultBean.DataBean> data = new ArrayList<>();
 
+    public NewsDetailFragment() {
+    }
+
     public NewsDetailFragment(String type) {
         this.type = type;
     }
-
 
     @Nullable
     @Override

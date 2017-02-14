@@ -20,6 +20,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.xiaweizi.qnews.R;
 import com.xiaweizi.qnews.bean.TodayOfHistoryDetailBean;
+import com.xiaweizi.qnews.commons.LogUtils;
 import com.xiaweizi.qnews.net.QNewsCallback;
 import com.xiaweizi.qnews.net.QNewsClient;
 
@@ -121,8 +122,9 @@ public class TodayDetailActivity extends AppCompatActivity {
         @Override
         public Object instantiateItem(ViewGroup container, int position) {
             ImageView imageView = new ImageView(TodayDetailActivity.this);
+            LogUtils.i("url：" + picUrl.get(position).getUrl());
             Glide.with(TodayDetailActivity.this)
-                    .load(picUrl.get(position).getUrl())
+                    .load("http://images.juheapi.com/history/2021_1.jpg")
                     .crossFade()
                     .into(imageView);
             container.addView(imageView);
