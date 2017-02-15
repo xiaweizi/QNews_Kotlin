@@ -12,11 +12,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.blankj.utilcode.utils.ToastUtils;
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.xiaweizi.qnews.R;
 import com.xiaweizi.qnews.adapter.JokeAdapter;
 import com.xiaweizi.qnews.bean.JokeBean;
-import com.xiaweizi.qnews.commons.LogUtils;
 import com.xiaweizi.qnews.net.QNewsCallback;
 import com.xiaweizi.qnews.net.QNewsClient;
 
@@ -46,79 +45,88 @@ public class JokeFragment extends Fragment {
 
     private JokeAdapter mAdapter;
 
+    List<JokeBean.ResultBean.DataBean> mData;
 
-    private List<JokeBean.ResultBean.DataBean> mData;
+    private int mCurrentCounter;
+    private int mTotalCounter = 5;
+
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_joke, null);
         ButterKnife.bind(this, view);
-        mData = new ArrayList<>();
 
+        //数据初始化
+        mData = new ArrayList<>();
+        mAdapter = new JokeAdapter();
+        mAdapter.openLoadAnimation(BaseQuickAdapter.ALPHAIN);
+
+        //设置下拉刷新
         srlJoke.setColorSchemeColors(Color.RED, Color.GREEN, Color.YELLOW);
         srlJoke.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                loadMore();
+                updateDate();
             }
         });
 
         rvJoke.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
-        mAdapter = new JokeAdapter(getActivity());
         rvJoke.setAdapter(mAdapter);
 
-        QNewsClient.getInstance().GetNowJokeData(1, 8, new QNewsCallback<JokeBean>() {
+        mAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
 
             @Override
-            public void onSuccess(JokeBean response, int id) {
-                List<JokeBean.ResultBean.DataBean> data = response.getResult().getData();
-                mAdapter.addAllDataToAdapter(data);
-                mAdapter.notifyDataSetChanged();
-            }
+            public void onLoadMoreRequested() {
+                rvJoke.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (mCurrentCounter >= mTotalCounter) {
+                            //数据加载完成
+                            mAdapter.loadMoreEnd();
+                        } else {
 
-            @Override
-            public void onError(Exception e, int id) {
+                            if (mAdapter.getItem(0) == null) {
+                                return;
+                            }
 
+                            int unixtime = mAdapter.getItem(mAdapter.getItemCount()-2).getUnixtime();
+                            QNewsClient.getInstance().GetNowJokeData(unixtime + "", new QNewsCallback<JokeBean>() {
+                                @Override
+                                public void onSuccess(JokeBean response, int id) {
+                                    List<JokeBean.ResultBean.DataBean> data = response.getResult().getData();
+                                    mAdapter.addData(data);
+                                    mCurrentCounter = mTotalCounter;
+                                    mTotalCounter += 5;
+                                    mAdapter.loadMoreComplete();
+
+                                }
+
+                                @Override
+                                public void onError(Exception e, int id) {
+                                    mAdapter.loadMoreFail();
+                                }
+                            });
+
+                        }
+                    }
+                }, 1000);
             }
         });
+
+        updateDate();
 
         return view;
 
     }
 
-    private void loadMore() {
-        if (mAdapter.getFirstData() == null){
-            return;
-        }
-        int unixtime = mAdapter.getFirstData().getUnixtime();
-        LogUtils.i("unixtime" + unixtime);
-        QNewsClient.getInstance().GetNowJokeData(unixtime + "", new QNewsCallback<JokeBean>() {
+    private void updateDate() {
+        srlJoke.setRefreshing(true);
+        QNewsClient.getInstance().GetNowJokeData(1, 8, new QNewsCallback<JokeBean>() {
             @Override
             public void onSuccess(JokeBean response, int id) {
-                final List<JokeBean.ResultBean.DataBean> data = response.getResult().getData();
-                    new Thread(new Runnable() {
-                        @Override
-                        public void run() {
-
-                            try {
-                                Thread.sleep(1000);
-                                getActivity().runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        mAdapter.addAllDataToAdapter(data, false, false);
-                                        mAdapter.notifyDataSetChanged();
-                                        srlJoke.setRefreshing(false);
-                                        ToastUtils.showShortToast("刷新成功");
-                                    }
-                                });
-                            } catch (InterruptedException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                    }).start();
-
-
+                mAdapter.setNewData(response.getResult().getData());
+                srlJoke.setRefreshing(false);
             }
 
             @Override

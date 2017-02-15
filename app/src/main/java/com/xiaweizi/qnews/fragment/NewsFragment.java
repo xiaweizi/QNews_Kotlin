@@ -99,6 +99,8 @@ public class NewsFragment extends Fragment {
     }
 
 
+
+
     private class NewsViewPagerAadpter extends FragmentStatePagerAdapter {
 
         public NewsViewPagerAadpter(FragmentManager fm) {

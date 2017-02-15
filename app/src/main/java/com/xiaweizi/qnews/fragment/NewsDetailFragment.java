@@ -1,9 +1,10 @@
 package com.xiaweizi.qnews.fragment;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -11,7 +12,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.listener.OnItemChildClickListener;
 import com.xiaweizi.qnews.R;
+import com.xiaweizi.qnews.activity.NewsDataShowActivity;
 import com.xiaweizi.qnews.adapter.NewsDataAdapter;
 import com.xiaweizi.qnews.bean.NewsDataBean;
 import com.xiaweizi.qnews.net.QNewsCallback;
@@ -32,8 +36,9 @@ import butterknife.ButterKnife;
  * 创建日期： 2017/2/10
  * 创建时间： 15:36
  */
+
 @SuppressLint("ValidFragment")
-public class NewsDetailFragment extends Fragment {
+public class NewsDetailFragment extends BaseFragment {
 
     @BindView(R.id.rv_new_detail)
     RecyclerView rvNewDetail;
@@ -61,36 +66,46 @@ public class NewsDetailFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_new_detail, null);
         ButterKnife.bind(this, view);
 
+        mAdapter = new NewsDataAdapter();
+        mAdapter.openLoadAnimation(BaseQuickAdapter.SCALEIN);
+
         /*************************** 设置下拉刷新 ***************************/
+        srl.setColorSchemeColors(Color.RED, Color.RED);
         srl.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                QNewsClient.getInstance().GetNewsData(type, new QNewsCallback<NewsDataBean>() {
-                    @Override
-                    public void onSuccess(NewsDataBean response, int id) {
-                        data = response.getResult().getData();
-                        mAdapter.addDataToAadpter(data);
-                        mAdapter.notifyDataSetChanged();
-                        srl.setRefreshing(false);
-                    }
 
-                    @Override
-                    public void onError(Exception e, int id) {
-                    }
-                });
-                srl.setRefreshing(false);
+                updateData();
             }
         });
 
         /*************************** recyclerView 初始化数据***************************/
+        rvNewDetail.setAdapter(mAdapter);
         rvNewDetail.setLayoutManager(new LinearLayoutManager(getActivity()));
+        rvNewDetail.addOnItemTouchListener(new OnItemChildClickListener() {
+            @Override
+            public void onSimpleItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                Intent intent = new Intent(getActivity(), NewsDataShowActivity.class);
+                intent.putExtra("url", ((NewsDataBean.ResultBean.DataBean)adapter.getItem(position)).getUrl());
+                getActivity().startActivity(intent);
+            }
+        });
+
+        return view;
+    }
+
+    @Override
+    public void fetchData() {
+        updateData();
+    }
+
+    public void updateData() {
+        srl.setRefreshing(true);
         QNewsClient.getInstance().GetNewsData(type, new QNewsCallback<NewsDataBean>() {
             @Override
             public void onSuccess(NewsDataBean response, int id) {
-                data = response.getResult().getData();
-                mAdapter = new NewsDataAdapter(getActivity(), data);
-                rvNewDetail.setAdapter(mAdapter);
-                mAdapter.notifyDataSetChanged();
+                mAdapter.setNewData(response.getResult().getData());
+                srl.setRefreshing(false);
             }
 
             @Override
@@ -98,8 +113,5 @@ public class NewsDetailFragment extends Fragment {
 
             }
         });
-
-        return view;
     }
-
 }

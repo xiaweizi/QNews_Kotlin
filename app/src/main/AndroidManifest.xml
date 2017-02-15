@@ -24,8 +24,6 @@
         <activity android:name=".activity.NewsDataShowActivity" />
         <activity android:name=".activity.TodayDetailActivity" />
         <activity android:name=".activity.MainActivity" />
-        <activity
-            android:name=".activity.DownLoadActivity"></activity>
     </application>
 
 </manifest>

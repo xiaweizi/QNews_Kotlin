@@ -140,7 +140,7 @@ public class MainActivity extends AppCompatActivity {
         manager = getSupportFragmentManager();
         transaction = manager.beginTransaction();
         newsFragment = new NewsFragment();
-        transaction.add(R.id.fl_content, newsFragment);
+        transaction.add(R.id.fl_content, newsFragment, "news");
         transaction.commit();
 
         /*************************** 底部bar 设置点击事件 ***************************/

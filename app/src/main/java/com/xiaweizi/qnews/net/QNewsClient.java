@@ -197,6 +197,11 @@ public class QNewsClient {
                 });
     }
 
+    /**
+     * 根据指定时间，获取之前的段子数据
+     * @param time
+     * @param callback
+     */
     public void GetNowJokeData(String time, QNewsCallback callback){
 
         mQNewsCallback = callback;
@@ -246,6 +251,10 @@ public class QNewsClient {
                 });
     }
 
+    /**
+     * 随机获取动态图数据
+     * @param callback  获取后回调
+     */
     public void GetGIFRandomData(QNewsCallback callback){
 
         mQNewsCallback = callback;

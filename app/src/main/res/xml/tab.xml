@@ -14,7 +14,7 @@
         id="@+id/tab_today"
         icon="@drawable/ic_today"
         title="今日"
-        barColorWhenSelected="#9e2fce" />
+        barColorWhenSelected="#99ce2f" />
     <tab
         id="@+id/tab_robot"
         icon="@drawable/ic_robot"
@@ -24,5 +24,5 @@
         id="@+id/tab_about"
         icon="@drawable/ic_about"
         title="关于"
-        barColorWhenSelected="#6087ea" />
+        barColorWhenSelected="#60e3ea" />
 </tabs>
