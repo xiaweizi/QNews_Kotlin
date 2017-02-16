@@ -11,6 +11,7 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
+import com.blankj.utilcode.utils.SPUtils;
 import com.xiaweizi.qnews.R;
 
 import butterknife.BindView;
@@ -27,6 +28,9 @@ public class SplashActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        SPUtils util = new SPUtils("theme_id");
+        int theme_id = util.getInt("theme_id", R.style.AppTheme);
+        setTheme(theme_id);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             //透明状态栏
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
@@ -36,11 +40,10 @@ public class SplashActivity extends AppCompatActivity {
         setContentView(R.layout.activity_splash);
         ButterKnife.bind(this);
         set = new AnimatorSet();
-        ObjectAnimator scaleX = ObjectAnimator.ofFloat(ivSplash, "scaleX", 0f, 1f);
-        ObjectAnimator scaleY = ObjectAnimator.ofFloat(ivSplash, "scaleY", 0f, 1f);
-        ObjectAnimator rotation = ObjectAnimator.ofFloat(ivSplash, "rotation", 0, 360);
+        ObjectAnimator translationX = ObjectAnimator.ofFloat(ivSplash, "translationX", 600, 0);
+        ObjectAnimator translationY = ObjectAnimator.ofFloat(ivSplash, "translationY", -100, 90, -80, 70, -60, 50);
 
-        set.playTogether(scaleX, scaleY, rotation);
+        set.playTogether(translationX, translationY);
         set.setDuration(2000);
         addListener();
 

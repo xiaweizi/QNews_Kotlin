@@ -21,9 +21,6 @@ import com.xiaweizi.qnews.bean.NewsDataBean;
 import com.xiaweizi.qnews.net.QNewsCallback;
 import com.xiaweizi.qnews.net.QNewsClient;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -51,7 +48,6 @@ public class NewsDetailFragment extends BaseFragment {
      * 新闻数据类型
      */
     private String type;
-    private List<NewsDataBean.ResultBean.DataBean> data = new ArrayList<>();
 
     public NewsDetailFragment() {
     }
@@ -74,7 +70,6 @@ public class NewsDetailFragment extends BaseFragment {
         srl.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-
                 updateData();
             }
         });
@@ -110,7 +105,7 @@ public class NewsDetailFragment extends BaseFragment {
 
             @Override
             public void onError(Exception e, int id) {
-
+                srl.setRefreshing(false);
             }
         });
     }

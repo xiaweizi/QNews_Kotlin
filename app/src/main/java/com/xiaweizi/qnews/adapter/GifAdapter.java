@@ -38,7 +38,7 @@ public class GifAdapter extends CommonAdapter<GIFBean.ResultBean> {
             Glide.with(context)
                     .load(gifBean.getUrl())
                     .asGif()
-                    .placeholder(R.mipmap.loading)
+                    .placeholder(R.mipmap.ic_error)
                     .into((ImageView) holder.getView(R.id.iv_gif));
         }else {
             Glide.with(context)

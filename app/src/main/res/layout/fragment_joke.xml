@@ -7,16 +7,17 @@
     android:clipToPadding="true"
     android:orientation="vertical">
 
+
     <android.support.v7.widget.Toolbar
         android:id="@+id/tb_joke"
         android:layout_width="match_parent"
+        android:background="?attr/colorPrimary"
         android:layout_height="?attr/actionBarSize"
-        android:background="@color/colorPrimary"
         android:fitsSystemWindows="true"
         app:titleTextColor="#fff">
         <ImageView
-            android:src="@mipmap/duanzi"
-            android:scaleType="fitStart"
+            android:src="@drawable/ic_joke_title"
+            android:background="?attr/colorPrimary"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 

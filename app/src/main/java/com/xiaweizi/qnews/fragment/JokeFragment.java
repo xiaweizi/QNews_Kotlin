@@ -131,7 +131,7 @@ public class JokeFragment extends Fragment {
 
             @Override
             public void onError(Exception e, int id) {
-
+                srlJoke.setRefreshing(false);
             }
         });
     }

@@ -1,6 +1,7 @@
 package com.xiaweizi.qnews.activity;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
@@ -18,8 +19,8 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 
 import com.blankj.utilcode.utils.FileUtils;
+import com.blankj.utilcode.utils.SPUtils;
 import com.bumptech.glide.Glide;
-import com.pkmmte.view.CircularImageView;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnTabReselectListener;
 import com.roughike.bottombar.OnTabSelectListener;
@@ -61,10 +62,14 @@ public class MainActivity extends AppCompatActivity {
 
     private ActivityUtils utils;
     private BottomBar bottomBar;
+    private AlertDialog.Builder builder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        SPUtils util = new SPUtils("theme_id");
+        int theme_id = util.getInt("theme_id", R.style.AppTheme);
+        setTheme(theme_id);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             //透明状态栏
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
@@ -78,8 +83,6 @@ public class MainActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         utils = new ActivityUtils(this);
-
-
 
 
 //
@@ -105,7 +108,7 @@ public class MainActivity extends AppCompatActivity {
 //        });
 
         /*************************** 左侧 侧滑菜单 设置头像图片 ***************************/
-        CircularImageView iconImage = (CircularImageView) nvLeft.getHeaderView(0).findViewById(R.id.icon_image);
+        ImageView iconImage = (ImageView) nvLeft.getHeaderView(0).findViewById(R.id.icon_image);
         final ImageView ivBmp = (ImageView) nvLeft.getHeaderView(0).findViewById(R.id.iv_head_bg);
         Glide.with(this)
                 .load("http://img.17gexing.com/uploadfile/2016/07/2/20160725115642623.gif")
@@ -222,6 +225,12 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     case R.id.nav_version_update:
                         VersionUtils.updateVersion(MainActivity.this);
+                        break;
+                    case R.id.nav_change_theme:
+                        alertChangeTheme();
+                        break;
+                    case R.id.nav_day_night:
+                        changeTheme(9);
                         break;
                     default:
                         break;
@@ -350,6 +359,10 @@ public class MainActivity extends AppCompatActivity {
      */
     @Override
     public void onBackPressed() {
+        if (dlActivityMain.isDrawerOpen(Gravity.LEFT)) {
+            dlActivityMain.closeDrawers();
+            return;
+        }
         long curTime = System.currentTimeMillis();
         if ((curTime - lastTime) > 2000) {
             utils.showToast("再按一次退出应用");
@@ -360,7 +373,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    private void clearCache(){
+    private void clearCache() {
         String dirSize = FileUtils.getDirSize(getCacheDir());
         new AlertDialog.Builder(MainActivity.this)
                 .setTitle("确定要清理缓存")
@@ -376,5 +389,77 @@ public class MainActivity extends AppCompatActivity {
                 .show();
     }
 
+    private void changeTheme(int index) {
+        int[] themes = new int[]{R.style.AppTheme, R.style.AppTheme_Blue, R.style.AppTheme_Green,
+                R.style.AppTheme_Orange, R.style.AppTheme_Pink, R.style.AppTheme_Sky,
+                R.style.AppTheme_Purple, R.style.AppTheme_PP, R.style.AppTheme_Yellow, R.style.AppTheme_Night};
+        SPUtils utils = new SPUtils("theme_id");
+        utils.putInt("theme_id", themes[index]);
+        Intent intent = getIntent();
+        overridePendingTransition(0, 0);
+        finish();
+        overridePendingTransition(0, 0);
+        startActivity(intent);
+    }
+
+
+    /**
+     * 动态换肤
+     */
+    private void alertChangeTheme() {
+        View view = View.inflate(this, R.layout.item_change_theme, null);
+        builder = new AlertDialog.Builder(this)
+                .setView(view);
+        builder.show();
+        view.findViewById(R.id.tv_red).setOnClickListener(listener);
+        view.findViewById(R.id.tv_green).setOnClickListener(listener);
+        view.findViewById(R.id.tv_blue).setOnClickListener(listener);
+        view.findViewById(R.id.tv_orange).setOnClickListener(listener);
+        view.findViewById(R.id.tv_pink).setOnClickListener(listener);
+        view.findViewById(R.id.tv_sky).setOnClickListener(listener);
+        view.findViewById(R.id.tv_purple).setOnClickListener(listener);
+        view.findViewById(R.id.tv_pp).setOnClickListener(listener);
+        view.findViewById(R.id.tv_yellow).setOnClickListener(listener);
+
+    }
+
+    private View.OnClickListener listener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            switch (v.getId()) {
+                case R.id.tv_red:
+                    changeTheme(0);
+                    break;
+                case R.id.tv_blue:
+                    changeTheme(1);
+                    break;
+                case R.id.tv_green:
+                    changeTheme(2);
+                    break;
+                case R.id.tv_orange:
+                    changeTheme(3);
+                    break;
+                case R.id.tv_pink:
+                    changeTheme(4);
+                    break;
+                case R.id.tv_sky:
+                    changeTheme(5);
+                    break;
+                case R.id.tv_purple:
+                    changeTheme(6);
+                    break;
+                case R.id.tv_pp:
+                    changeTheme(7);
+                    break;
+                case R.id.tv_yellow:
+                    changeTheme(8);
+                    break;
+
+
+                default:
+                    break;
+            }
+        }
+    };
 
 }

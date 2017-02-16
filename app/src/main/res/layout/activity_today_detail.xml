@@ -18,12 +18,11 @@
             android:layout_height="match_parent"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
             android:fitsSystemWindows="true"
-            app:contentScrim="?attr/colorPrimary"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
             <android.support.v4.view.ViewPager
                 android:id="@+id/vp_today"
-                android:background="#ec6d6d"
+                android:background="?attr/colorPrimary"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"
@@ -44,7 +43,6 @@
             <android.support.v7.widget.Toolbar
                 android:id="@+id/tb_today"
                 android:layout_width="match_parent"
-                app:titleTextColor="@color/colorPrimary"
                 android:layout_height="?attr/actionBarSize"
                 app:layout_collapseMode="pin" />
         </android.support.design.widget.CollapsingToolbarLayout>
@@ -68,7 +66,7 @@
                     android:id="@+id/tv_today_content"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="10dp" />
+                     />
             </android.support.v7.widget.CardView>
     </android.support.v4.widget.NestedScrollView>
 

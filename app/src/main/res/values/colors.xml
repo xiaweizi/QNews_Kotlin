@@ -1,8 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#fd0004</color>
+    <color name="colorPrimary_Night">#494849</color>
+    <color name="colorPrimaryDarkNight">#282626</color>
+    <color name="colorAccentNight">#5c5b5b</color>
+
+    <color name="colorPrimary">#f4393c</color>
     <color name="colorPrimaryDark">#ff010e</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorAccent">#ed6166</color>
+
+    <color name="colorPrimary_Pink">#df2993</color>
+    <color name="colorPrimaryDark_Pink">#c20f77</color>
+    <color name="colorAccent_Pik">#ce65a1</color>
+
+    <color name="colorPrimary_Orange">#df7829</color>
+    <color name="colorPrimaryDark_Orange">#c2480f</color>
+    <color name="colorAccent_Orange">#ce9365</color>
+
+    <color name="colorPrimary_Yellow">#dfd929</color>
+    <color name="colorPrimaryDark_Yellow">#bfc20f</color>
+    <color name="colorAccent_Yellow">#cbce65</color>
+
+    <color name="colorPrimary_Green">#26c61b</color>
+    <color name="colorPrimaryDark_Green">#04ae12</color>
+    <color name="colorAccent_Green">#a1eaa7</color>
+
+    <color name="colorPrimary_Sky">#29dfd3</color>
+    <color name="colorPrimaryDark_Sky">#0fc2ad</color>
+    <color name="colorAccent_Sky">#65cec3</color>
+
+    <color name="colorPrimary_Blue">#3249f5</color>
+    <color name="colorPrimaryDark_Blue">#011aff</color>
+    <color name="colorAccent_Blue">#6e77df</color>
+
+    <color name="colorPrimary_Purple">#cd29df</color>
+    <color name="colorPrimaryDark_Purple">#b30fc2</color>
+    <color name="colorAccent_Purple">#c565ce</color>
+
+    <color name="colorPrimary_PP">#8429df</color>
+    <color name="colorPrimaryDark_PP">#600fc2</color>
+    <color name="colorAccent_PP">#9865ce</color>
 
     <!-- 主页上方tab背景 -->
     <color name="mainTabBackground">#eaeaea</color>

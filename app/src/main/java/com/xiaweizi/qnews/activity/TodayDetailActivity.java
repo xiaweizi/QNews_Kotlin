@@ -17,6 +17,7 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.blankj.utilcode.utils.SPUtils;
 import com.bumptech.glide.Glide;
 import com.xiaweizi.qnews.R;
 import com.xiaweizi.qnews.bean.TodayOfHistoryDetailBean;
@@ -52,6 +53,9 @@ public class TodayDetailActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        SPUtils util = new SPUtils("theme_id");
+        int theme_id = util.getInt("theme_id", R.style.AppTheme);
+        setTheme(theme_id);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             //透明状态栏
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);

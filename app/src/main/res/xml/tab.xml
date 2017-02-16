@@ -2,27 +2,27 @@
 <tabs>
     <tab
         id="@+id/tab_news"
-        icon="@drawable/ic_news"
+        icon="@drawable/news"
         barColorWhenSelected="#eff4f1"
         title="新闻" />
     <tab
         id="@+id/tab_joke"
-        icon="@drawable/ic_joke"
+        icon="@drawable/joke"
         title="段子"
         barColorWhenSelected="#efe748" />
     <tab
         id="@+id/tab_today"
-        icon="@drawable/ic_today"
+        icon="@drawable/today"
         title="今日"
         barColorWhenSelected="#99ce2f" />
     <tab
         id="@+id/tab_robot"
-        icon="@drawable/ic_robot"
+        icon="@drawable/robot"
         title="机器人"
         barColorWhenSelected="#5df25b" />
     <tab
         id="@+id/tab_about"
-        icon="@drawable/ic_about"
+        icon="@drawable/about"
         title="关于"
         barColorWhenSelected="#60e3ea" />
 </tabs>

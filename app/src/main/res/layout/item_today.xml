@@ -4,7 +4,6 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="2dp"
-    android:background="?android:attr/selectableItemBackground"
     android:orientation="vertical"
     app:cardCornerRadius="5dp"
     app:cardElevation="5dp">
@@ -13,7 +12,6 @@
         android:id="@+id/ll_today_detail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?android:attr/selectableItemBackground"
         android:orientation="vertical"
         android:padding="15dp">
 

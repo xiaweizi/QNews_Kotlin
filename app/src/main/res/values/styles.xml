@@ -8,7 +8,58 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <style name="MyAppTheme" parent="AppTheme"/>
+    <style name="AppTheme_Night" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimary_Night</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDarkNight</item>
+        <item name="colorAccent">@color/colorAccentNight</item>
+        <item name="android:background">@color/colorAccentNight</item>
+    </style>
+
+    <style name="AppTheme_Blue" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimary_Blue</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark_Blue</item>
+        <item name="colorAccent">@color/colorAccent_Blue</item>
+    </style>
+
+    <style name="AppTheme_Green" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimary_Green</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark_Green</item>
+        <item name="colorAccent">@color/colorAccent_Green</item>
+    </style>
+
+    <style name="AppTheme_Orange" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimary_Orange</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark_Orange</item>
+        <item name="colorAccent">@color/colorAccent_Orange</item>
+    </style>
+    <style name="AppTheme_Pink" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimary_Pink</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark_Pink</item>
+        <item name="colorAccent">@color/colorAccent_Pik</item>
+    </style>
+
+    <style name="AppTheme_Sky" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimary_Sky</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark_Sky</item>
+        <item name="colorAccent">@color/colorAccent_Sky</item>
+    </style>
+
+    <style name="AppTheme_Purple" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimary_Purple</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark_Purple</item>
+        <item name="colorAccent">@color/colorAccent_Purple</item>
+    </style>
+
+    <style name="AppTheme_PP" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimary_PP</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark_PP</item>
+        <item name="colorAccent">@color/colorAccent_PP</item>
+    </style>
+    <style name="AppTheme_Yellow" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimary_Yellow</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark_Yellow</item>
+        <item name="colorAccent">@color/colorAccent_Yellow</item>
+    </style>
 
     <!-- 关于中作者条目文本样式 -->
     <style name="TextAboutEditorItemStyle">
