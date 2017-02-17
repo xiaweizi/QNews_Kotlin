@@ -78,7 +78,7 @@ public class ActivityUtils {
 
     /**
      * Unfortunately Android doesn't have an official API to retrieve the height of
-     * StatusBar. This is just a way to hack around, may not work on some devices.
+     * StatusBar. This is just receiver way to hack around, may not work on some devices.
      *
      * @return The height of StatusBar.
      */

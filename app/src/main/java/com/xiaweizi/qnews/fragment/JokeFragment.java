@@ -60,7 +60,7 @@ public class JokeFragment extends Fragment {
         //数据初始化
         mData = new ArrayList<>();
         mAdapter = new JokeAdapter();
-        mAdapter.openLoadAnimation(BaseQuickAdapter.ALPHAIN);
+        mAdapter.openLoadAnimation(BaseQuickAdapter.SLIDEIN_RIGHT);
 
         //设置下拉刷新
         srlJoke.setColorSchemeColors(Color.RED, Color.GREEN, Color.YELLOW);

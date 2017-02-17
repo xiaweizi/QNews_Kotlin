@@ -44,7 +44,7 @@ public final class LogUtils {
     }
 
     /**
-     * Save a copy of the debug flag from the settings for performance reasons.
+     * Save receiver copy of the debug flag from the settings for performance reasons.
      */
     public static void setDebug(final boolean isDebug) {
         LogUtils.isDebug = isDebug;
@@ -109,7 +109,7 @@ public final class LogUtils {
     }
 
     /**
-     * Record a debug message with the actual stack trace.
+     * Record receiver debug message with the actual stack trace.
      *
      * @param msg the debug message
      */
