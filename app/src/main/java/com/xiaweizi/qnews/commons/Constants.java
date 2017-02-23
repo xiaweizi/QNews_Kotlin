@@ -36,13 +36,18 @@ public class Constants {
      */
     public static final String JOKE_URL = "http://japi.juhe.cn/joke/content/text.from?key=ae240f7fba620fc370b803566654949e";
 
+    public static final String JOKE_DESC_URL = "http://japi.juhe.cn/joke/content/list.from?key=ae240f7fba620fc370b803566654949e&page=1&pagesize=5&sort=desc";
+
     public static final String WEATHER_URL = "http://op.juhe.cn/onebox/weather/query?key=ae0fb87a8f219261470673f9a31a0a3b";
 
     public static final String JOKE_RANDOM_URL = "http://v.juhe.cn/joke/randJoke.php?key=ae240f7fba620fc370b803566654949e";
 
-    public static final String JOKE_DESC_URL = "http://japi.juhe.cn/joke/content/list.from?key=ae240f7fba620fc370b803566654949e&page=1&pagesize=5&sort=desc";
-
     public static final String GIG_RANDOM_URL = "http://v.juhe.cn/joke/randJoke.php?key=ae240f7fba620fc370b803566654949e&type=pic";
 
     public static final String DOWNLOAD_URL = "https://github.com/xiaweizi/QNews/raw/master/QNews.apk";
+
+    /**
+     * 段子基础URL
+     */
+    public static final String BASE_JOKE_URL = "http://japi.juhe.cn/joke/content/";
 }
