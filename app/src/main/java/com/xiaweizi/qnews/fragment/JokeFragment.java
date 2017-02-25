@@ -17,6 +17,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.xiaweizi.qnews.R;
 import com.xiaweizi.qnews.adapter.JokeAdapter;
 import com.xiaweizi.qnews.bean.JokeBean;
+import com.xiaweizi.qnews.commons.Constants;
 import com.xiaweizi.qnews.net.QClitent;
 import com.xiaweizi.qnews.net.QNewsService;
 
@@ -97,7 +98,7 @@ public class JokeFragment extends Fragment {
                             long unixtime = mAdapter.getItem(mAdapter.getItemCount()-2).getUnixtime();
 
                             QClitent.getInstance()
-                                    .createQNewsService()
+                                    .create(QNewsService.class, Constants.BASE_JOKE_URL) // 创建服务
                                     .getAssignJokeData(unixtime, 1, 5, QNewsService.DESC)
                                     .subscribeOn(Schedulers.io())
                                     .observeOn(AndroidSchedulers.mainThread())
@@ -133,7 +134,7 @@ public class JokeFragment extends Fragment {
     private void updateDate() {
         srlJoke.setRefreshing(true);    // 让SwipeRefreshLayout开启刷新
         QClitent.getInstance()
-                .create(QNewsService.class) // 创建服务
+                .create(QNewsService.class, Constants.BASE_JOKE_URL) // 创建服务
                 .getCurrentJokeData(1, 8)   // 查询查询
                 .subscribeOn(Schedulers.io())   //  指定被观察者的操作在io线程中完成
                 .observeOn(AndroidSchedulers.mainThread())  // 指定观察者接收到数据，然后在Main线程中完成

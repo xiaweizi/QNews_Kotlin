@@ -2,11 +2,9 @@ package com.xiaweizi.qnews.net;
 
 import com.google.gson.Gson;
 import com.xiaweizi.qnews.bean.GIFBean;
-import com.xiaweizi.qnews.bean.JokeBean;
 import com.xiaweizi.qnews.bean.NewsDataBean;
 import com.xiaweizi.qnews.bean.TodayOfHistoryBean;
 import com.xiaweizi.qnews.bean.TodayOfHistoryDetailBean;
-import com.xiaweizi.qnews.bean.WeatherDetailBean;
 import com.xiaweizi.qnews.commons.Constants;
 import com.xiaweizi.qnews.commons.LogUtils;
 import com.zhy.http.okhttp.OkHttpUtils;
@@ -166,90 +164,90 @@ public class QNewsClient {
                 });
     }
 
-    //http://japi.juhe.cn/joke/content/text.from?key=ae240f7fba620fc370b803566654949e&page=1&pagesize=10
+//    //http://japi.juhe.cn/joke/content/text.from?key=ae240f7fba620fc370b803566654949e&page=1&pagesize=10
+//
+//    /**
+//     * 获取实时段子
+//     * @param page          显示页数
+//     * @param pagesize      一页显示的数量
+//     * @param callback      查询回调的接口
+//     */
+//    public void GetNowJokeData(int page, int pagesize, QNewsCallback callback){
+//
+//        mQNewsCallback = callback;
+//
+//        OkHttpUtils.post()
+//                .url(Constants.JOKE_URL)
+//                .addParams("page", page+"")
+//                .addParams("pagesize", pagesize+"")
+//                .build()
+//                .execute(new StringCallback() {
+//                    @Override
+//                    public void onError(Call call, Exception e, int id) {
+//                        mQNewsCallback.onError(e, id);
+//                    }
+//
+//                    @Override
+//                    public void onResponse(String response, int id) {
+//                        JokeBean bean = mGson.fromJson(response, JokeBean.class);
+//                        mQNewsCallback.onSuccess(bean, id);
+//                    }
+//                });
+//    }
 
-    /**
-     * 获取实时段子
-     * @param page          显示页数
-     * @param pagesize      一页显示的数量
-     * @param callback      查询回调的接口
-     */
-    public void GetNowJokeData(int page, int pagesize, QNewsCallback callback){
-
-        mQNewsCallback = callback;
-
-        OkHttpUtils.post()
-                .url(Constants.JOKE_URL)
-                .addParams("page", page+"")
-                .addParams("pagesize", pagesize+"")
-                .build()
-                .execute(new StringCallback() {
-                    @Override
-                    public void onError(Call call, Exception e, int id) {
-                        mQNewsCallback.onError(e, id);
-                    }
-
-                    @Override
-                    public void onResponse(String response, int id) {
-                        JokeBean bean = mGson.fromJson(response, JokeBean.class);
-                        mQNewsCallback.onSuccess(bean, id);
-                    }
-                });
-    }
-
-    /**
-     * 根据指定时间，获取之前的段子数据
-     * @param time
-     * @param callback
-     */
-    public void GetNowJokeData(String time, QNewsCallback callback){
-
-        mQNewsCallback = callback;
-
-        OkHttpUtils.post()
-                .url(Constants.JOKE_DESC_URL)
-                .addParams("time", time)
-                .build()
-                .execute(new StringCallback() {
-                    @Override
-                    public void onError(Call call, Exception e, int id) {
-                        mQNewsCallback.onError(e, id);
-                    }
-
-                    @Override
-                    public void onResponse(String response, int id) {
-                        JokeBean bean = mGson.fromJson(response, JokeBean.class);
-                        mQNewsCallback.onSuccess(bean, id);
-                    }
-                });
-    }
+//    /**
+//     * 根据指定时间，获取之前的段子数据
+//     * @param time
+//     * @param callback
+//     */
+//    public void GetNowJokeData(String time, QNewsCallback callback){
+//
+//        mQNewsCallback = callback;
+//
+//        OkHttpUtils.post()
+//                .url(Constants.JOKE_DESC_URL)
+//                .addParams("time", time)
+//                .build()
+//                .execute(new StringCallback() {
+//                    @Override
+//                    public void onError(Call call, Exception e, int id) {
+//                        mQNewsCallback.onError(e, id);
+//                    }
+//
+//                    @Override
+//                    public void onResponse(String response, int id) {
+//                        JokeBean bean = mGson.fromJson(response, JokeBean.class);
+//                        mQNewsCallback.onSuccess(bean, id);
+//                    }
+//                });
+//    }
 
 
-    /**
-     * 根据城市名查询天气状况
-     * @param cityname  要查询的城市名
-     * @param callback  查询结束回调接口
-     */
-    public void GetWeatherDetailData(String cityname, QNewsCallback callback){
-
-        mQNewsCallback = callback;
-        OkHttpUtils.post()
-                .url(Constants.WEATHER_URL)
-                .addParams("cityname", cityname)
-                .build()
-                .execute(new StringCallback() {
-                    @Override
-                    public void onError(Call call, Exception e, int id) {
-                        mQNewsCallback.onError(e, id);
-                    }
-
-                    @Override
-                    public void onResponse(String response, int id) {
-                        WeatherDetailBean bean = mGson.fromJson(response, WeatherDetailBean.class);
-                        mQNewsCallback.onSuccess(bean, id);
-                    }
-                });
-    }
+//    /**
+//     * 根据城市名查询天气状况
+//     * @param cityname  要查询的城市名
+//     * @param callback  查询结束回调接口
+//     */
+//    public void GetWeatherDetailData(String cityname, QNewsCallback callback){
+//
+//        mQNewsCallback = callback;
+//        OkHttpUtils.post()
+//                .url(Constants.WEATHER_URL)
+//                .addParams("cityname", cityname)
+//                .build()
+//                .execute(new StringCallback() {
+//                    @Override
+//                    public void onError(Call call, Exception e, int id) {
+//                        mQNewsCallback.onError(e, id);
+//                    }
+//
+//                    @Override
+//                    public void onResponse(String response, int id) {
+//                        WeatherDetailBean bean = mGson.fromJson(response, WeatherDetailBean.class);
+//                        mQNewsCallback.onSuccess(bean, id);
+//                    }
+//                });
+//    }
 
     /**
      * 随机获取动态图数据

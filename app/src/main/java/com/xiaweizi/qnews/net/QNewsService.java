@@ -43,4 +43,6 @@ public interface QNewsService {
             @Query("sort") String sort
     );
 
+
+
 }
