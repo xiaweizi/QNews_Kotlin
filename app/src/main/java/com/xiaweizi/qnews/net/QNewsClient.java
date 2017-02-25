@@ -3,7 +3,6 @@ package com.xiaweizi.qnews.net;
 import com.google.gson.Gson;
 import com.xiaweizi.qnews.bean.GIFBean;
 import com.xiaweizi.qnews.bean.NewsDataBean;
-import com.xiaweizi.qnews.bean.TodayOfHistoryBean;
 import com.xiaweizi.qnews.commons.Constants;
 import com.xiaweizi.qnews.commons.LogUtils;
 import com.zhy.http.okhttp.OkHttpUtils;
@@ -107,34 +106,34 @@ public class QNewsClient {
                 });
     }
 
-    /**
-     * 根据年月，获取 历史上的今天 的概述
-     * @param month         查询的c月
-     * @param day           查询的日
-     * @param callback      查询回调的接口
-     */
-    public void GetTodayOfHistoryData(int month, int day, QNewsCallback callback){
-        mQNewsCallback = callback;
-
-        String params = month + "/" + day;
-
-        OkHttpUtils.post()
-                .url(Constants.TODAY_OF_HISTORY_URP)
-                .addParams("date", params)
-                .build()
-                .execute(new StringCallback() {
-                    @Override
-                    public void onError(Call call, Exception e, int id) {
-                        mQNewsCallback.onError(e, id);
-                    }
-
-                    @Override
-                    public void onResponse(String response, int id) {
-                        TodayOfHistoryBean todayOfHistoryBean = mGson.fromJson(response, TodayOfHistoryBean.class);
-                        mQNewsCallback.onSuccess(todayOfHistoryBean, id);
-                    }
-                });
-    }
+//    /**
+//     * 根据年月，获取 历史上的今天 的概述
+//     * @param month         查询的c月
+//     * @param day           查询的日
+//     * @param callback      查询回调的接口
+//     */
+//    public void GetTodayOfHistoryData(int month, int day, QNewsCallback callback){
+//        mQNewsCallback = callback;
+//
+//        String params = month + "/" + day;
+//
+//        OkHttpUtils.post()
+//                .url(Constants.TODAY_OF_HISTORY_URP)
+//                .addParams("date", params)
+//                .build()
+//                .execute(new StringCallback() {
+//                    @Override
+//                    public void onError(Call call, Exception e, int id) {
+//                        mQNewsCallback.onError(e, id);
+//                    }
+//
+//                    @Override
+//                    public void onResponse(String response, int id) {
+//                        TodayOfHistoryBean todayOfHistoryBean = mGson.fromJson(response, TodayOfHistoryBean.class);
+//                        mQNewsCallback.onSuccess(todayOfHistoryBean, id);
+//                    }
+//                });
+//    }
 
 //    /**
 //     * 根据上一个方法成功查询后回调结果中的e_id，获取详细数据

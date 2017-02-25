@@ -16,10 +16,13 @@ import com.xiaweizi.qnews.R;
 import com.xiaweizi.qnews.adapter.MsgReceivedtemDelagate;
 import com.xiaweizi.qnews.adapter.MsgSendItemDelagate;
 import com.xiaweizi.qnews.adapter.RobotAdapter;
+import com.xiaweizi.qnews.bean.RobotBean;
 import com.xiaweizi.qnews.bean.RobotMSGBean;
 import com.xiaweizi.qnews.commons.ActivityUtils;
-import com.xiaweizi.qnews.net.QNewsCallback;
-import com.xiaweizi.qnews.net.QNewsClient;
+import com.xiaweizi.qnews.commons.Constants;
+import com.xiaweizi.qnews.commons.LogUtils;
+import com.xiaweizi.qnews.net.QClitent;
+import com.xiaweizi.qnews.net.QNewsService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +30,9 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * 工程名：  QNews
@@ -94,24 +100,48 @@ public class RobotFragment extends Fragment {
         adapter.addDataToAdapter(sendBean);
         adapter.notifyDataSetChanged();
 
+        QClitent.getInstance()
+                .create(QNewsService.class, Constants.BASE_Q_A_ROBOT_URL)
+                .getQARobotData(msg)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<RobotBean>() {
+                    @Override
+                    public void accept(RobotBean s) throws Exception {
+                        String text = s.getResult().getText();
+                        RobotMSGBean receiverBean = new RobotMSGBean();
+                        receiverBean.setMsg(text);
+                        receiverBean.setType(RobotMSGBean.MSG_RECEIVED);
+                        adapter.addDataToAdapter(receiverBean);
+                        adapter.notifyDataSetChanged();
+                        rvRobot.smoothScrollToPosition(adapter.getItemCount() - 1);
 
-        QNewsClient.getInstance().GetQARobotData(msg, new QNewsCallback<String>() {
-            @Override
-            public void onSuccess(String response, int id) {
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+                        LogUtils.i("error: " + throwable.getMessage());
+                    }
+                });
 
-                RobotMSGBean receiverBean = new RobotMSGBean();
-                receiverBean.setMsg(response);
-                receiverBean.setType(RobotMSGBean.MSG_RECEIVED);
-                adapter.addDataToAdapter(receiverBean);
-                adapter.notifyDataSetChanged();
-                rvRobot.smoothScrollToPosition(adapter.getItemCount() - 1);
+//        QNewsClient.getInstance().GetQARobotData(msg, new QNewsCallback<String>() {
+//            @Override
+//            public void onSuccess(String response, int id) {
+//
+//                RobotMSGBean receiverBean = new RobotMSGBean();
+//                receiverBean.setMsg(response);
+//                receiverBean.setType(RobotMSGBean.MSG_RECEIVED);
+//                adapter.addDataToAdapter(receiverBean);
+//                adapter.notifyDataSetChanged();
+//                rvRobot.smoothScrollToPosition(adapter.getItemCount() - 1);
+//
+//            }
+//
+//            @Override
+//            public void onError(Exception e, int id) {
+//
+//            }
+//        });
 
-            }
-
-            @Override
-            public void onError(Exception e, int id) {
-
-            }
-        });
     }
 }

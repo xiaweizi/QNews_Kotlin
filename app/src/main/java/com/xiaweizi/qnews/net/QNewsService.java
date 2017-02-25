@@ -1,6 +1,7 @@
 package com.xiaweizi.qnews.net;
 
 import com.xiaweizi.qnews.bean.JokeBean;
+import com.xiaweizi.qnews.bean.RobotBean;
 import com.xiaweizi.qnews.bean.TodayOfHistoryBean;
 import com.xiaweizi.qnews.bean.TodayOfHistoryDetailBean;
 
@@ -58,4 +59,9 @@ public interface QNewsService {
             @Query("date") String date
     );
 
+    // http://op.juhe.cn/robot/index?key=98b8f13ededd2f7e1d593819a6bb3639
+    @GET("index?key=98b8f13ededd2f7e1d593819a6bb3639")
+    Observable<RobotBean> getQARobotData(
+            @Query("info") String info
+    );
 }

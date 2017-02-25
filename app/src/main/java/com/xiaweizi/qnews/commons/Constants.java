@@ -46,6 +46,8 @@ public class Constants {
 
     public static final String DOWNLOAD_URL = "https://github.com/xiaweizi/QNews/raw/master/QNews.apk";
 
+
+
     /**
      * 段子 baseUrl
      */
@@ -55,4 +57,6 @@ public class Constants {
      * 聚合 baseUrl
      */
     public static final String BASE_JUHE_URL = "http://v.juhe.cn/";
+
+    public static final String BASE_Q_A_ROBOT_URL = "http://op.juhe.cn/robot/";
 }
