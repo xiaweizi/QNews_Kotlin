@@ -13,12 +13,13 @@ import android.widget.RelativeLayout;
 
 import com.blankj.utilcode.utils.SPUtils;
 import com.xiaweizi.qnews.R;
-import com.xiaweizi.qnews.net.QClitent;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class SplashActivity extends AppCompatActivity {
+
+    private static final String TAG = "SplashActivity ---->";
 
     @BindView(R.id.iv_splash)
     ImageView ivSplash;
@@ -39,8 +40,6 @@ public class SplashActivity extends AppCompatActivity {
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
         }
         setContentView(R.layout.activity_splash);
-
-        QClitent.getJokeData();
 
         ButterKnife.bind(this);
         set = new AnimatorSet();

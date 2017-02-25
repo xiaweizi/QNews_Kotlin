@@ -16,14 +16,19 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.xiaweizi.qnews.R;
 import com.xiaweizi.qnews.adapter.JokeAdapter;
 import com.xiaweizi.qnews.bean.JokeBean;
+import com.xiaweizi.qnews.net.QClitent;
 import com.xiaweizi.qnews.net.QNewsCallback;
 import com.xiaweizi.qnews.net.QNewsClient;
+import com.xiaweizi.qnews.net.QNewsService;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * 工程名：  QNews
@@ -122,18 +127,37 @@ public class JokeFragment extends Fragment {
 
     private void updateDate() {
         srlJoke.setRefreshing(true);
-        QNewsClient.getInstance().GetNowJokeData(1, 8, new QNewsCallback<JokeBean>() {
-            @Override
-            public void onSuccess(JokeBean response, int id) {
-                mAdapter.setNewData(response.getResult().getData());
-                srlJoke.setRefreshing(false);
-            }
 
-            @Override
-            public void onError(Exception e, int id) {
-                srlJoke.setRefreshing(false);
-            }
-        });
+        QClitent.getInstance()
+                .create(QNewsService.class)
+                .getCurrentJokeData(1, 8)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<JokeBean>() {
+                    @Override
+                    public void accept(JokeBean jokeBean) throws Exception {
+                        mAdapter.setNewData(jokeBean.getResult().getData());
+                        srlJoke.setRefreshing(false);
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+                        srlJoke.setRefreshing(false);
+                    }
+                });
+
+//        QNewsClient.getInstance().GetNowJokeData(1, 8, new QNewsCallback<JokeBean>() {
+//            @Override
+//            public void onSuccess(JokeBean response, int id) {
+//                mAdapter.setNewData(response.getResult().getData());
+//                srlJoke.setRefreshing(false);
+//            }
+//
+//            @Override
+//            public void onError(Exception e, int id) {
+//                srlJoke.setRefreshing(false);
+//            }
+//        });
     }
 
 
