@@ -85,27 +85,6 @@ public class MainActivity extends AppCompatActivity {
         utils = new ActivityUtils(this);
 
 
-//
-//        QNewsClient.getInstance().GetWeatherDetailData("南京", new QNewsCallback<WeatherDetailBean>() {
-//            @Override
-//            public void onSuccess(WeatherDetailBean response, int id) {
-//                WeatherDetailBean.ResultBean.DataBean.RealtimeBean realtime = response.getResult().getData().getRealtime();
-//
-//                String date = realtime.getDate();   //日期
-//                String time = realtime.getTime();   //更新时间
-//                int week = realtime.getWeek();      //星期
-//                String moon = realtime.getMoon();   //阴历
-//                String temperature = realtime.getWeather().getTemperature();  //温度
-//                String info = realtime.getWeather().getInfo();                //天气状况
-//                String direct = realtime.getWind().getDirect();               //风向
-//                String power = realtime.getWind().getPower();                 //风向级别
-//            }
-//
-//            @Override
-//            public void onError(Exception e, int id) {
-//
-//            }
-//        });
 
         /*************************** 左侧 侧滑菜单 设置头像图片 ***************************/
         ImageView iconImage = (ImageView) nvLeft.getHeaderView(0).findViewById(R.id.icon_image);
