@@ -22,8 +22,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class QClitent {
 
-    private static final String TAG = "QClitent---->";
-
     private static QClitent mQClient;
     private Retrofit mRetrofit;
 
@@ -42,10 +40,21 @@ public class QClitent {
         return mQClient;
     }
 
+    /**
+     * 创建相应的服务接口
+     */
     public <T> T create(Class<T> service){
         checkNotNull(service, "service is null");
         return mRetrofit.create(service);
     }
+
+    /**
+     * 直接创建 QNewsService
+     */
+    public QNewsService createQNewsService(){
+        return mRetrofit.create(QNewsService.class);
+    }
+
 
     private  <T> T checkNotNull(T object, String message) {
         if (object == null) {
@@ -55,7 +64,6 @@ public class QClitent {
     }
 
     private Retrofit createRetrofit() {
-
         //初始化OkHttp
         OkHttpClient.Builder builder = new OkHttpClient.Builder()
                 .connectTimeout(9, TimeUnit.SECONDS)    //设置连接超时 9s
@@ -77,5 +85,4 @@ public class QClitent {
                 .build();
 
     }
-
 }
