@@ -18,11 +18,15 @@ import com.xiaweizi.qnews.R;
 import com.xiaweizi.qnews.activity.NewsDataShowActivity;
 import com.xiaweizi.qnews.adapter.NewsDataAdapter;
 import com.xiaweizi.qnews.bean.NewsDataBean;
-import com.xiaweizi.qnews.net.QNewsCallback;
-import com.xiaweizi.qnews.net.QNewsClient;
+import com.xiaweizi.qnews.commons.Constants;
+import com.xiaweizi.qnews.net.QClitent;
+import com.xiaweizi.qnews.net.QNewsService;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * 新闻详情 fragment，
@@ -96,17 +100,36 @@ public class NewsDetailFragment extends BaseFragment {
 
     public void updateData() {
         srl.setRefreshing(true);
-        QNewsClient.getInstance().GetNewsData(type, new QNewsCallback<NewsDataBean>() {
-            @Override
-            public void onSuccess(NewsDataBean response, int id) {
-                mAdapter.setNewData(response.getResult().getData());
-                srl.setRefreshing(false);
-            }
 
-            @Override
-            public void onError(Exception e, int id) {
-                srl.setRefreshing(false);
-            }
-        });
+        QClitent.getInstance()
+                .create(QNewsService.class, Constants.BASE_JUHE_URL)
+                .getNewsData(type)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<NewsDataBean>() {
+                    @Override
+                    public void accept(NewsDataBean newsDataBean) throws Exception {
+                        mAdapter.setNewData(newsDataBean.getResult().getData());
+                        srl.setRefreshing(false);
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+                        srl.setRefreshing(false);
+                    }
+                });
+
+//        QNewsClient.getInstance().GetNewsData(type, new QNewsCallback<NewsDataBean>() {
+//            @Override
+//            public void onSuccess(NewsDataBean response, int id) {
+//                mAdapter.setNewData(response.getResult().getData());
+//                srl.setRefreshing(false);
+//            }
+//
+//            @Override
+//            public void onError(Exception e, int id) {
+//                srl.setRefreshing(false);
+//            }
+//        });
     }
 }
