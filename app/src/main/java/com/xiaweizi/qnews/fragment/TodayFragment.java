@@ -11,6 +11,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemChildClickListener;
@@ -18,14 +19,18 @@ import com.xiaweizi.qnews.R;
 import com.xiaweizi.qnews.activity.TodayDetailActivity;
 import com.xiaweizi.qnews.adapter.TodayAdapter;
 import com.xiaweizi.qnews.bean.TodayOfHistoryBean;
-import com.xiaweizi.qnews.net.QNewsCallback;
-import com.xiaweizi.qnews.net.QNewsClient;
+import com.xiaweizi.qnews.commons.Constants;
+import com.xiaweizi.qnews.net.QClitent;
+import com.xiaweizi.qnews.net.QNewsService;
 
 import java.util.Calendar;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * 历史上的今天fragment
@@ -87,20 +92,39 @@ public class TodayFragment extends Fragment {
         final int day = calendar.get(Calendar.DAY_OF_MONTH);
         tbToday.setTitle("历史上的今天 (" + month + "月" + day + "日)");
 
+        String params = month + "/" + day;
         //初次加载数据
-        QNewsClient.getInstance().GetTodayOfHistoryData(month, day,
-                new QNewsCallback<TodayOfHistoryBean>() {
+        QClitent.getInstance()
+                .create(QNewsService.class, Constants.BASE_JUHE_URL)
+                .getTodayOfHistoryData(params)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<TodayOfHistoryBean>() {
                     @Override
-                    public void onSuccess(TodayOfHistoryBean response, int id) {
-                        List<TodayOfHistoryBean.ResultBean> result = response.getResult();
+                    public void accept(TodayOfHistoryBean todayOfHistoryBean) throws Exception {
+                        List<TodayOfHistoryBean.ResultBean> result = todayOfHistoryBean.getResult();
                         adapter.addData(result);
                     }
-
+                }, new Consumer<Throwable>() {
                     @Override
-                    public void onError(Exception e, int id) {
-
+                    public void accept(Throwable throwable) throws Exception {
+                        Toast.makeText(getContext(), "获取数据失败", Toast.LENGTH_SHORT).show();
                     }
                 });
+
+//        QNewsClient.getInstance().GetTodayOfHistoryData(month, day,
+//                new QNewsCallback<TodayOfHistoryBean>() {
+//                    @Override
+//                    public void onSuccess(TodayOfHistoryBean response, int id) {
+//                        List<TodayOfHistoryBean.ResultBean> result = response.getResult();
+//                        adapter.addData(result);
+//                    }
+//
+//                    @Override
+//                    public void onError(Exception e, int id) {
+//
+//                    }
+//                });
 
         return view;
     }

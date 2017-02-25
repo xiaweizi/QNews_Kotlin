@@ -18,17 +18,22 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.blankj.utilcode.utils.SPUtils;
+import com.blankj.utilcode.utils.ToastUtils;
 import com.bumptech.glide.Glide;
 import com.xiaweizi.qnews.R;
 import com.xiaweizi.qnews.bean.TodayOfHistoryDetailBean;
+import com.xiaweizi.qnews.commons.Constants;
 import com.xiaweizi.qnews.commons.LogUtils;
-import com.xiaweizi.qnews.net.QNewsCallback;
-import com.xiaweizi.qnews.net.QNewsClient;
+import com.xiaweizi.qnews.net.QClitent;
+import com.xiaweizi.qnews.net.QNewsService;
 
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * 历史上的今天详情界面
@@ -73,33 +78,66 @@ public class TodayDetailActivity extends AppCompatActivity {
 
         ptBelow.setGravity(Gravity.BOTTOM);
 
-        QNewsClient.getInstance().GetTodayOfHistoryDetailData(e_id, new QNewsCallback<TodayOfHistoryDetailBean>() {
+        QClitent.getInstance()
+                .create(QNewsService.class, Constants.BASE_JUHE_URL)
+                .getTodayOfHistoryDetailData(e_id)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<TodayOfHistoryDetailBean>() {
+                    @Override
+                    public void accept(TodayOfHistoryDetailBean todayOfHistoryDetailBean) throws Exception {
+                        // 成功获取到数据
+                        if (todayOfHistoryDetailBean.getError_code() != 0) {
+                            tbToday.setTitle("无结果");
+                            tvTodayContent.setText("无结果");
+                            return;
+                        }
 
-            @Override
-            public void onSuccess(TodayOfHistoryDetailBean response, int id) {
+                        TodayOfHistoryDetailBean.ResultBean resultBean = todayOfHistoryDetailBean.getResult().get(0);
+                        String content = resultBean.getContent();
+                        String title = resultBean.getTitle();
+                        picUrl = resultBean.getPicUrl();
 
-                if (response.getError_code() != 0) {
-                    tbToday.setTitle("无结果");
-                    tvTodayContent.setText("无结果");
-                    return;
-                }
-                TodayOfHistoryDetailBean.ResultBean resultBean = response.getResult().get(0);
-                String content = resultBean.getContent();
-                String title = resultBean.getTitle();
-                picUrl = resultBean.getPicUrl();
+                        collapsingToolbarToday.setTitle(title);
+                        tvTodayContent.setText(content);
 
-                collapsingToolbarToday.setTitle(title);
-                tvTodayContent.setText(content);
+                        vpToday.setAdapter(new MyAdapter(picUrl));
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+                        // 获取数据失败
+                        ToastUtils.showShortToast("获取数据失败");
+                    }
+                });
 
-                vpToday.setAdapter(new MyAdapter(picUrl));
-
-            }
-
-            @Override
-            public void onError(Exception e, int id) {
-
-            }
-        });
+//        QNewsClient.getInstance().GetTodayOfHistoryDetailData(e_id, new QNewsCallback<TodayOfHistoryDetailBean>() {
+//
+//            @Override
+//            public void onSuccess(TodayOfHistoryDetailBean response, int id) {
+//
+//                if (response.getError_code() != 0) {
+//                    tbToday.setTitle("无结果");
+//                    tvTodayContent.setText("无结果");
+//                    return;
+//                }
+//                TodayOfHistoryDetailBean.ResultBean resultBean = response.getResult().get(0);
+//                String content = resultBean.getContent();
+//                String title = resultBean.getTitle();
+//                picUrl = resultBean.getPicUrl();
+//
+//                collapsingToolbarToday.setTitle(title);
+//                tvTodayContent.setText(content);
+//
+//                vpToday.setAdapter(new MyAdapter(picUrl));
+//
+//            }
+//
+//            @Override
+//            public void onError(Exception e, int id) {
+//
+//            }
+//        });
     }
 
     @Override

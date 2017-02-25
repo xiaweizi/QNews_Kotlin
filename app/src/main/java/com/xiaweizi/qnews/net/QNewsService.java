@@ -1,6 +1,8 @@
 package com.xiaweizi.qnews.net;
 
 import com.xiaweizi.qnews.bean.JokeBean;
+import com.xiaweizi.qnews.bean.TodayOfHistoryBean;
+import com.xiaweizi.qnews.bean.TodayOfHistoryDetailBean;
 
 import io.reactivex.Observable;
 import retrofit2.http.GET;
@@ -44,5 +46,16 @@ public interface QNewsService {
     );
 
 
+    // http://v.juhe.cn/todayOnhistory/queryDetail.php?key=f5f7d655ef148f6bb777c80167f7f6de
+    @GET("todayOnhistory/queryDetail.php?key=f5f7d655ef148f6bb777c80167f7f6de")
+    Observable<TodayOfHistoryDetailBean> getTodayOfHistoryDetailData(
+            @Query("e_id") String e_id
+    );
+
+    // http://v.juhe.cn/todayOnhistory/queryEvent.php?key=f5f7d655ef148f6bb777c80167f7f6de
+    @GET("todayOnhistory/queryEvent.php?key=f5f7d655ef148f6bb777c80167f7f6de")
+    Observable<TodayOfHistoryBean> getTodayOfHistoryData(
+            @Query("date") String date
+    );
 
 }

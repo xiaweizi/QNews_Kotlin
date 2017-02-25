@@ -4,7 +4,6 @@ import com.google.gson.Gson;
 import com.xiaweizi.qnews.bean.GIFBean;
 import com.xiaweizi.qnews.bean.NewsDataBean;
 import com.xiaweizi.qnews.bean.TodayOfHistoryBean;
-import com.xiaweizi.qnews.bean.TodayOfHistoryDetailBean;
 import com.xiaweizi.qnews.commons.Constants;
 import com.xiaweizi.qnews.commons.LogUtils;
 import com.zhy.http.okhttp.OkHttpUtils;
@@ -137,32 +136,32 @@ public class QNewsClient {
                 });
     }
 
-    /**
-     * 根据上一个方法成功查询后回调结果中的e_id，获取详细数据
-     * @param e_id          上一个方法成功查询后回调结果中的e_id
-     * @param callback      查询回调的接口
-     */
-    public void GetTodayOfHistoryDetailData(String e_id, QNewsCallback callback){
-
-        mQNewsCallback = callback;
-
-        OkHttpUtils.post()
-                .url(Constants.TODAY_OF_HISTORY_DETAIL_URL)
-                .addParams("e_id", e_id)
-                .build()
-                .execute(new StringCallback() {
-                    @Override
-                    public void onError(Call call, Exception e, int id) {
-                        mQNewsCallback.onError(e, id);
-                    }
-
-                    @Override
-                    public void onResponse(String response, int id) {
-                        TodayOfHistoryDetailBean bean = mGson.fromJson(response, TodayOfHistoryDetailBean.class);
-                        mQNewsCallback.onSuccess(bean, id);
-                    }
-                });
-    }
+//    /**
+//     * 根据上一个方法成功查询后回调结果中的e_id，获取详细数据
+//     * @param e_id          上一个方法成功查询后回调结果中的e_id
+//     * @param callback      查询回调的接口
+//     */
+//    public void GetTodayOfHistoryDetailData(String e_id, QNewsCallback callback){
+//
+//        mQNewsCallback = callback;
+//
+//        OkHttpUtils.post()
+//                .url(Constants.TODAY_OF_HISTORY_DETAIL_URL)
+//                .addParams("e_id", e_id)
+//                .build()
+//                .execute(new StringCallback() {
+//                    @Override
+//                    public void onError(Call call, Exception e, int id) {
+//                        mQNewsCallback.onError(e, id);
+//                    }
+//
+//                    @Override
+//                    public void onResponse(String response, int id) {
+//                        TodayOfHistoryDetailBean bean = mGson.fromJson(response, TodayOfHistoryDetailBean.class);
+//                        mQNewsCallback.onSuccess(bean, id);
+//                    }
+//                });
+//    }
 
 //    //http://japi.juhe.cn/joke/content/text.from?key=ae240f7fba620fc370b803566654949e&page=1&pagesize=10
 //
