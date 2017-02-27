@@ -6,6 +6,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
@@ -19,6 +20,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 
 import com.blankj.utilcode.utils.FileUtils;
+import com.blankj.utilcode.utils.LogUtils;
 import com.blankj.utilcode.utils.SPUtils;
 import com.bumptech.glide.Glide;
 import com.roughike.bottombar.BottomBar;
@@ -60,6 +62,8 @@ public class MainActivity extends AppCompatActivity {
     private TodayFragment todayFragment;    //历史上的今天
     private GIFFragment gifFragment;        //动态图
 
+    private Fragment currentFragment;
+
     private ActivityUtils utils;
     private BottomBar bottomBar;
     private AlertDialog.Builder builder;
@@ -73,17 +77,15 @@ public class MainActivity extends AppCompatActivity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             //透明状态栏
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-            //透明导航栏
-            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
         }
         //设置软键盘的模式为适应屏幕模式
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 
         setContentView(R.layout.activity_main);
+        retrieveFragment();
         ButterKnife.bind(this);
 
         utils = new ActivityUtils(this);
-
 
 
         /*************************** 左侧 侧滑菜单 设置头像图片 ***************************/
@@ -118,13 +120,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        /*************************** 第一次进入创建newsFragment ***************************/
-        manager = getSupportFragmentManager();
-        transaction = manager.beginTransaction();
-        newsFragment = new NewsFragment();
-        transaction.add(R.id.fl_content, newsFragment, "news");
-        transaction.commit();
-
         /*************************** 底部bar 设置点击事件 ***************************/
         bottomBar = (BottomBar) findViewById(R.id.bottomBar);
         bottomBar.setOnTabSelectListener(new OnTabSelectListener() {
@@ -132,28 +127,34 @@ public class MainActivity extends AppCompatActivity {
             public void onTabSelected(@IdRes int tabId) {
                 switch (tabId) {
                     case R.id.tab_news:
-                        showNewsDataFragment();
+                        LogUtils.i("setOnTabSelectListener");
+                        if (newsFragment == null) newsFragment = new NewsFragment();
+                        switchFragment(newsFragment);
                         nvLeft.setCheckedItem(R.id.nav_news);
                         closeDrawerLayout();
                         break;
                     case R.id.tab_joke:
                         nvLeft.setCheckedItem(R.id.nav_duanzi);
-                        showJokeFragment();
+                        if (jokeFragment == null) jokeFragment = new JokeFragment();
+                        switchFragment(jokeFragment);
                         closeDrawerLayout();
                         break;
                     case R.id.tab_today:
                         nvLeft.setCheckedItem(R.id.nav_today_of_history);
-                        showTodayFragment();
+                        if (todayFragment == null) todayFragment = new TodayFragment();
+                        switchFragment(todayFragment);
                         closeDrawerLayout();
                         break;
                     case R.id.tab_robot:
                         nvLeft.setCheckedItem(R.id.nav_robot);
-                        showRobotFragment();
+                        if (robotFragment == null) robotFragment = new RobotFragment();
+                        switchFragment(robotFragment);
                         closeDrawerLayout();
                         break;
                     case R.id.tab_about:
                         nvLeft.setCheckedItem(R.id.nav_other);
-                        showAboutFragment();
+                        if (aboutFragment == null) aboutFragment = new AboutFragment();
+                        switchFragment(aboutFragment);
                         closeDrawerLayout();
                         break;
                 }
@@ -167,7 +168,8 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.tab_news:
                         break;
                     case R.id.tab_joke:
-                        showGifFragment();
+                        if (gifFragment == null) gifFragment = new GIFFragment();
+                        switchFragment(gifFragment);
                         break;
                     case R.id.tab_robot:
                         break;
@@ -219,6 +221,52 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * 切换Fragment的显示
+     *
+     * @param target 要切换的 Fragment
+     */
+    private void switchFragment(Fragment target) {
+
+        // 如果当前的fragment 就是要替换的fragment 就直接return
+        if (currentFragment == target) return;
+
+        // 获得 Fragment 事务
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+
+        // 如果当前Fragment不为空，则隐藏当前的Fragment
+        if (currentFragment != null) {
+            transaction.hide(currentFragment);
+        }
+
+        // 如果要显示的Fragment 已经添加了，那么直接 show
+        if (target.isAdded()) {
+            transaction.show(target);
+        } else {
+            // 如果要显示的Fragment没有添加，就添加进去
+            transaction.add(R.id.fl_content, target, target.getClass().getName());
+        }
+
+        // 事务进行提交
+        transaction.commit();
+
+        //并将要显示的Fragment 设为当前的 Fragment
+        currentFragment = target;
+    }
+
+    /**
+     * 找回FragmentManager中存储的Fragment
+     */
+    private void retrieveFragment() {
+        FragmentManager manager = getSupportFragmentManager();
+        newsFragment = (NewsFragment) manager.findFragmentByTag("NewsFragment");
+        jokeFragment = (JokeFragment) manager.findFragmentByTag("JokeFragment");
+        todayFragment = (TodayFragment) manager.findFragmentByTag("TodayFragment");
+        robotFragment = (RobotFragment) manager.findFragmentByTag("RobotFragment");
+        aboutFragment = (AboutFragment) manager.findFragmentByTag("AboutFragment");
+        gifFragment = (GIFFragment) manager.findFragmentByTag("GifFragment");
+    }
+
 
     /**
      * 关闭左侧 侧滑菜单
@@ -229,108 +277,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    /**
-     * 展示 新闻数据 Fragment
-     */
-    private void showNewsDataFragment() {
-        hideAllFragment();
-        if (newsFragment == null) {
-            newsFragment = new NewsFragment();
-        } else {
-            manager.beginTransaction().show(newsFragment).commit();
-        }
-    }
-
-    /**
-     * 展示 历史上的今天 Fragment
-     */
-    private void showTodayFragment() {
-        hideAllFragment();
-        if (todayFragment == null) {
-            todayFragment = new TodayFragment();
-            manager.beginTransaction().add(R.id.fl_content, todayFragment).commit();
-        } else {
-            manager.beginTransaction().show(todayFragment).commit();
-        }
-    }
-
-    /**
-     * 展示 关于 Fragment
-     */
-    private void showAboutFragment() {
-        hideAllFragment();
-        if (aboutFragment == null) {
-            aboutFragment = new AboutFragment();
-            manager.beginTransaction().add(R.id.fl_content, aboutFragment).commit();
-        } else {
-            manager.beginTransaction().show(aboutFragment).commit();
-        }
-    }
-
-
-    /**
-     * 展示 段子 Fragment
-     */
-    private void showJokeFragment() {
-        hideAllFragment();
-        if (jokeFragment == null) {
-            jokeFragment = new JokeFragment();
-            manager.beginTransaction().add(R.id.fl_content, jokeFragment).commit();
-        } else {
-            manager.beginTransaction().show(jokeFragment).commit();
-        }
-    }
-
-    /**
-     * 展示 图铃机器人 Fragment
-     */
-    private void showRobotFragment() {
-        hideAllFragment();
-        if (robotFragment == null) {
-            robotFragment = new RobotFragment();
-            manager.beginTransaction().add(R.id.fl_content, robotFragment).commit();
-        } else {
-            manager.beginTransaction().show(robotFragment).commit();
-        }
-    }
-
-    private void showGifFragment() {
-        hideAllFragment();
-        if (gifFragment == null) {
-            gifFragment = new GIFFragment();
-            manager.beginTransaction().add(R.id.fl_content, gifFragment).commit();
-        } else {
-            manager.beginTransaction().show(gifFragment).commit();
-        }
-    }
-
-    /**
-     * 隐藏所有的fragment
-     */
-    private void hideAllFragment() {
-        FragmentTransaction hideTransaction = manager.beginTransaction();
-        if (newsFragment != null) {
-            hideTransaction.hide(newsFragment);
-        }
-        if (jokeFragment != null) {
-            hideTransaction.hide(jokeFragment);
-        }
-        if (robotFragment != null) {
-            hideTransaction.hide(robotFragment);
-        }
-        if (aboutFragment != null) {
-            hideTransaction.hide(aboutFragment);
-        }
-        if (todayFragment != null) {
-            hideTransaction.hide(todayFragment);
-        }
-        if (gifFragment != null) {
-            hideTransaction.hide(gifFragment);
-        }
-        hideTransaction.commit();
-    }
-
-
     long lastTime = 0;
 
     /**
@@ -338,15 +284,23 @@ public class MainActivity extends AppCompatActivity {
      */
     @Override
     public void onBackPressed() {
+        // 判断侧滑菜单是否开启，如果开启则先关闭
         if (dlActivityMain.isDrawerOpen(Gravity.LEFT)) {
             dlActivityMain.closeDrawers();
             return;
         }
+        // 判断当前fragment 是不是 新闻fragment，如果不是先退到新闻fragment
+        if (currentFragment != newsFragment){
+            bottomBar.selectTabAtPosition(0);
+            return;
+        }
+
         long curTime = System.currentTimeMillis();
         if ((curTime - lastTime) > 2000) {
             utils.showToast("再按一次退出应用");
             lastTime = curTime;
         } else {
+            moveTaskToBack(true);
             finish();
         }
     }
