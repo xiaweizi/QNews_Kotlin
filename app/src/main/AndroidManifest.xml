@@ -8,12 +8,15 @@
     <application
         android:name=".activity.MyApplication"
         android:allowBackup="true"
+        android:configChanges="screenSize"
         android:icon="@mipmap/ic_launch"
         android:label="@string/app_name"
+        android:screenOrientation="portrait"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
             android:name=".activity.SplashActivity"
+            android:configChanges="screenSize"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -21,10 +24,18 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.NewsDataShowActivity" />
-        <activity android:name=".activity.TodayDetailActivity" />
         <activity
-            android:name=".activity.MainActivity" />
+            android:name=".activity.NewsDataShowActivity"
+            android:configChanges="screenSize"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.TodayDetailActivity"
+            android:configChanges="screenSize"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.MainActivity"
+            android:configChanges="screenSize"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>
