@@ -301,7 +301,6 @@ public class MainActivity extends AppCompatActivity {
             lastTime = curTime;
         } else {
             moveTaskToBack(true);
-            finish();
         }
     }
 

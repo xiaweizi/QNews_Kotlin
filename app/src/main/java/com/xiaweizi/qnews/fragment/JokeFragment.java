@@ -11,6 +11,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -26,6 +27,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
@@ -47,6 +49,10 @@ public class JokeFragment extends Fragment {
     RecyclerView rvJoke;
     @BindView(R.id.srl_joke)
     SwipeRefreshLayout srlJoke;
+    @BindView(R.id.ll_loading)
+    LinearLayout llLoading;
+    @BindView(R.id.ll_error)
+    LinearLayout llError;
 
     private JokeAdapter mAdapter;
 
@@ -95,7 +101,7 @@ public class JokeFragment extends Fragment {
                                 return;
                             }
 
-                            long unixtime = mAdapter.getItem(mAdapter.getItemCount()-2).getUnixtime();
+                            long unixtime = mAdapter.getItem(mAdapter.getItemCount() - 2).getUnixtime();
 
                             QClitent.getInstance()
                                     .create(QNewsService.class, Constants.BASE_JOKE_URL) // 创建服务
@@ -132,6 +138,10 @@ public class JokeFragment extends Fragment {
     }
 
     private void updateDate() {
+        srlJoke.setVisibility(View.VISIBLE);
+        llLoading.setVisibility(View.VISIBLE);
+        llError.setVisibility(View.GONE);
+
         srlJoke.setRefreshing(true);    // 让SwipeRefreshLayout开启刷新
         QClitent.getInstance()
                 .create(QNewsService.class, Constants.BASE_JOKE_URL) // 创建服务
@@ -142,6 +152,8 @@ public class JokeFragment extends Fragment {
                     @Override
                     public void accept(JokeBean jokeBean) throws Exception {
                         // 成功获取数据
+                        llLoading.setVisibility(View.GONE);
+                        llError.setVisibility(View.GONE);
                         mAdapter.setNewData(jokeBean.getResult().getData());    // 给适配器设置数据
                         srlJoke.setRefreshing(false);       // 让SwipeRefreshLayout关闭刷新
                     }
@@ -149,10 +161,20 @@ public class JokeFragment extends Fragment {
                     @Override
                     public void accept(Throwable throwable) throws Exception {
                         // 获取数据失败
-                        Toast.makeText(getActivity(), "获取数据失败", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), "获取数据失败" + throwable.getMessage(), Toast.LENGTH_SHORT).show();
                         srlJoke.setRefreshing(false);
+
+                        llError.setVisibility(View.VISIBLE);
+                        llLoading.setVisibility(View.GONE);
+                        srlJoke.setVisibility(View.GONE);
                     }
                 });
+    }
+
+    @OnClick(R.id.tv_joke_load_again)
+    public void onClick(View view){
+
+        updateDate();
     }
 
 
