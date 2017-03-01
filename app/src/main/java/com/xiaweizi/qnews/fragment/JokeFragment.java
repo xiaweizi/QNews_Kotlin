@@ -161,9 +161,8 @@ public class JokeFragment extends Fragment {
                     @Override
                     public void accept(Throwable throwable) throws Exception {
                         // 获取数据失败
-                        Toast.makeText(getActivity(), "获取数据失败" + throwable.getMessage(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), "获取数据失败!" + "访问次数上限", Toast.LENGTH_SHORT).show();
                         srlJoke.setRefreshing(false);
-
                         llError.setVisibility(View.VISIBLE);
                         llLoading.setVisibility(View.GONE);
                         srlJoke.setVisibility(View.GONE);
@@ -172,7 +171,7 @@ public class JokeFragment extends Fragment {
     }
 
     @OnClick(R.id.tv_joke_load_again)
-    public void onClick(View view){
+    public void onClick(View view) {
 
         updateDate();
     }

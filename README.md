@@ -1,13 +1,3 @@
-*这是我的提交记录：*
-
-
-![新闻提交记录.PNG](http://upload-images.jianshu.io/upload_images/4043475-b16e1b51828d248e.PNG?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
-
-![提交记录.PNG](http://upload-images.jianshu.io/upload_images/4043475-71f975f2ef9a795b.PNG?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
-
->这个项目从头到尾是我一个人默默撸出来的，很心酸，可能有些代码写的不是很好，请见谅。这个项目虽然小，但是也遇到了很多bug，欣慰的是，最后都解决了，我想这是程序猿最大乐趣了。
-
-
 >我通过一下目录进行项目的演示：
 
 > * [1. 整体风格和个人页面](#1)
