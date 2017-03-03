@@ -8,6 +8,7 @@ import com.zhy.http.okhttp.log.LoggerInterceptor;
 
 import java.util.concurrent.TimeUnit;
 
+import cn.jpush.android.api.JPushInterface;
 import okhttp3.OkHttpClient;
 
 /**
@@ -28,6 +29,9 @@ public class MyApplication extends Application {
         Utils.init(getApplicationContext());
 //        Bmob.initialize(this, "5597c24c18ec706d100033f915b79153");
 
+
+        JPushInterface.setDebugMode(true);
+        JPushInterface.init(this);
 
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
                 .addInterceptor(new LoggerInterceptor("TAG"))

@@ -1,5 +1,6 @@
 package com.xiaweizi.qnews.fragment;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -7,10 +8,14 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.xiaweizi.qnews.R;
 import com.xiaweizi.qnews.adapter.MsgReceivedtemDelagate;
@@ -43,7 +48,7 @@ import io.reactivex.schedulers.Schedulers;
  * 创建时间： 16:12
  */
 
-public class RobotFragment extends Fragment {
+public class RobotFragment extends Fragment implements TextView.OnEditorActionListener {
 
     @BindView(R.id.tb_robot)
     Toolbar tbRobot;
@@ -67,6 +72,13 @@ public class RobotFragment extends Fragment {
 
         utils = new ActivityUtils(getActivity());
 
+        // 设置软键盘的操作：回车变成搜索图标
+        etInput.setImeOptions(EditorInfo.IME_ACTION_GO);
+        // 设置软键盘的操作事件监听
+        etInput.setOnEditorActionListener(this);
+        // 设置输入的类型： 文本类型
+        etInput.setInputType(EditorInfo.TYPE_CLASS_TEXT);
+
         adapter = new RobotAdapter(getActivity(), datas);
         adapter.addItemViewDelegate(new MsgReceivedtemDelagate());
         adapter.addItemViewDelegate(new MsgSendItemDelagate());
@@ -87,6 +99,11 @@ public class RobotFragment extends Fragment {
 
     @OnClick(R.id.bt_send)
     public void onClick(View view) {
+        sendMsg();
+
+    }
+
+    private void sendMsg(){
         String msg = etInput.getText().toString();
         if (TextUtils.isEmpty(msg)) {
             etInput.setError("内容不能为空");
@@ -123,25 +140,24 @@ public class RobotFragment extends Fragment {
                         LogUtils.i("error: " + throwable.getMessage());
                     }
                 });
+    }
 
-//        QNewsClient.getInstance().GetQARobotData(msg, new QNewsCallback<String>() {
-//            @Override
-//            public void onSuccess(String response, int id) {
-//
-//                RobotMSGBean receiverBean = new RobotMSGBean();
-//                receiverBean.setMsg(response);
-//                receiverBean.setType(RobotMSGBean.MSG_RECEIVED);
-//                adapter.addDataToAdapter(receiverBean);
-//                adapter.notifyDataSetChanged();
-//                rvRobot.smoothScrollToPosition(adapter.getItemCount() - 1);
-//
-//            }
-//
-//            @Override
-//            public void onError(Exception e, int id) {
-//
-//            }
-//        });
+    @Override
+    public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
 
+        if (actionId == EditorInfo.IME_ACTION_SEND){
+            return true;
+        }
+        closeKeyBoard();
+
+        return false;
+    }
+
+    private void closeKeyBoard() {
+        etInput.clearFocus();
+
+        //关闭软键盘
+        InputMethodManager inputMethodManager = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(etInput.getWindowToken(),0);
     }
 }
