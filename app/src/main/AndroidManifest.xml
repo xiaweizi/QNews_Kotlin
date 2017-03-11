@@ -52,6 +52,7 @@
             android:configChanges="screenSize"
             android:screenOrientation="portrait" />
         <activity
+            android:launchMode="singleTask"
             android:name=".activity.MainActivity"
             android:configChanges="screenSize"
             android:screenOrientation="portrait" />
