@@ -9,10 +9,14 @@ import android.support.v4.view.PagerTitleStrip;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.transition.Explode;
+import android.transition.Fade;
+import android.transition.Slide;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -66,6 +70,23 @@ public class TodayDetailActivity extends AppCompatActivity {
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
             //透明导航栏
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+        }
+
+        /*************************** Activity 转场动画 ***************************/
+        getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+
+            switch ((int)(Math.random()*3)){
+                case 0:
+                    getWindow().setEnterTransition(new Explode());
+                    break;
+                case 1:
+                    getWindow().setEnterTransition(new Slide());
+                    break;
+                case 2:
+                    getWindow().setEnterTransition(new Fade());
+                    break;
+            }
         }
         setContentView(R.layout.activity_today_detail);
         ButterKnife.bind(this);

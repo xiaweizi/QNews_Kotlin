@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
@@ -82,7 +83,7 @@ public class TodayFragment extends Fragment {
             public void onSimpleItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                 Intent intent = new Intent(getActivity(), TodayDetailActivity.class);
                 intent.putExtra("e_id", ((TodayOfHistoryBean.ResultBean)adapter.getItem(position)).getE_id());
-                getActivity().startActivity(intent);
+                getActivity().startActivity(intent, ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity()).toBundle());
             }
         });
 
@@ -90,7 +91,7 @@ public class TodayFragment extends Fragment {
         Calendar calendar = Calendar.getInstance();
         final int month = calendar.get(Calendar.MONTH) + 1;
         final int day = calendar.get(Calendar.DAY_OF_MONTH);
-        tbToday.setTitle("历史上的今天 (" + month + "月" + day + "日)");
+//        tbToday.setTitle("历史上的今天 (" + month + "月" + day + "日)");
 
         String params = month + "/" + day;
         //初次加载数据
