@@ -88,6 +88,8 @@ dependencies {
     compile 'io.reactivex.rxjava2:rxjava:2.0.1'
     //http拦截器
     compile 'com.squareup.okhttp3:logging-interceptor:3.4.1'
+    //侧滑layout
+    compile 'me.imid.swipebacklayout.lib:library:1.0.0'
 
     compile 'cn.jiguang.sdk:jpush:3.0.0'  // 此处以JPush 3.0.0 版本为例。
     compile 'cn.jiguang.sdk:jcore:1.0.0'  // 此处以JCore 1.0.0 版本为例。

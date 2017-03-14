@@ -4,7 +4,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.MenuItem;
@@ -21,8 +20,10 @@ import com.xiaweizi.qnews.R;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import me.imid.swipebacklayout.lib.app.SwipeBackActivity;
 
-public class NewsDataShowActivity extends AppCompatActivity {
+
+public class NewsDataShowActivity extends SwipeBackActivity {
 
     @BindView(R.id.tb_show)
     Toolbar mTbShow;
@@ -155,8 +156,8 @@ public class NewsDataShowActivity extends AppCompatActivity {
 
     private void initAppBar() {
         mTbShow.setTitle("载入中...");
-        setSupportActionBar(mTbShow);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+//        setSupportActionBar(mTbShow);
+//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     @Override

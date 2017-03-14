@@ -44,7 +44,6 @@ import io.reactivex.schedulers.Schedulers;
  */
 public class TodayDetailActivity extends AppCompatActivity {
 
-
     @BindView(R.id.tb_today)
     Toolbar tbToday;
     @BindView(R.id.collapsing_toolbar_today)

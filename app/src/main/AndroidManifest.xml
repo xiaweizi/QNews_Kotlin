@@ -44,6 +44,7 @@
             </intent-filter>
         </activity>
         <activity
+            android:theme="@style/webviewTheme"
             android:name=".activity.NewsDataShowActivity"
             android:configChanges="screenSize"
             android:screenOrientation="portrait" />
