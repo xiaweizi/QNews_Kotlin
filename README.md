@@ -1,3 +1,12 @@
+[软件下载地址](https://github.com/xiaweizi/QNews/raw/master/app-debug.apk)
+
+扫码下载：
+
+![cli_300px.png](http://upload-images.jianshu.io/upload_images/4043475-30d6cf704646eca7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+
+
+
 >我通过一下目录进行项目的演示：
 
 > * [1. 整体风格和个人页面](#1)
