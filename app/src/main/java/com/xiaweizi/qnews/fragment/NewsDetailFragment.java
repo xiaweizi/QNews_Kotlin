@@ -1,7 +1,6 @@
 package com.xiaweizi.qnews.fragment;
 
 import android.annotation.SuppressLint;
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -14,8 +13,8 @@ import android.view.ViewGroup;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemChildClickListener;
+import com.xiawei.webviewlib.WebViewActivity;
 import com.xiaweizi.qnews.R;
-import com.xiaweizi.qnews.activity.NewsDataShowActivity;
 import com.xiaweizi.qnews.adapter.NewsDataAdapter;
 import com.xiaweizi.qnews.bean.NewsDataBean;
 import com.xiaweizi.qnews.commons.Constants;
@@ -84,9 +83,10 @@ public class NewsDetailFragment extends BaseFragment {
         rvNewDetail.addOnItemTouchListener(new OnItemChildClickListener() {
             @Override
             public void onSimpleItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                Intent intent = new Intent(getActivity(), NewsDataShowActivity.class);
-                intent.putExtra("url", ((NewsDataBean.ResultBean.DataBean)adapter.getItem(position)).getUrl());
-                getActivity().startActivity(intent);
+//                Intent intent = new Intent(getActivity(), NewsDataShowActivity.class);
+//                intent.putExtra("url", ((NewsDataBean.ResultBean.DataBean)adapter.getItem(position)).getUrl());
+//                getActivity().startActivity(intent);
+                WebViewActivity.startUrl(getActivity(), ((NewsDataBean.ResultBean.DataBean)adapter.getItem(position)).getUrl());
             }
         });
 

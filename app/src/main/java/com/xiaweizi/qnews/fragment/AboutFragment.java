@@ -1,6 +1,5 @@
 package com.xiaweizi.qnews.fragment;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -11,8 +10,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.xiawei.webviewlib.WebViewActivity;
 import com.xiaweizi.qnews.R;
-import com.xiaweizi.qnews.activity.NewsDataShowActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -47,11 +46,12 @@ public class AboutFragment extends Fragment {
     }
     @OnClick({R.id.tv_about_blog, R.id.tv_about_jianshu, R.id.tv_about_github,})
     public void OnClick(View view){
-        Intent intent = new Intent(getActivity(), NewsDataShowActivity.class);
+//        Intent intent = new Intent(getActivity(), NewsDataShowActivity.class);
         String text = ((TextView) view).getText().toString();
         String[] split = text.split(":");
         String url = split[1].trim() + ":" + split[2].trim();
-        intent.putExtra("url", url);
-        getActivity().startActivity(intent);
+//        intent.putExtra("url", url);
+//        getActivity().startActivity(intent);
+        WebViewActivity.startUrl(getActivity(), url);
     }
 }
