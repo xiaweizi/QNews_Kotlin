@@ -27,7 +27,7 @@ public class MyApplication extends Application {
         super.onCreate();
 
         Utils.init(getApplicationContext());
-//        Bmob.initialize(this, "5597c24c18ec706d100033f915b79153");
+        //        Bmob.initialize(this, "5597c24c18ec706d100033f915b79153");
 
 
         JPushInterface.setDebugMode(true);
@@ -36,8 +36,7 @@ public class MyApplication extends Application {
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
                 .addInterceptor(new LoggerInterceptor("TAG"))
                 .connectTimeout(10000L, TimeUnit.MILLISECONDS)
-                .readTimeout(10000L, TimeUnit.MILLISECONDS)
-                .build();
+                .readTimeout(10000L, TimeUnit.MILLISECONDS).build();
 
         OkHttpUtils.initClient(okHttpClient);
     }

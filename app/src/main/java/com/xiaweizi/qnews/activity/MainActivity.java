@@ -45,34 +45,34 @@ import okhttp3.Call;
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MainActivity------>";
-    @BindView(R.id.fl_content)
-    FrameLayout flContent;
-    @BindView(R.id.nv_left)
+    @BindView (R.id.fl_content)
+    FrameLayout    flContent;
+    @BindView (R.id.nv_left)
     NavigationView nvLeft;
-    @BindView(R.id.dl_activity_main)
-    DrawerLayout dlActivityMain;
+    @BindView (R.id.dl_activity_main)
+    DrawerLayout   dlActivityMain;
 
-    private FragmentManager manager;
+    private FragmentManager     manager;
     private FragmentTransaction transaction;
 
-    private NewsFragment newsFragment;      //新闻数据
-    private JokeFragment jokeFragment;      //段子
+    private NewsFragment  newsFragment;      //新闻数据
+    private JokeFragment  jokeFragment;      //段子
     private RobotFragment robotFragment;    //机器人
     private AboutFragment aboutFragment;    //关于
     private TodayFragment todayFragment;    //历史上的今天
-    private GIFFragment gifFragment;        //动态图
+    private GIFFragment   gifFragment;        //动态图
 
     private Fragment currentFragment;
 
-    private ActivityUtils utils;
-    private BottomBar bottomBar;
+    private ActivityUtils       utils;
+    private BottomBar           bottomBar;
     private AlertDialog.Builder builder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        SPUtils util = new SPUtils("theme_id");
-        int theme_id = util.getInt("theme_id", R.style.AppTheme);
+        SPUtils util     = new SPUtils("theme_id");
+        int     theme_id = util.getInt("theme_id", R.style.AppTheme);
         setTheme(theme_id);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             //透明状态栏
@@ -89,29 +89,26 @@ public class MainActivity extends AppCompatActivity {
 
 
         /*************************** 左侧 侧滑菜单 设置头像图片 ***************************/
-        ImageView iconImage = (ImageView) nvLeft.getHeaderView(0).findViewById(R.id.icon_image);
-        final ImageView ivBmp = (ImageView) nvLeft.getHeaderView(0).findViewById(R.id.iv_head_bg);
-        Glide.with(this)
-                .load("http://img.17gexing.com/uploadfile/2016/07/2/20160725115642623.gif")
-                .asGif()
-                .centerCrop()
-                .into(iconImage);
+        ImageView       iconImage = (ImageView) nvLeft.getHeaderView(0)
+                                                      .findViewById(R.id.icon_image);
+        final ImageView ivBmp     = (ImageView) nvLeft.getHeaderView(0)
+                                                      .findViewById(R.id.iv_head_bg);
+        Glide.with(this).load("http://img.17gexing.com/uploadfile/2016/07/2/20160725115642623.gif")
+             .asGif().centerCrop().into(iconImage);
 
-        OkHttpUtils.get().url("http://guolin.tech/api/bing_pic").build().execute(new StringCallback() {
-            @Override
-            public void onError(Call call, Exception e, int id) {
+        OkHttpUtils.get().url("http://guolin.tech/api/bing_pic").build()
+                   .execute(new StringCallback() {
+                       @Override
+                       public void onError(Call call, Exception e, int id) {
 
-            }
+                       }
 
-            @Override
-            public void onResponse(String response, int id) {
-                Glide.with(MainActivity.this)
-                        .load(response)
-                        .crossFade()
-                        .centerCrop()
-                        .into(ivBmp);
-            }
-        });
+                       @Override
+                       public void onResponse(String response, int id) {
+                           Glide.with(MainActivity.this).load(response).crossFade().centerCrop()
+                                .into(ivBmp);
+                       }
+                   });
 
         iconImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -180,45 +177,46 @@ public class MainActivity extends AppCompatActivity {
 
         /*************************** 左侧 侧滑菜单 设置选择事件 ***************************/
         nvLeft.setCheckedItem(R.id.nav_news);
-        nvLeft.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(MenuItem item) {
-                nvLeft.setCheckedItem(item.getItemId());
-                dlActivityMain.closeDrawers();
-                switch (item.getItemId()) {
-                    case R.id.nav_news:
-                        bottomBar.selectTabAtPosition(0, true);
-                        break;
-                    case R.id.nav_duanzi:
-                        bottomBar.selectTabAtPosition(1, true);
-                        break;
-                    case R.id.nav_today_of_history:
-                        bottomBar.selectTabAtPosition(2, true);
-                        break;
-                    case R.id.nav_robot:
-                        bottomBar.selectTabAtPosition(3, true);
-                        break;
-                    case R.id.nav_other:
-                        bottomBar.selectTabAtPosition(4, true);
-                        break;
-                    case R.id.nav_clear_cache:
-                        clearCache();
-                        break;
-                    case R.id.nav_version_update:
-                        VersionUtils.updateVersion(MainActivity.this);
-                        break;
-                    case R.id.nav_change_theme:
-                        alertChangeTheme();
-                        break;
-                    case R.id.nav_day_night:
-                        changeTheme(9);
-                        break;
-                    default:
-                        break;
-                }
-                return false;
-            }
-        });
+        nvLeft.setNavigationItemSelectedListener(
+                new NavigationView.OnNavigationItemSelectedListener() {
+                    @Override
+                    public boolean onNavigationItemSelected(MenuItem item) {
+                        nvLeft.setCheckedItem(item.getItemId());
+                        dlActivityMain.closeDrawers();
+                        switch (item.getItemId()) {
+                            case R.id.nav_news:
+                                bottomBar.selectTabAtPosition(0, true);
+                                break;
+                            case R.id.nav_duanzi:
+                                bottomBar.selectTabAtPosition(1, true);
+                                break;
+                            case R.id.nav_today_of_history:
+                                bottomBar.selectTabAtPosition(2, true);
+                                break;
+                            case R.id.nav_robot:
+                                bottomBar.selectTabAtPosition(3, true);
+                                break;
+                            case R.id.nav_other:
+                                bottomBar.selectTabAtPosition(4, true);
+                                break;
+                            case R.id.nav_clear_cache:
+                                clearCache();
+                                break;
+                            case R.id.nav_version_update:
+                                VersionUtils.updateVersion(MainActivity.this);
+                                break;
+                            case R.id.nav_change_theme:
+                                alertChangeTheme();
+                                break;
+                            case R.id.nav_day_night:
+                                changeTheme(9);
+                                break;
+                            default:
+                                break;
+                        }
+                        return false;
+                    }
+                });
     }
 
     /**
@@ -290,7 +288,7 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
         // 判断当前fragment 是不是 新闻fragment，如果不是先退到新闻fragment
-        if (currentFragment != newsFragment){
+        if (currentFragment != newsFragment) {
             bottomBar.selectTabAtPosition(0);
             return;
         }
@@ -307,24 +305,25 @@ public class MainActivity extends AppCompatActivity {
 
     private void clearCache() {
         String dirSize = FileUtils.getDirSize(getCacheDir());
-        new AlertDialog.Builder(MainActivity.this)
-                .setTitle("确定要清理缓存")
-                .setMessage("缓存大小：" + dirSize)
-                .setPositiveButton("清理", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        FileUtils.deleteDir(getCacheDir());
-                        utils.showToast("清理成功");
-                    }
-                })
-                .setNegativeButton("取消", null)
-                .show();
+        new AlertDialog.Builder(MainActivity.this).setTitle("确定要清理缓存").setMessage("缓存大小：" + dirSize)
+                                                  .setPositiveButton("清理",
+                                                                     new DialogInterface.OnClickListener() {
+                                                                         @Override
+                                                                         public void onClick(
+                                                                                 DialogInterface dialog,
+                                                                                 int which) {
+                                                                             FileUtils.deleteDir(
+                                                                                     getCacheDir());
+                                                                             utils.showToast(
+                                                                                     "清理成功");
+                                                                         }
+                                                                     })
+                                                  .setNegativeButton("取消", null).show();
     }
 
     private void changeTheme(int index) {
-        int[] themes = new int[]{R.style.AppTheme, R.style.AppTheme_Blue, R.style.AppTheme_Green,
-                R.style.AppTheme_Orange, R.style.AppTheme_Pink, R.style.AppTheme_Sky,
-                R.style.AppTheme_Purple, R.style.AppTheme_PP, R.style.AppTheme_Yellow, R.style.AppTheme_Night};
+        int[] themes
+                = new int[]{R.style.AppTheme, R.style.AppTheme_Blue, R.style.AppTheme_Green, R.style.AppTheme_Orange, R.style.AppTheme_Pink, R.style.AppTheme_Sky, R.style.AppTheme_Purple, R.style.AppTheme_PP, R.style.AppTheme_Yellow, R.style.AppTheme_Night};
         SPUtils utils = new SPUtils("theme_id");
         utils.putInt("theme_id", themes[index]);
         Intent intent = getIntent();
@@ -340,8 +339,7 @@ public class MainActivity extends AppCompatActivity {
      */
     private void alertChangeTheme() {
         View view = View.inflate(this, R.layout.item_change_theme, null);
-        builder = new AlertDialog.Builder(this)
-                .setView(view);
+        builder = new AlertDialog.Builder(this).setView(view);
         builder.show();
         view.findViewById(R.id.tv_red).setOnClickListener(listener);
         view.findViewById(R.id.tv_green).setOnClickListener(listener);

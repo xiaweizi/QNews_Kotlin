@@ -47,11 +47,11 @@ import io.reactivex.schedulers.Schedulers;
 public class TodayFragment extends Fragment {
 
 
-    @BindView(R.id.tb_today)
-    Toolbar tbToday;
-    @BindView(R.id.rv_today)
-    RecyclerView rvToday;
-    @BindView(R.id.fab)
+    @BindView (R.id.tb_today)
+    Toolbar              tbToday;
+    @BindView (R.id.rv_today)
+    RecyclerView         rvToday;
+    @BindView (R.id.fab)
     FloatingActionButton fab;
 
     //历史上今天的适配器
@@ -59,7 +59,9 @@ public class TodayFragment extends Fragment {
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(
+            LayoutInflater inflater, @Nullable ViewGroup container,
+            @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_today, null);
         ButterKnife.bind(this, view);
 
@@ -76,22 +78,26 @@ public class TodayFragment extends Fragment {
         });
 
         //recyclerView初始化
-        rvToday.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
+        rvToday.setLayoutManager(new StaggeredGridLayoutManager(2,
+                                                                StaggeredGridLayoutManager.VERTICAL));
         rvToday.setAdapter(adapter);
         rvToday.addOnItemTouchListener(new OnItemChildClickListener() {
             @Override
             public void onSimpleItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                 Intent intent = new Intent(getActivity(), TodayDetailActivity.class);
-                intent.putExtra("e_id", ((TodayOfHistoryBean.ResultBean)adapter.getItem(position)).getE_id());
-                getActivity().startActivity(intent, ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity()).toBundle());
+                intent.putExtra("e_id",
+                                ((TodayOfHistoryBean.ResultBean) adapter.getItem(position)).getE_id());
+                getActivity().startActivity(intent,
+                                            ActivityOptionsCompat.makeSceneTransitionAnimation(
+                                                    getActivity()).toBundle());
             }
         });
 
         //获得当前的日期
-        Calendar calendar = Calendar.getInstance();
-        final int month = calendar.get(Calendar.MONTH) + 1;
-        final int day = calendar.get(Calendar.DAY_OF_MONTH);
-//        tbToday.setTitle("历史上的今天 (" + month + "月" + day + "日)");
+        Calendar  calendar = Calendar.getInstance();
+        final int month    = calendar.get(Calendar.MONTH) + 1;
+        final int day      = calendar.get(Calendar.DAY_OF_MONTH);
+        //        tbToday.setTitle("历史上的今天 (" + month + "月" + day + "日)");
 
         String params = month + "/" + day;
         //初次加载数据
@@ -113,19 +119,19 @@ public class TodayFragment extends Fragment {
                     }
                 });
 
-//        QNewsClient.getInstance().GetTodayOfHistoryData(month, day,
-//                new QNewsCallback<TodayOfHistoryBean>() {
-//                    @Override
-//                    public void onSuccess(TodayOfHistoryBean response, int id) {
-//                        List<TodayOfHistoryBean.ResultBean> result = response.getResult();
-//                        adapter.addData(result);
-//                    }
-//
-//                    @Override
-//                    public void onError(Exception e, int id) {
-//
-//                    }
-//                });
+        //        QNewsClient.getInstance().GetTodayOfHistoryData(month, day,
+        //                new QNewsCallback<TodayOfHistoryBean>() {
+        //                    @Override
+        //                    public void onSuccess(TodayOfHistoryBean response, int id) {
+        //                        List<TodayOfHistoryBean.ResultBean> result = response.getResult();
+        //                        adapter.addData(result);
+        //                    }
+        //
+        //                    @Override
+        //                    public void onError(Exception e, int id) {
+        //
+        //                    }
+        //                });
 
         return view;
     }

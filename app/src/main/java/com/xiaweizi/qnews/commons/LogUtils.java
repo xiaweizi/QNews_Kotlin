@@ -4,8 +4,7 @@ package com.xiaweizi.qnews.commons;
  * 自定义日志工具类，统一对日志输出做出控制。
  * 在公司项目中，可以考虑使用Timber等开源日志工具，不用重复造轮子。
  */
-@SuppressWarnings("unused")
-public final class LogUtils {
+@SuppressWarnings ("unused") public final class LogUtils {
 
     private static final String TAG = "QNews---->";
 
@@ -29,8 +28,10 @@ public final class LogUtils {
     public static void trace(Object object) {
         if (logTrace) {
             StackTraceElement[] traces = Thread.currentThread().getStackTrace();
-            StackTraceElement trace = traces[3];
-            android.util.Log.d(TAG_TRACE, addThreadInfo(object.getClass().getSimpleName() + " : " + trace.getMethodName()));
+            StackTraceElement   trace  = traces[3];
+            android.util.Log.d(TAG_TRACE,
+                               addThreadInfo(object.getClass().getSimpleName() + " : " +
+                                             trace.getMethodName()));
         }
     }
 
@@ -52,7 +53,7 @@ public final class LogUtils {
 
     private static String addThreadInfo(final String msg) {
         final String threadName = Thread.currentThread().getName();
-        final String shortName = threadName.startsWith("OkHttp") ? "OkHttp" : threadName;
+        final String shortName  = threadName.startsWith("OkHttp") ? "OkHttp" : threadName;
         return "[" + shortName + "] " + msg;
     }
 

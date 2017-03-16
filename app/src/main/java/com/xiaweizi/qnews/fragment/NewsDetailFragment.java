@@ -37,12 +37,11 @@ import io.reactivex.schedulers.Schedulers;
  * 创建时间： 15:36
  */
 
-@SuppressLint("ValidFragment")
-public class NewsDetailFragment extends BaseFragment {
+@SuppressLint ("ValidFragment") public class NewsDetailFragment extends BaseFragment {
 
-    @BindView(R.id.rv_new_detail)
+    @BindView (R.id.rv_new_detail)
     RecyclerView rvNewDetail;
-    @BindView(R.id.srl)
+    @BindView (R.id.srl)
     SwipeRefreshLayout srl;
 
     private NewsDataAdapter mAdapter;
@@ -61,7 +60,9 @@ public class NewsDetailFragment extends BaseFragment {
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(
+            LayoutInflater inflater, @Nullable ViewGroup container,
+            @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_new_detail, null);
         ButterKnife.bind(this, view);
 
@@ -83,10 +84,12 @@ public class NewsDetailFragment extends BaseFragment {
         rvNewDetail.addOnItemTouchListener(new OnItemChildClickListener() {
             @Override
             public void onSimpleItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-//                Intent intent = new Intent(getActivity(), NewsDataShowActivity.class);
-//                intent.putExtra("url", ((NewsDataBean.ResultBean.DataBean)adapter.getItem(position)).getUrl());
-//                getActivity().startActivity(intent);
-                WebViewActivity.startUrl(getActivity(), ((NewsDataBean.ResultBean.DataBean)adapter.getItem(position)).getUrl());
+                //                Intent intent = new Intent(getActivity(), NewsDataShowActivity.class);
+                //                intent.putExtra("url", ((NewsDataBean.ResultBean.DataBean)adapter.getItem(position)).getUrl());
+                //                getActivity().startActivity(intent);
+                WebViewActivity.startUrl(getActivity(),
+                                         ((NewsDataBean.ResultBean.DataBean) adapter.getItem(
+                                                 position)).getUrl());
             }
         });
 
@@ -119,17 +122,17 @@ public class NewsDetailFragment extends BaseFragment {
                     }
                 });
 
-//        QNewsClient.getInstance().GetNewsData(type, new QNewsCallback<NewsDataBean>() {
-//            @Override
-//            public void onSuccess(NewsDataBean response, int id) {
-//                mAdapter.setNewData(response.getResult().getData());
-//                srl.setRefreshing(false);
-//            }
-//
-//            @Override
-//            public void onError(Exception e, int id) {
-//                srl.setRefreshing(false);
-//            }
-//        });
+        //        QNewsClient.getInstance().GetNewsData(type, new QNewsCallback<NewsDataBean>() {
+        //            @Override
+        //            public void onSuccess(NewsDataBean response, int id) {
+        //                mAdapter.setNewData(response.getResult().getData());
+        //                srl.setRefreshing(false);
+        //            }
+        //
+        //            @Override
+        //            public void onError(Exception e, int id) {
+        //                srl.setRefreshing(false);
+        //            }
+        //        });
     }
 }

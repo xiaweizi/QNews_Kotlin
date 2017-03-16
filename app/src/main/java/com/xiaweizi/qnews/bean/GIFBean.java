@@ -19,8 +19,8 @@ public class GIFBean {
      * error_code : 0
      */
 
-    private String reason;
-    private int error_code;
+    private String           reason;
+    private int              error_code;
     private List<ResultBean> result;
 
     public String getReason() {

@@ -28,30 +28,33 @@ import butterknife.OnClick;
 
 public class AboutFragment extends Fragment {
 
-    @BindView(R.id.fruit_image_view)
+    @BindView (R.id.fruit_image_view)
     ImageView imageView;
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(
+            LayoutInflater inflater, @Nullable ViewGroup container,
+            @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_about, null);
 
         ButterKnife.bind(this, view);
         Glide.with(this)
-                .load("http://img.17gexing.com/uploadfile/2016/07/2/20160725115727230.jpg")
-                .centerCrop()
-                .into(imageView);
+             .load("http://img.17gexing.com/uploadfile/2016/07/2/20160725115727230.jpg")
+             .centerCrop()
+             .into(imageView);
 
         return view;
     }
-    @OnClick({R.id.tv_about_blog, R.id.tv_about_jianshu, R.id.tv_about_github,})
-    public void OnClick(View view){
-//        Intent intent = new Intent(getActivity(), NewsDataShowActivity.class);
-        String text = ((TextView) view).getText().toString();
+
+    @OnClick ({R.id.tv_about_blog, R.id.tv_about_jianshu, R.id.tv_about_github,})
+    public void OnClick(View view) {
+        //        Intent intent = new Intent(getActivity(), NewsDataShowActivity.class);
+        String   text  = ((TextView) view).getText().toString();
         String[] split = text.split(":");
-        String url = split[1].trim() + ":" + split[2].trim();
-//        intent.putExtra("url", url);
-//        getActivity().startActivity(intent);
+        String   url   = split[1].trim() + ":" + split[2].trim();
+        //        intent.putExtra("url", url);
+        //        getActivity().startActivity(intent);
         WebViewActivity.startUrl(getActivity(), url);
     }
 }

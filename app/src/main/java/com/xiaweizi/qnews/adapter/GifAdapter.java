@@ -34,17 +34,17 @@ public class GifAdapter extends CommonAdapter<GIFBean.ResultBean> {
         holder.setText(R.id.tv_gif_title, gifBean.getContent());
         String url = gifBean.getUrl();
         LogUtils.i("url?:" + url);
-        if (url.endsWith("f")){
+        if (url.endsWith("f")) {
             Glide.with(context)
-                    .load(gifBean.getUrl())
-                    .asGif()
-                    .placeholder(R.mipmap.ic_error)
-                    .into((ImageView) holder.getView(R.id.iv_gif));
-        }else {
+                 .load(gifBean.getUrl())
+                 .asGif()
+                 .placeholder(R.mipmap.ic_error)
+                 .into((ImageView) holder.getView(R.id.iv_gif));
+        } else {
             Glide.with(context)
-                    .load(gifBean.getUrl())
-                    .placeholder(R.mipmap.ic_error)
-                    .into((ImageView) holder.getView(R.id.iv_gif));
+                 .load(gifBean.getUrl())
+                 .placeholder(R.mipmap.ic_error)
+                 .into((ImageView) holder.getView(R.id.iv_gif));
         }
     }
 }

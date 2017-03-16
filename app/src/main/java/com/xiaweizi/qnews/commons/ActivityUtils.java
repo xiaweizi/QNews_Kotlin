@@ -19,8 +19,7 @@ import java.lang.ref.WeakReference;
 /**
  * 此类包含与Activity相关的一些常用方法，例如startActivity和showToast。
  */
-@SuppressWarnings("unused")
-public class ActivityUtils {
+@SuppressWarnings ("unused") public class ActivityUtils {
 
     // 使用弱引用，避免不恰当地持有Activity或Fragment的引用。
     // 持有Activity的引用会阻止Activity的内存回收，增大OOM的风险。
@@ -33,35 +32,36 @@ public class ActivityUtils {
         activityWeakReference = new WeakReference<>(activity);
     }
 
-    public ActivityUtils(Fragment fragment){
+    public ActivityUtils(Fragment fragment) {
         fragmentWeakReference = new WeakReference<>(fragment);
     }
 
     /**
      * 通过弱引用获取Activity对象，此方法可能返回null，调用后需要做检查。
      */
-    private @Nullable
+    private
+    @Nullable
     Activity getActivity() {
 
         if (activityWeakReference != null) return activityWeakReference.get();
         if (fragmentWeakReference != null) {
             Fragment fragment = fragmentWeakReference.get();
-            return fragment == null? null : fragment.getActivity();
+            return fragment == null ? null : fragment.getActivity();
         }
         return null;
     }
 
-    public void showToast(CharSequence msg){
+    public void showToast(CharSequence msg) {
         Activity activity = getActivity();
-        if (activity != null){
+        if (activity != null) {
             if (toast == null) toast = Toast.makeText(activity, msg, Toast.LENGTH_SHORT);
             toast.setText(msg);
             toast.show();
         }
     }
 
-    @SuppressWarnings("SameParameterValue")
-    public void showToast(@StringRes int resId){
+    @SuppressWarnings ("SameParameterValue")
+    public void showToast(@StringRes int resId) {
         Activity activity = getActivity();
         if (activity != null) {
             String msg = activity.getString(resId);
@@ -69,7 +69,7 @@ public class ActivityUtils {
         }
     }
 
-    public void startActivity(Class<? extends Activity> clazz){
+    public void startActivity(Class<? extends Activity> clazz) {
         Activity activity = getActivity();
         if (activity == null) return;
         Intent intent = new Intent(activity, clazz);
@@ -86,9 +86,9 @@ public class ActivityUtils {
         Activity activity = getActivity();
         if (activity == null) return 0;
 
-        Resources resources = getActivity().getResources();
-        int result = 0;
-        int resourceId = resources.getIdentifier("status_bar_height", "dimen", "android");
+        Resources resources  = getActivity().getResources();
+        int       result     = 0;
+        int       resourceId = resources.getIdentifier("status_bar_height", "dimen", "android");
         if (resourceId > 0) {
             result = resources.getDimensionPixelSize(resourceId);
         }
@@ -114,18 +114,19 @@ public class ActivityUtils {
         return metrics.heightPixels;
     }
 
-    public void hideSoftKeyboard(){
+    public void hideSoftKeyboard() {
         Activity activity = getActivity();
         if (activity == null) return;
 
         View view = activity.getCurrentFocus();
         if (view != null) {
-            InputMethodManager imm = (InputMethodManager)activity.getSystemService(Context.INPUT_METHOD_SERVICE);
+            InputMethodManager imm
+                    = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
     }
 
-    public void startBrowser(String url){
+    public void startBrowser(String url) {
         if (getActivity() == null) return;
         Intent intent = new Intent();
         intent.setAction(Intent.ACTION_VIEW);

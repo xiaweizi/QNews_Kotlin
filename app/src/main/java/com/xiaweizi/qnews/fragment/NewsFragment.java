@@ -38,17 +38,19 @@ import butterknife.ButterKnife;
 
 public class NewsFragment extends Fragment {
 
-    @BindView(R.id.main_viewpager)
+    @BindView (R.id.main_viewpager)
     ViewPager mainViewpager;        //新闻数据 ViewPager
 
-    private String[] types;         //顶部 tab 英文内容数组
-    private String[] typesCN;       //顶部 tab 中文内容数组
+    private String[]             types;         //顶部 tab 英文内容数组
+    private String[]             typesCN;       //顶部 tab 中文内容数组
     private NewsViewPagerAadpter newsViewPagerAadpter;    //ViewPager 适配器
 
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(
+            LayoutInflater inflater, @Nullable ViewGroup container,
+            @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_newsdata, null);
         ButterKnife.bind(this, view);
 
@@ -60,7 +62,7 @@ public class NewsFragment extends Fragment {
         mainViewpager.setAdapter(newsViewPagerAadpter);
 
         /*************************** 顶部指示器数据加载 ***************************/
-        MagicIndicator magicIndicator = (MagicIndicator) view.findViewById(R.id.magic_indicator);
+        MagicIndicator  magicIndicator  = (MagicIndicator) view.findViewById(R.id.magic_indicator);
         CommonNavigator commonNavigator = new CommonNavigator(getActivity());
         commonNavigator.setAdapter(new CommonNavigatorAdapter() {
 
@@ -71,7 +73,8 @@ public class NewsFragment extends Fragment {
 
             @Override
             public IPagerTitleView getTitleView(Context context, final int index) {
-                ColorTransitionPagerTitleView colorTransitionPagerTitleView = new ColorTransitionPagerTitleView(context);
+                ColorTransitionPagerTitleView colorTransitionPagerTitleView
+                        = new ColorTransitionPagerTitleView(context);
                 colorTransitionPagerTitleView.setNormalColor(Color.BLACK);
                 colorTransitionPagerTitleView.setSelectedColor(Color.RED);
                 colorTransitionPagerTitleView.setText(typesCN[index]);
@@ -97,8 +100,6 @@ public class NewsFragment extends Fragment {
 
         return view;
     }
-
-
 
 
     private class NewsViewPagerAadpter extends FragmentStatePagerAdapter {

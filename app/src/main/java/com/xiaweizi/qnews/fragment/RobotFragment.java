@@ -51,12 +51,12 @@ import io.reactivex.schedulers.Schedulers;
 
 public class RobotFragment extends Fragment implements TextView.OnEditorActionListener {
 
-    @BindView(R.id.tb_robot)
-    Toolbar tbRobot;
-    @BindView(R.id.rv_robot)
+    @BindView (R.id.tb_robot)
+    Toolbar      tbRobot;
+    @BindView (R.id.rv_robot)
     RecyclerView rvRobot;
-    @BindView(R.id.et_input)
-    EditText etInput;
+    @BindView (R.id.et_input)
+    EditText     etInput;
 
     private RobotAdapter adapter;
 
@@ -67,7 +67,9 @@ public class RobotFragment extends Fragment implements TextView.OnEditorActionLi
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(
+            LayoutInflater inflater, @Nullable ViewGroup container,
+            @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_robot, null);
         ButterKnife.bind(this, view);
 
@@ -98,13 +100,13 @@ public class RobotFragment extends Fragment implements TextView.OnEditorActionLi
     }
 
 
-    @OnClick(R.id.bt_send)
+    @OnClick (R.id.bt_send)
     public void onClick(View view) {
         sendMsg();
 
     }
 
-    private void sendMsg(){
+    private void sendMsg() {
         String msg = etInput.getText().toString();
         if (TextUtils.isEmpty(msg)) {
             etInput.setError("内容不能为空");
@@ -126,7 +128,7 @@ public class RobotFragment extends Fragment implements TextView.OnEditorActionLi
                 .subscribe(new Consumer<RobotBean>() {
                     @Override
                     public void accept(RobotBean s) throws Exception {
-                        String text = s.getResult().getText();
+                        String       text         = s.getResult().getText();
                         RobotMSGBean receiverBean = new RobotMSGBean();
                         receiverBean.setMsg(text);
                         receiverBean.setType(RobotMSGBean.MSG_RECEIVED);
@@ -147,7 +149,7 @@ public class RobotFragment extends Fragment implements TextView.OnEditorActionLi
     public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
 
         Log.i("----->", "onEditorAction: " + actionId);
-        if (actionId == EditorInfo.IME_ACTION_SEND){
+        if (actionId == EditorInfo.IME_ACTION_SEND) {
             Log.i("---->", "IME_ACTION_SEND: ");
             sendMsg();
             return true;
@@ -163,7 +165,8 @@ public class RobotFragment extends Fragment implements TextView.OnEditorActionLi
         etInput.clearFocus();
 
         //关闭软键盘
-        InputMethodManager inputMethodManager = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-        inputMethodManager.hideSoftInputFromWindow(etInput.getWindowToken(),0);
+        InputMethodManager inputMethodManager = (InputMethodManager) getContext().getSystemService(
+                Context.INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(etInput.getWindowToken(), 0);
     }
 }

@@ -37,14 +37,16 @@ import io.reactivex.schedulers.Schedulers;
 
 public class GIFFragment extends Fragment {
 
-    @BindView(R.id.rv_gif)
+    @BindView (R.id.rv_gif)
     RecyclerView rvGif;
 
     private GifAdapter adapter;
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(
+            LayoutInflater inflater, @Nullable ViewGroup container,
+            @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_gif, null);
         ButterKnife.bind(this, view);
 
@@ -71,20 +73,20 @@ public class GIFFragment extends Fragment {
                     }
                 });
 
-//        QNewsClient.getInstance().GetGIFRandomData(new QNewsCallback<GIFBean>() {
-//            @Override
-//            public void onSuccess(GIFBean response, int id) {
-//                List<GIFBean.ResultBean> result = response.getResult();
-//                adapter = new GifAdapter(getActivity(), result);
-//                rvGif.setAdapter(adapter);
-//                adapter.notifyDataSetChanged();
-//            }
-//
-//            @Override
-//            public void onError(Exception e, int id) {
-//
-//            }
-//        });
+        //        QNewsClient.getInstance().GetGIFRandomData(new QNewsCallback<GIFBean>() {
+        //            @Override
+        //            public void onSuccess(GIFBean response, int id) {
+        //                List<GIFBean.ResultBean> result = response.getResult();
+        //                adapter = new GifAdapter(getActivity(), result);
+        //                rvGif.setAdapter(adapter);
+        //                adapter.notifyDataSetChanged();
+        //            }
+        //
+        //            @Override
+        //            public void onError(Exception e, int id) {
+        //
+        //            }
+        //        });
 
         return view;
     }

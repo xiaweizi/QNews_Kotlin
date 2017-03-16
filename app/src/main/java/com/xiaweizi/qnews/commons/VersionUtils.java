@@ -23,50 +23,50 @@ import okhttp3.Call;
 
 public class VersionUtils {
 
-    public static void updateVersion(final Context context){
+    public static void updateVersion(final Context context) {
 
         //获取数据
-//        BmobQuery<VersionBean> versionQuery = new BmobQuery<>();
-//        versionQuery.getObject("475fbcf700", new QueryListener<VersionBean>() {
-//            @Override
-//            public void done(final VersionBean versionBean, BmobException e) {
-//                if (e == null){
-//                    String appVersionName = AppUtils.getAppVersionName(context);
-//                    if (!appVersionName.equals((versionBean.getVersionName()))){
-//
-//                        new AlertDialog.Builder(context)
-//                                .setTitle("发现新版本！")
-//                                .setMessage("当前版本为:\tversion" + appVersionName + "\n" +
-//                                            "最新版本为:\tversion" + versionBean.getVersionName())
-//                                .setNegativeButton("取消", null)
-//                                .setPositiveButton("更新", new DialogInterface.OnClickListener() {
-//                                    @Override
-//                                    public void onClick(DialogInterface dialog, int which) {
-//
-//                                        if (!NetworkUtils.isAvailableByPing()){
-//                                            ToastUtils.showShortToast("当前网络不可用");
-//                                            return;
-//                                        }
-//                                        //版本更新
-//                                        versionUpdate(context, versionBean.getDownloadUrl());
-//
-//                                    }
-//                                })
-//                                .show();
-//
-//                    }else {
-//                        ToastUtils.showShortToast("当前已经为最新版本");
-//                    }
-//
-//                }else {
-//                    ToastUtils.showShortToast("当前已经为最新版本");
-//                }
-//            }
-//        });
+        //        BmobQuery<VersionBean> versionQuery = new BmobQuery<>();
+        //        versionQuery.getObject("475fbcf700", new QueryListener<VersionBean>() {
+        //            @Override
+        //            public void done(final VersionBean versionBean, BmobException e) {
+        //                if (e == null){
+        //                    String appVersionName = AppUtils.getAppVersionName(context);
+        //                    if (!appVersionName.equals((versionBean.getVersionName()))){
+        //
+        //                        new AlertDialog.Builder(context)
+        //                                .setTitle("发现新版本！")
+        //                                .setMessage("当前版本为:\tversion" + appVersionName + "\n" +
+        //                                            "最新版本为:\tversion" + versionBean.getVersionName())
+        //                                .setNegativeButton("取消", null)
+        //                                .setPositiveButton("更新", new DialogInterface.OnClickListener() {
+        //                                    @Override
+        //                                    public void onClick(DialogInterface dialog, int which) {
+        //
+        //                                        if (!NetworkUtils.isAvailableByPing()){
+        //                                            ToastUtils.showShortToast("当前网络不可用");
+        //                                            return;
+        //                                        }
+        //                                        //版本更新
+        //                                        versionUpdate(context, versionBean.getDownloadUrl());
+        //
+        //                                    }
+        //                                })
+        //                                .show();
+        //
+        //                    }else {
+        //                        ToastUtils.showShortToast("当前已经为最新版本");
+        //                    }
+        //
+        //                }else {
+        //                    ToastUtils.showShortToast("当前已经为最新版本");
+        //                }
+        //            }
+        //        });
 
     }
 
-    private static void versionUpdate(final Context context, String url){
+    private static void versionUpdate(final Context context, String url) {
 
         final ProgressDialog dialog = new ProgressDialog(context);
         dialog.setCancelable(false);
@@ -76,29 +76,29 @@ public class VersionUtils {
 
 
         OkHttpUtils//
-                .get()//
-                .url(url)//
-                .build()//
-                .execute(new FileCallBack(Environment.getExternalStorageDirectory().getAbsolutePath(), "QNews.apk")
-                {
+                   .get()//
+                   .url(url)//
+                   .build()//
+                   .execute(new FileCallBack(Environment.getExternalStorageDirectory()
+                                                        .getAbsolutePath(), "QNews.apk") {
 
-                    @Override
-                    public void inProgress(float progress, long total, int id) {
-                        dialog.setProgress((int)(progress*100));
-                    }
+                       @Override
+                       public void inProgress(float progress, long total, int id) {
+                           dialog.setProgress((int) (progress * 100));
+                       }
 
-                    @Override
-                    public void onError(Call call, Exception e, int id) {
-                        LogUtils.i("e:" + e.getMessage());
-                    }
+                       @Override
+                       public void onError(Call call, Exception e, int id) {
+                           LogUtils.i("e:" + e.getMessage());
+                       }
 
-                    @Override
-                    public void onResponse(File response, int id) {
-                        LogUtils.i("file:" + response.getAbsolutePath());
-                        dialog.cancel();
+                       @Override
+                       public void onResponse(File response, int id) {
+                           LogUtils.i("file:" + response.getAbsolutePath());
+                           dialog.cancel();
 
-                        AppUtils.installApp(context, response.getAbsolutePath());
-                    }
-                });
+                           AppUtils.installApp(context, response.getAbsolutePath());
+                       }
+                   });
     }
 }

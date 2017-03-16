@@ -44,25 +44,25 @@ import io.reactivex.schedulers.Schedulers;
  */
 public class TodayDetailActivity extends AppCompatActivity {
 
-    @BindView(R.id.tb_today)
-    Toolbar tbToday;
-    @BindView(R.id.collapsing_toolbar_today)
+    @BindView (R.id.tb_today)
+    Toolbar                 tbToday;
+    @BindView (R.id.collapsing_toolbar_today)
     CollapsingToolbarLayout collapsingToolbarToday;
-    @BindView(R.id.appBar)
-    AppBarLayout appBar;
-    @BindView(R.id.tv_today_content)
-    TextView tvTodayContent;
-    @BindView(R.id.vp_today)
-    ViewPager vpToday;
-    @BindView(R.id.pt_below)
-    PagerTitleStrip ptBelow;
+    @BindView (R.id.appBar)
+    AppBarLayout            appBar;
+    @BindView (R.id.tv_today_content)
+    TextView                tvTodayContent;
+    @BindView (R.id.vp_today)
+    ViewPager               vpToday;
+    @BindView (R.id.pt_below)
+    PagerTitleStrip         ptBelow;
     private List<TodayOfHistoryDetailBean.ResultBean.PicUrlBean> picUrl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        SPUtils util = new SPUtils("theme_id");
-        int theme_id = util.getInt("theme_id", R.style.AppTheme);
+        SPUtils util     = new SPUtils("theme_id");
+        int     theme_id = util.getInt("theme_id", R.style.AppTheme);
         setTheme(theme_id);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             //透明状态栏
@@ -75,7 +75,7 @@ public class TodayDetailActivity extends AppCompatActivity {
         getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 
-            switch ((int)(Math.random()*3)){
+            switch ((int) (Math.random() * 3)) {
                 case 0:
                     getWindow().setEnterTransition(new Explode());
                     break;
@@ -98,14 +98,13 @@ public class TodayDetailActivity extends AppCompatActivity {
 
         ptBelow.setGravity(Gravity.BOTTOM);
 
-        QClitent.getInstance()
-                .create(QNewsService.class, Constants.BASE_JUHE_URL)
-                .getTodayOfHistoryDetailData(e_id)
-                .subscribeOn(Schedulers.io())
+        QClitent.getInstance().create(QNewsService.class, Constants.BASE_JUHE_URL)
+                .getTodayOfHistoryDetailData(e_id).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Consumer<TodayOfHistoryDetailBean>() {
                     @Override
-                    public void accept(TodayOfHistoryDetailBean todayOfHistoryDetailBean) throws Exception {
+                    public void accept(TodayOfHistoryDetailBean todayOfHistoryDetailBean)
+                            throws Exception {
                         // 成功获取到数据
                         if (todayOfHistoryDetailBean.getError_code() != 0) {
                             tbToday.setTitle("无结果");
@@ -113,9 +112,10 @@ public class TodayDetailActivity extends AppCompatActivity {
                             return;
                         }
 
-                        TodayOfHistoryDetailBean.ResultBean resultBean = todayOfHistoryDetailBean.getResult().get(0);
+                        TodayOfHistoryDetailBean.ResultBean resultBean = todayOfHistoryDetailBean
+                                .getResult().get(0);
                         String content = resultBean.getContent();
-                        String title = resultBean.getTitle();
+                        String title   = resultBean.getTitle();
                         picUrl = resultBean.getPicUrl();
 
                         collapsingToolbarToday.setTitle(title);
@@ -131,33 +131,33 @@ public class TodayDetailActivity extends AppCompatActivity {
                     }
                 });
 
-//        QNewsClient.getInstance().GetTodayOfHistoryDetailData(e_id, new QNewsCallback<TodayOfHistoryDetailBean>() {
-//
-//            @Override
-//            public void onSuccess(TodayOfHistoryDetailBean response, int id) {
-//
-//                if (response.getError_code() != 0) {
-//                    tbToday.setTitle("无结果");
-//                    tvTodayContent.setText("无结果");
-//                    return;
-//                }
-//                TodayOfHistoryDetailBean.ResultBean resultBean = response.getResult().get(0);
-//                String content = resultBean.getContent();
-//                String title = resultBean.getTitle();
-//                picUrl = resultBean.getPicUrl();
-//
-//                collapsingToolbarToday.setTitle(title);
-//                tvTodayContent.setText(content);
-//
-//                vpToday.setAdapter(new MyAdapter(picUrl));
-//
-//            }
-//
-//            @Override
-//            public void onError(Exception e, int id) {
-//
-//            }
-//        });
+        //        QNewsClient.getInstance().GetTodayOfHistoryDetailData(e_id, new QNewsCallback<TodayOfHistoryDetailBean>() {
+        //
+        //            @Override
+        //            public void onSuccess(TodayOfHistoryDetailBean response, int id) {
+        //
+        //                if (response.getError_code() != 0) {
+        //                    tbToday.setTitle("无结果");
+        //                    tvTodayContent.setText("无结果");
+        //                    return;
+        //                }
+        //                TodayOfHistoryDetailBean.ResultBean resultBean = response.getResult().get(0);
+        //                String content = resultBean.getContent();
+        //                String title = resultBean.getTitle();
+        //                picUrl = resultBean.getPicUrl();
+        //
+        //                collapsingToolbarToday.setTitle(title);
+        //                tvTodayContent.setText(content);
+        //
+        //                vpToday.setAdapter(new MyAdapter(picUrl));
+        //
+        //            }
+        //
+        //            @Override
+        //            public void onError(Exception e, int id) {
+        //
+        //            }
+        //        });
     }
 
     @Override
@@ -186,9 +186,7 @@ public class TodayDetailActivity extends AppCompatActivity {
             ImageView imageView = new ImageView(TodayDetailActivity.this);
             LogUtils.i("url：" + picUrl.get(position).getUrl());
             Glide.with(TodayDetailActivity.this)
-                    .load("http://images.juheapi.com/history/2021_1.jpg")
-                    .crossFade()
-                    .into(imageView);
+                 .load("http://images.juheapi.com/history/2021_1.jpg").crossFade().into(imageView);
             container.addView(imageView);
             return imageView;
         }

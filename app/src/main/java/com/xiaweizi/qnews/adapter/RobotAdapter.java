@@ -3,7 +3,6 @@ package com.xiaweizi.qnews.adapter;
 import android.content.Context;
 
 import com.xiaweizi.qnews.bean.RobotMSGBean;
-import com.xiaweizi.qnews.commons.LogUtils;
 import com.zhy.adapter.recyclerview.MultiItemTypeAdapter;
 
 import java.util.List;
@@ -18,16 +17,17 @@ import java.util.List;
  */
 
 public class RobotAdapter extends MultiItemTypeAdapter<RobotMSGBean> {
-    private Context context;
+    private Context            context;
     private List<RobotMSGBean> datas;
+
     public RobotAdapter(Context context, List<RobotMSGBean> datas) {
         super(context, datas);
         this.context = context;
         this.datas = datas;
     }
 
-    public void addDataToAdapter(RobotMSGBean bean){
-        if (datas != null){
+    public void addDataToAdapter(RobotMSGBean bean) {
+        if (datas != null) {
             datas.add(bean);
         }
     }

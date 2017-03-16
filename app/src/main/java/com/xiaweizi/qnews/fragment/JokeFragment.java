@@ -43,16 +43,16 @@ import io.reactivex.schedulers.Schedulers;
 
 public class JokeFragment extends Fragment {
 
-    @BindView(R.id.tb_joke)
-    Toolbar tbJoke;
-    @BindView(R.id.rv_joke)
-    RecyclerView rvJoke;
-    @BindView(R.id.srl_joke)
+    @BindView (R.id.tb_joke)
+    Toolbar            tbJoke;
+    @BindView (R.id.rv_joke)
+    RecyclerView       rvJoke;
+    @BindView (R.id.srl_joke)
     SwipeRefreshLayout srlJoke;
-    @BindView(R.id.ll_loading)
-    LinearLayout llLoading;
-    @BindView(R.id.ll_error)
-    LinearLayout llError;
+    @BindView (R.id.ll_loading)
+    LinearLayout       llLoading;
+    @BindView (R.id.ll_error)
+    LinearLayout       llError;
 
     private JokeAdapter mAdapter;
 
@@ -64,7 +64,9 @@ public class JokeFragment extends Fragment {
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(
+            LayoutInflater inflater, @Nullable ViewGroup container,
+            @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_joke, null);
         ButterKnife.bind(this, view);
 
@@ -82,7 +84,9 @@ public class JokeFragment extends Fragment {
             }
         });
 
-        rvJoke.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+        rvJoke.setLayoutManager(new LinearLayoutManager(getActivity(),
+                                                        LinearLayoutManager.VERTICAL,
+                                                        false));
         rvJoke.setAdapter(mAdapter);
 
         mAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
@@ -101,7 +105,8 @@ public class JokeFragment extends Fragment {
                                 return;
                             }
 
-                            long unixtime = mAdapter.getItem(mAdapter.getItemCount() - 2).getUnixtime();
+                            long unixtime = mAdapter.getItem(mAdapter.getItemCount() - 2)
+                                                    .getUnixtime();
 
                             QClitent.getInstance()
                                     .create(QNewsService.class, Constants.BASE_JOKE_URL) // 创建服务
@@ -111,7 +116,8 @@ public class JokeFragment extends Fragment {
                                     .subscribe(new Consumer<JokeBean>() {
                                         @Override
                                         public void accept(JokeBean jokeBean) throws Exception {
-                                            List<JokeBean.ResultBean.DataBean> data = jokeBean.getResult().getData();
+                                            List<JokeBean.ResultBean.DataBean> data
+                                                    = jokeBean.getResult().getData();
                                             mAdapter.addData(data);
                                             mCurrentCounter = mTotalCounter;
                                             mTotalCounter += 5;
@@ -143,8 +149,7 @@ public class JokeFragment extends Fragment {
         llError.setVisibility(View.GONE);
 
         srlJoke.setRefreshing(true);    // 让SwipeRefreshLayout开启刷新
-        QClitent.getInstance()
-                .create(QNewsService.class, Constants.BASE_JOKE_URL) // 创建服务
+        QClitent.getInstance().create(QNewsService.class, Constants.BASE_JOKE_URL) // 创建服务
                 .getCurrentJokeData(1, 8)   // 查询查询
                 .subscribeOn(Schedulers.io())   //  指定被观察者的操作在io线程中完成
                 .observeOn(AndroidSchedulers.mainThread())  // 指定观察者接收到数据，然后在Main线程中完成
@@ -161,7 +166,8 @@ public class JokeFragment extends Fragment {
                     @Override
                     public void accept(Throwable throwable) throws Exception {
                         // 获取数据失败
-                        Toast.makeText(getActivity(), "获取数据失败!" + "访问次数上限", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), "获取数据失败!" + "访问次数上限", Toast.LENGTH_SHORT)
+                             .show();
                         srlJoke.setRefreshing(false);
                         llError.setVisibility(View.VISIBLE);
                         llLoading.setVisibility(View.GONE);
@@ -170,7 +176,7 @@ public class JokeFragment extends Fragment {
                 });
     }
 
-    @OnClick(R.id.tv_joke_load_again)
+    @OnClick (R.id.tv_joke_load_again)
     public void onClick(View view) {
 
         updateDate();

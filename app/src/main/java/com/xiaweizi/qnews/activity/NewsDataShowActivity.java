@@ -25,11 +25,11 @@ import me.imid.swipebacklayout.lib.app.SwipeBackActivity;
 
 public class NewsDataShowActivity extends SwipeBackActivity {
 
-    @BindView(R.id.tb_show)
+    @BindView (R.id.tb_show)
     Toolbar mTbShow;
-    @BindView(R.id.wv_show)
+    @BindView (R.id.wv_show)
     WebView mWvShow;
-    @BindView(R.id.tv_tb_title)
+    @BindView (R.id.tv_tb_title)
     TextView tvTbTitle;
 
     @Override
@@ -73,7 +73,8 @@ public class NewsDataShowActivity extends SwipeBackActivity {
             @Override
             public Bitmap getDefaultVideoPoster() {
                 if (mDefaultVideoPoster == null) {
-                    mDefaultVideoPoster = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_error);
+                    mDefaultVideoPoster = BitmapFactory
+                            .decodeResource(getResources(), R.mipmap.ic_error);
                     return mDefaultVideoPoster;
                 }
                 return super.getDefaultVideoPoster();
@@ -86,13 +87,13 @@ public class NewsDataShowActivity extends SwipeBackActivity {
             @Override
             public void onPageStarted(WebView view, String url, Bitmap favicon) {
                 super.onPageStarted(view, url, favicon);
-//                mPbShow.setVisibility(View.VISIBLE);
+                //                mPbShow.setVisibility(View.VISIBLE);
             }
 
             @Override
             public void onPageFinished(WebView view, String url) {
                 super.onPageFinished(view, url);
-//                mPbShow.setVisibility(View.GONE);
+                //                mPbShow.setVisibility(View.GONE);
             }
 
             @Override
@@ -102,7 +103,8 @@ public class NewsDataShowActivity extends SwipeBackActivity {
             }
 
             @Override
-            public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
+            public void onReceivedError(
+                    WebView view, WebResourceRequest request, WebResourceError error) {
                 super.onReceivedError(view, request, error);
 
             }
@@ -156,8 +158,8 @@ public class NewsDataShowActivity extends SwipeBackActivity {
 
     private void initAppBar() {
         mTbShow.setTitle("载入中...");
-//        setSupportActionBar(mTbShow);
-//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        //        setSupportActionBar(mTbShow);
+        //        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     @Override
