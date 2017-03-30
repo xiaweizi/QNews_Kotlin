@@ -2,9 +2,15 @@ package com.xiaweizi.qnews.activity;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.annotation.IdRes;
+import android.support.design.widget.BottomSheetDialog;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -12,12 +18,14 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.blankj.utilcode.utils.FileUtils;
 import com.blankj.utilcode.utils.LogUtils;
@@ -37,6 +45,8 @@ import com.xiaweizi.qnews.fragment.RobotFragment;
 import com.xiaweizi.qnews.fragment.TodayFragment;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
+
+import java.io.File;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -68,9 +78,23 @@ public class MainActivity extends AppCompatActivity {
     private BottomBar           bottomBar;
     private AlertDialog.Builder builder;
 
+    private SPUtils mSPUtils;
+
+    public static final String FILE_PATH = "file://" +
+                                           Environment.getExternalStorageDirectory().getPath() +
+                                           "/xiaweizi" + "/image_cache" +
+                                           "/camera.jpg";
+    public static final String TEMP_PATH = Environment.getExternalStorageDirectory().getPath() +
+                                           "/xiaweizi" + "/image_cache" +
+                                           "/camera.jpg";
+    private ImageView mIconImage;
+    private BottomSheetDialog mDialog;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         SPUtils util     = new SPUtils("theme_id");
         int     theme_id = util.getInt("theme_id", R.style.AppTheme);
         setTheme(theme_id);
@@ -86,15 +110,20 @@ public class MainActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         utils = new ActivityUtils(this);
+        mSPUtils = new SPUtils("head");
 
 
         /*************************** 左侧 侧滑菜单 设置头像图片 ***************************/
-        ImageView       iconImage = (ImageView) nvLeft.getHeaderView(0)
-                                                      .findViewById(R.id.icon_image);
+        mIconImage = (ImageView) nvLeft.getHeaderView(0)
+                                       .findViewById(R.id.icon_image);
         final ImageView ivBmp     = (ImageView) nvLeft.getHeaderView(0)
                                                       .findViewById(R.id.iv_head_bg);
-        Glide.with(this).load("http://img.17gexing.com/uploadfile/2016/07/2/20160725115642623.gif")
-             .asGif().centerCrop().into(iconImage);
+        if (!mSPUtils.getBoolean("has_head", false)) {
+            Glide.with(this).load("http://img.17gexing.com/uploadfile/2016/07/2/20160725115642623.gif")
+                 .asGif().centerCrop().into(mIconImage);
+        } else {
+            mIconImage.setImageBitmap(BitmapFactory.decodeFile(TEMP_PATH));
+        }
 
         OkHttpUtils.get().url("http://guolin.tech/api/bing_pic").build()
                    .execute(new StringCallback() {
@@ -110,10 +139,19 @@ public class MainActivity extends AppCompatActivity {
                        }
                    });
 
-        iconImage.setOnClickListener(new View.OnClickListener() {
+        mIconImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                bottomBar.selectTabAtPosition(4, true);
+                mDialog = new BottomSheetDialog(MainActivity.this);
+                View view = View.inflate(MainActivity.this, R.layout.bottom_dialog_pic_selector, null);
+                TextView xiangji = (TextView) view.findViewById(R.id.tv_xiangji);
+                TextView xiangce = (TextView) view.findViewById(R.id.tv_xiangce);
+                xiangce.setOnClickListener(listener);
+                xiangji.setOnClickListener(listener);
+                mDialog.setContentView(view);
+                mDialog.setCancelable(true);
+                mDialog.setCanceledOnTouchOutside(true);
+                mDialog.show();
             }
         });
 
@@ -384,6 +422,22 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.tv_yellow:
                     changeTheme(8);
                     break;
+                case R.id.tv_xiangji:
+                    //相机
+                    Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    // 指定调用相机拍照后照片存储路径
+                    Uri imageUri = Uri.parse(FILE_PATH);
+                    intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
+                    startActivityForResult(intent, 1000);
+
+                    break;
+                case R.id.tv_xiangce:
+                    //相册
+                    intent = new Intent(Intent.ACTION_GET_CONTENT);
+                    intent.setType("image/*");
+                    intent.addCategory(Intent.CATEGORY_OPENABLE);
+                    startActivityForResult(intent, 1001);
+                    break;
 
 
                 default:
@@ -391,5 +445,57 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     };
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode != RESULT_CANCELED){
+            switch (requestCode){
+                case 1000:
+                    File temp = new File(TEMP_PATH);
+                    startPhotoZoom(Uri.fromFile(temp));
+                    break;
+                case 1001:
+                    File temp1 = new File(TEMP_PATH);
+                    startPhotoZoom(Uri.fromFile(temp1));
+                    break;
+                case 1002:
+                    if (data != null){
+                        Bundle extras = data.getExtras();
+                        if (extras != null){
+                            Bitmap bmp = extras.getParcelable("data");
+                            Log.i("--->", "onActivityResult: ");
+                            mIconImage.setImageBitmap(bmp);
+                            mSPUtils.putBoolean("has_head", true);
+                            if (mDialog != null && mDialog.isShowing()){
+                                mDialog.dismiss();
+                            }
+                        }
+                    }
+                default:
+                    break;
+            }
+        }
+    }
+
+    private void startPhotoZoom(Uri uri){
+
+        Intent intent = new Intent("com.android.camera.action.CROP");
+        intent.setDataAndType(uri, "image/*");
+        // crop 为true 是设置在开启的intent中设置显示的view可以裁剪
+        intent.putExtra("crop", "true");
+
+        // aspect 是宽高比例
+        intent.putExtra("aspectX", 1);
+        intent.putExtra("aspectY", 1);
+
+        // output 是裁剪图片的宽高
+        intent.putExtra("outputX", 100);
+        intent.putExtra("outputY", 100);
+        intent.putExtra("return-data", true);
+        intent.putExtra("noFaceDetection", true);
+        startActivityForResult(intent, 1002);
+    }
+
 
 }
