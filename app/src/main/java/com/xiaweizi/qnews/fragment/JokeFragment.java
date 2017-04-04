@@ -15,10 +15,12 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.listener.OnItemLongClickListener;
 import com.xiaweizi.qnews.R;
 import com.xiaweizi.qnews.adapter.JokeAdapter;
 import com.xiaweizi.qnews.bean.JokeBean;
 import com.xiaweizi.qnews.commons.Constants;
+import com.xiaweizi.qnews.commons.ShareUtils;
 import com.xiaweizi.qnews.net.QClitent;
 import com.xiaweizi.qnews.net.QNewsService;
 
@@ -88,6 +90,13 @@ public class JokeFragment extends Fragment {
                                                         LinearLayoutManager.VERTICAL,
                                                         false));
         rvJoke.setAdapter(mAdapter);
+        rvJoke.addOnItemTouchListener(new OnItemLongClickListener() {
+            @Override
+            public void onSimpleItemLongClick(BaseQuickAdapter adapter, View view, int position) {
+                String content = mAdapter.getItem(position).getContent();
+                ShareUtils.share(getActivity(), content + "\n http://www.jianshu.com/u/d36586119d8c");
+            }
+        });
 
         mAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
 

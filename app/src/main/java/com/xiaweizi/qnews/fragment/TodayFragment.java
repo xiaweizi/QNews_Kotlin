@@ -72,7 +72,7 @@ public class TodayFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 if (rvToday != null) {
-                    rvToday.scrollToPosition(0);
+                    rvToday.smoothScrollToPosition(0);
                 }
             }
         });

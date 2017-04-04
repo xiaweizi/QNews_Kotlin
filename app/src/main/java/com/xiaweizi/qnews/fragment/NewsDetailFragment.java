@@ -12,12 +12,13 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.chad.library.adapter.base.listener.OnItemChildClickListener;
+import com.chad.library.adapter.base.listener.SimpleClickListener;
 import com.xiawei.webviewlib.WebViewActivity;
 import com.xiaweizi.qnews.R;
 import com.xiaweizi.qnews.adapter.NewsDataAdapter;
 import com.xiaweizi.qnews.bean.NewsDataBean;
 import com.xiaweizi.qnews.commons.Constants;
+import com.xiaweizi.qnews.commons.ShareUtils;
 import com.xiaweizi.qnews.net.QClitent;
 import com.xiaweizi.qnews.net.QNewsService;
 
@@ -81,17 +82,30 @@ import io.reactivex.schedulers.Schedulers;
         /*************************** recyclerView 初始化数据***************************/
         rvNewDetail.setAdapter(mAdapter);
         rvNewDetail.setLayoutManager(new LinearLayoutManager(getActivity()));
-        rvNewDetail.addOnItemTouchListener(new OnItemChildClickListener() {
+        rvNewDetail.addOnItemTouchListener(new SimpleClickListener(){
             @Override
-            public void onSimpleItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                //                Intent intent = new Intent(getActivity(), NewsDataShowActivity.class);
-                //                intent.putExtra("url", ((NewsDataBean.ResultBean.DataBean)adapter.getItem(position)).getUrl());
-                //                getActivity().startActivity(intent);
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+            }
+
+            @Override
+            public void onItemLongClick(BaseQuickAdapter adapter, View view, int position) {
+                String title = mAdapter.getItem(position).getTitle();
+                String url   = mAdapter.getItem(position).getUrl();
+                ShareUtils.share(getActivity(), title + "\n" + url);
+            }
+
+            @Override
+            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                 WebViewActivity.startUrl(getActivity(),
                                          ((NewsDataBean.ResultBean.DataBean) adapter.getItem(
                                                  position)).getUrl());
             }
+
+            @Override
+            public void onItemChildLongClick(BaseQuickAdapter adapter, View view, int position) {
+            }
         });
+
 
         return view;
     }
