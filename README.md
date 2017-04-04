@@ -1,8 +1,10 @@
-[软件下载地址](https://github.com/xiaweizi/QNews/raw/master/app-debug.apk)
+[软件下载地址](https://github.com/xiaweizi/QNews/raw/master/app-release.apk)
 
 扫码下载：
 
-![cli_300px.png](http://upload-images.jianshu.io/upload_images/4043475-30d6cf704646eca7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+![扫码下载.png](http://upload-images.jianshu.io/upload_images/4043475-45607354d136266c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
 
 
 
