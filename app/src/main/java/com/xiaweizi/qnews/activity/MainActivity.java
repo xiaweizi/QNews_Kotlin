@@ -8,6 +8,8 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
+import android.os.Message;
 import android.provider.MediaStore;
 import android.support.annotation.IdRes;
 import android.support.design.widget.BottomSheetDialog;
@@ -47,6 +49,7 @@ import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
 import java.io.File;
+import java.lang.ref.WeakReference;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -87,9 +90,42 @@ public class MainActivity extends AppCompatActivity {
     public static final String TEMP_PATH = Environment.getExternalStorageDirectory().getPath() +
                                            "/xiaweizi" + "/image_cache" +
                                            "/camera.jpg";
-    private ImageView mIconImage;
-    private BottomSheetDialog mDialog;
+    public static final int    SUCESS    = 0;
+    public static final int    FAILED    = 1;
 
+    private ImageView         mIconImage;
+    private BottomSheetDialog mDialog;
+    private MyHandler         mHandler;
+    private String mDirSize = "";
+
+    class MyHandler extends Handler {
+        WeakReference<MainActivity> mActivity;
+
+        MyHandler(MainActivity activity) {
+            mActivity = new WeakReference<>(activity);
+        }
+
+        @Override
+        public void handleMessage(Message msg) {
+            MainActivity theActivity = mActivity.get();
+            if (theActivity == null || theActivity.isFinishing()) {
+                return;
+            }
+            // 消息处理
+            switch (msg.what) {
+                case SUCESS:
+                    utils.showToast("清理成功");
+                    break;
+                case FAILED:
+
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+
+    ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -111,21 +147,32 @@ public class MainActivity extends AppCompatActivity {
 
         utils = new ActivityUtils(this);
         mSPUtils = new SPUtils("head");
+        mHandler = new MyHandler(this);
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                mDirSize = FileUtils.getDirSize(getCacheDir());
+            }
+        }).start();
 
 
         /*************************** 左侧 侧滑菜单 设置头像图片 ***************************/
-        mIconImage = (ImageView) nvLeft.getHeaderView(0)
-                                       .findViewById(R.id.icon_image);
-        final ImageView ivBmp     = (ImageView) nvLeft.getHeaderView(0)
-                                                      .findViewById(R.id.iv_head_bg);
+        mIconImage = (ImageView) nvLeft.getHeaderView(0).findViewById(R.id.icon_image);
+        final ImageView ivBmp = (ImageView) nvLeft.getHeaderView(0).findViewById(R.id.iv_head_bg);
         if (!mSPUtils.getBoolean("has_head", false)) {
-            Glide.with(this).load("http://img.17gexing.com/uploadfile/2016/07/2/20160725115642623.gif")
-                 .asGif().centerCrop().into(mIconImage);
+            Glide.with(this)
+                 .load("http://img.17gexing.com/uploadfile/2016/07/2/20160725115642623.gif")
+                 .asGif()
+                 .centerCrop()
+                 .into(mIconImage);
         } else {
             mIconImage.setImageBitmap(BitmapFactory.decodeFile(TEMP_PATH));
         }
 
-        OkHttpUtils.get().url("http://guolin.tech/api/bing_pic").build()
+        OkHttpUtils.get()
+                   .url("http://guolin.tech/api/bing_pic")
+                   .build()
                    .execute(new StringCallback() {
                        @Override
                        public void onError(Call call, Exception e, int id) {
@@ -134,7 +181,10 @@ public class MainActivity extends AppCompatActivity {
 
                        @Override
                        public void onResponse(String response, int id) {
-                           Glide.with(MainActivity.this).load(response).crossFade().centerCrop()
+                           Glide.with(MainActivity.this)
+                                .load(response)
+                                .crossFade()
+                                .centerCrop()
                                 .into(ivBmp);
                        }
                    });
@@ -143,7 +193,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 mDialog = new BottomSheetDialog(MainActivity.this);
-                View view = View.inflate(MainActivity.this, R.layout.bottom_dialog_pic_selector, null);
+                View     view    = View.inflate(MainActivity.this,
+                                                R.layout.bottom_dialog_pic_selector,
+                                                null);
                 TextView xiangji = (TextView) view.findViewById(R.id.tv_xiangji);
                 TextView xiangce = (TextView) view.findViewById(R.id.tv_xiangce);
                 xiangce.setOnClickListener(listener);
@@ -215,46 +267,45 @@ public class MainActivity extends AppCompatActivity {
 
         /*************************** 左侧 侧滑菜单 设置选择事件 ***************************/
         nvLeft.setCheckedItem(R.id.nav_news);
-        nvLeft.setNavigationItemSelectedListener(
-                new NavigationView.OnNavigationItemSelectedListener() {
-                    @Override
-                    public boolean onNavigationItemSelected(MenuItem item) {
-                        nvLeft.setCheckedItem(item.getItemId());
-                        dlActivityMain.closeDrawers();
-                        switch (item.getItemId()) {
-                            case R.id.nav_news:
-                                bottomBar.selectTabAtPosition(0, true);
-                                break;
-                            case R.id.nav_duanzi:
-                                bottomBar.selectTabAtPosition(1, true);
-                                break;
-                            case R.id.nav_today_of_history:
-                                bottomBar.selectTabAtPosition(2, true);
-                                break;
-                            case R.id.nav_robot:
-                                bottomBar.selectTabAtPosition(3, true);
-                                break;
-                            case R.id.nav_other:
-                                bottomBar.selectTabAtPosition(4, true);
-                                break;
-                            case R.id.nav_clear_cache:
-                                clearCache();
-                                break;
-                            case R.id.nav_version_update:
-                                VersionUtils.updateVersion(MainActivity.this);
-                                break;
-                            case R.id.nav_change_theme:
-                                alertChangeTheme();
-                                break;
-                            case R.id.nav_day_night:
-                                changeTheme(9);
-                                break;
-                            default:
-                                break;
-                        }
-                        return false;
-                    }
-                });
+        nvLeft.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(MenuItem item) {
+                nvLeft.setCheckedItem(item.getItemId());
+                dlActivityMain.closeDrawers();
+                switch (item.getItemId()) {
+                    case R.id.nav_news:
+                        bottomBar.selectTabAtPosition(0, true);
+                        break;
+                    case R.id.nav_duanzi:
+                        bottomBar.selectTabAtPosition(1, true);
+                        break;
+                    case R.id.nav_today_of_history:
+                        bottomBar.selectTabAtPosition(2, true);
+                        break;
+                    case R.id.nav_robot:
+                        bottomBar.selectTabAtPosition(3, true);
+                        break;
+                    case R.id.nav_other:
+                        bottomBar.selectTabAtPosition(4, true);
+                        break;
+                    case R.id.nav_clear_cache:
+                        clearCache();
+                        break;
+                    case R.id.nav_version_update:
+                        VersionUtils.updateVersion(MainActivity.this);
+                        break;
+                    case R.id.nav_change_theme:
+                        alertChangeTheme();
+                        break;
+                    case R.id.nav_day_night:
+                        changeTheme(9);
+                        break;
+                    default:
+                        break;
+                }
+                return false;
+            }
+        });
     }
 
     /**
@@ -342,21 +393,29 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void clearCache() {
-        String dirSize = FileUtils.getDirSize(getCacheDir());
-        new AlertDialog.Builder(MainActivity.this).setTitle("确定要清理缓存").setMessage("缓存大小：" + dirSize)
+
+        new AlertDialog.Builder(MainActivity.this).setTitle("确定要清理缓存")
+                                                  .setMessage("缓存大小：" + mDirSize)
                                                   .setPositiveButton("清理",
                                                                      new DialogInterface.OnClickListener() {
                                                                          @Override
                                                                          public void onClick(
                                                                                  DialogInterface dialog,
                                                                                  int which) {
-                                                                             FileUtils.deleteDir(
-                                                                                     getCacheDir());
-                                                                             utils.showToast(
-                                                                                     "清理成功");
+                                                                             new Thread(new Runnable() {
+                                                                                 @Override
+                                                                                 public void run() {
+                                                                                     FileUtils.deleteDir(
+                                                                                             getCacheDir());
+                                                                                     mHandler.sendEmptyMessage(
+                                                                                             SUCESS);
+                                                                                 }
+                                                                             }).start();
+
                                                                          }
                                                                      })
-                                                  .setNegativeButton("取消", null).show();
+                                                  .setNegativeButton("取消", null)
+                                                  .show();
     }
 
     private void changeTheme(int index) {
@@ -449,8 +508,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode != RESULT_CANCELED){
-            switch (requestCode){
+        if (resultCode != RESULT_CANCELED) {
+            switch (requestCode) {
                 case 1000:
                     File temp = new File(TEMP_PATH);
                     startPhotoZoom(Uri.fromFile(temp));
@@ -460,14 +519,14 @@ public class MainActivity extends AppCompatActivity {
                     startPhotoZoom(Uri.fromFile(temp1));
                     break;
                 case 1002:
-                    if (data != null){
+                    if (data != null) {
                         Bundle extras = data.getExtras();
-                        if (extras != null){
+                        if (extras != null) {
                             Bitmap bmp = extras.getParcelable("data");
                             Log.i("--->", "onActivityResult: ");
                             mIconImage.setImageBitmap(bmp);
                             mSPUtils.putBoolean("has_head", true);
-                            if (mDialog != null && mDialog.isShowing()){
+                            if (mDialog != null && mDialog.isShowing()) {
                                 mDialog.dismiss();
                             }
                         }
@@ -478,7 +537,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void startPhotoZoom(Uri uri){
+    private void startPhotoZoom(Uri uri) {
 
         Intent intent = new Intent("com.android.camera.action.CROP");
         intent.setDataAndType(uri, "image/*");
