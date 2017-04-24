@@ -30,7 +30,7 @@ public class MyApplication extends Application {
         //        Bmob.initialize(this, "5597c24c18ec706d100033f915b79153");
 
 
-        JPushInterface.setDebugMode(true);
+        JPushInterface.setDebugMode(false);
         JPushInterface.init(this);
 
         OkHttpClient okHttpClient = new OkHttpClient.Builder()

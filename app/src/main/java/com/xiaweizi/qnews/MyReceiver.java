@@ -7,9 +7,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
-import android.widget.Toast;
 
-import com.xiaweizi.qnews.activity.NewsDataShowActivity;
+import com.google.gson.Gson;
+import com.xiaweizi.qnews.bean.MessageBean;
+import com.xiaweizi.qnews.commons.NotificationUtils;
 
 import cn.jpush.android.api.JPushInterface;
 
@@ -21,10 +22,14 @@ public class MyReceiver extends BroadcastReceiver {
     private static final String TAG = "MyReceiver---->";
 
     private NotificationManager nm;
+    private NotificationUtils mUtils;
+    private Gson mGson;
 
     @Override
     public void onReceive(Context context, Intent intent) {
 
+        mGson = new Gson();
+        mUtils = new NotificationUtils(context);
         if (null == nm) {
             nm = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         }
@@ -77,18 +82,9 @@ public class MyReceiver extends BroadcastReceiver {
             Log.w(TAG, "Unexpected: empty title (friend). Give up");
             return;
         }
-        switch (message) {
 
-            case "0":
-                Toast.makeText(context, "收到推送消息", Toast.LENGTH_SHORT).show();
-                break;
-            case "1":
-                Intent intent = new Intent(context, NewsDataShowActivity.class);
-                intent.putExtra("url", "http://www.jianshu.com/u/d36586119d8c");
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                context.startActivity(intent);
-                break;
-        }
+        MessageBean messageBean = mGson.fromJson(message, MessageBean.class);
+        mUtils.normalNotify(messageBean);
     }
 
 }
