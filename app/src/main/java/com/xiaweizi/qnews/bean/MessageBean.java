@@ -16,6 +16,8 @@ public class MessageBean implements Parcelable{
     public int type;// 消息类型
     public String content;// 消息内容
 
+
+
     protected MessageBean(Parcel in) {
         this.type = in.readInt();
         this.content = in.readString();

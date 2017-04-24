@@ -5,9 +5,12 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 
+import com.xiawei.webviewlib.WebViewActivity;
 import com.xiaweizi.qnews.R;
 import com.xiaweizi.qnews.activity.MainActivity;
+import com.xiaweizi.qnews.activity.SplashActivity;
 import com.xiaweizi.qnews.bean.MessageBean;
 
 /**
@@ -26,7 +29,22 @@ public class NotificationUtils {
     }
 
     public void normalNotify(MessageBean bean){
-        Intent intent = new Intent(mContext, MainActivity.class);
+        Log.i("xwz--->", "NotificationUtils:  " + "normalNotify: " + bean.toString());
+        int messageType = bean.type;
+        Log.i("xwz--->", "NotificationUtils:  " + "messageType: " + messageType);
+        Intent intent = new Intent();
+        switch (messageType){
+            case 0:
+                intent.setClass(mContext, MainActivity.class);
+                break;
+            case 1:
+                intent.setClass(mContext, SplashActivity.class);
+                break;
+            case 2:
+                intent.setClass(mContext, WebViewActivity.class);
+                break;
+
+        }
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.setFlags(Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
         intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
