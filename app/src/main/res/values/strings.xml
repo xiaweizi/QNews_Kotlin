@@ -5,6 +5,7 @@
     <string name="string_about_github">github: https://github.com/xiaweizi</string>
     <string name="string_about_jianshu">简书: http://www.jianshu.com/u/d36586119d8c</string>
     <string name="string_about_blog">博客: http://my.csdn.net/qq_22656383</string>
+    <string name="about_background"><![CDATA[https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=2701408155,2184514200&fm=26&gp=0.jpg]]></string>
 
     <string-array name="news_type_cn">
         <item>头条</item>
