@@ -1,51 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:clipToPadding="true"
-    android:orientation="vertical">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="20dp"
-        android:clickable="true"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:src="@drawable/ic_fb_top"
-        app:elevation="6dp"
-        app:pressedTranslationZ="25dp"
-        app:fabSize="normal"/>
 
-    <LinearLayout
-        android:orientation="vertical"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/tb_today"
+        android:clipToPadding="true"
+        android:orientation="vertical">
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_margin="20dp"
+            android:clickable="true"
+            android:src="@drawable/ic_fb_top"
+            app:elevation="6dp"
+            app:fabSize="normal"
+            app:pressedTranslationZ="25dp"/>
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            android:fitsSystemWindows="true"
-            app:titleTextColor="#fff">
-            <ImageView
-                android:src="@mipmap/ic_today"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:orientation="vertical">
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/tb_today"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
                 android:background="?attr/colorPrimary"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:fitsSystemWindows="true"
+                app:titleTextColor="#fff">
 
-        </android.support.v7.widget.Toolbar>
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="?attr/colorPrimary"
+                    android:src="@mipmap/ic_today"/>
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/rv_today"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
+            </android.support.v7.widget.Toolbar>
 
-    </LinearLayout>
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_today"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
 
-</RelativeLayout>
+        </LinearLayout>
+
+    </RelativeLayout>
+</layout>

@@ -131,33 +131,6 @@ public class TodayDetailActivity extends AppCompatActivity {
                     }
                 });
 
-        //        QNewsClient.getInstance().GetTodayOfHistoryDetailData(e_id, new QNewsCallback<TodayOfHistoryDetailBean>() {
-        //
-        //            @Override
-        //            public void onSuccess(TodayOfHistoryDetailBean response, int id) {
-        //
-        //                if (response.getError_code() != 0) {
-        //                    tbToday.setTitle("无结果");
-        //                    tvTodayContent.setText("无结果");
-        //                    return;
-        //                }
-        //                TodayOfHistoryDetailBean.ResultBean resultBean = response.getResult().get(0);
-        //                String content = resultBean.getContent();
-        //                String title = resultBean.getTitle();
-        //                picUrl = resultBean.getPicUrl();
-        //
-        //                collapsingToolbarToday.setTitle(title);
-        //                tvTodayContent.setText(content);
-        //
-        //                vpToday.setAdapter(new MyAdapter(picUrl));
-        //
-        //            }
-        //
-        //            @Override
-        //            public void onError(Exception e, int id) {
-        //
-        //            }
-        //        });
     }
 
     @Override
@@ -184,9 +157,14 @@ public class TodayDetailActivity extends AppCompatActivity {
         @Override
         public Object instantiateItem(ViewGroup container, int position) {
             ImageView imageView = new ImageView(TodayDetailActivity.this);
+            ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                                                                             ViewGroup.LayoutParams.MATCH_PARENT);
+            imageView.setLayoutParams(layoutParams);
+
+            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
             LogUtils.i("url：" + picUrl.get(position).getUrl());
             Glide.with(TodayDetailActivity.this)
-                 .load("http://images.juheapi.com/history/2021_1.jpg").crossFade().into(imageView);
+                 .load(picUrl.get(position).getUrl()).crossFade().into(imageView);
             container.addView(imageView);
             return imageView;
         }

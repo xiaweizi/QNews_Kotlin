@@ -1,14 +1,12 @@
 package com.xiaweizi.qnews.fragment;
 
 import android.content.Intent;
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,14 +19,13 @@ import com.xiaweizi.qnews.activity.TodayDetailActivity;
 import com.xiaweizi.qnews.adapter.TodayAdapter;
 import com.xiaweizi.qnews.bean.TodayOfHistoryBean;
 import com.xiaweizi.qnews.commons.Constants;
+import com.xiaweizi.qnews.databinding.FragmentTodayBinding;
 import com.xiaweizi.qnews.net.QClitent;
 import com.xiaweizi.qnews.net.QNewsService;
 
 import java.util.Calendar;
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
@@ -47,49 +44,36 @@ import io.reactivex.schedulers.Schedulers;
 public class TodayFragment extends Fragment {
 
 
-    @BindView (R.id.tb_today)
-    Toolbar              tbToday;
-    @BindView (R.id.rv_today)
-    RecyclerView         rvToday;
-    @BindView (R.id.fab)
-    FloatingActionButton fab;
-
     //历史上今天的适配器
-    private TodayAdapter adapter;
+    private TodayAdapter         adapter;
+    private FragmentTodayBinding mTodayBinding;
 
     @Nullable
     @Override
     public View onCreateView(
-            LayoutInflater inflater, @Nullable ViewGroup container,
-            @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_today, null);
-        ButterKnife.bind(this, view);
+            LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        mTodayBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_today, null, false);
+        View view = mTodayBinding.getRoot();
 
         adapter = new TodayAdapter();
         adapter.openLoadAnimation(BaseQuickAdapter.SLIDEIN_BOTTOM);
         //悬浮按钮设置点击事件
-        fab.setOnClickListener(new View.OnClickListener() {
+        mTodayBinding.fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (rvToday != null) {
-                    rvToday.smoothScrollToPosition(0);
-                }
+                mTodayBinding.rvToday.smoothScrollToPosition(0);
             }
         });
 
         //recyclerView初始化
-        rvToday.setLayoutManager(new StaggeredGridLayoutManager(2,
-                                                                StaggeredGridLayoutManager.VERTICAL));
-        rvToday.setAdapter(adapter);
-        rvToday.addOnItemTouchListener(new OnItemChildClickListener() {
+        mTodayBinding.rvToday.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
+        mTodayBinding.rvToday.setAdapter(adapter);
+        mTodayBinding.rvToday.addOnItemTouchListener(new OnItemChildClickListener() {
             @Override
             public void onSimpleItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                 Intent intent = new Intent(getActivity(), TodayDetailActivity.class);
-                intent.putExtra("e_id",
-                                ((TodayOfHistoryBean.ResultBean) adapter.getItem(position)).getE_id());
-                getActivity().startActivity(intent,
-                                            ActivityOptionsCompat.makeSceneTransitionAnimation(
-                                                    getActivity()).toBundle());
+                intent.putExtra("e_id", ((TodayOfHistoryBean.ResultBean) adapter.getItem(position)).getE_id());
+                getActivity().startActivity(intent, ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity()).toBundle());
             }
         });
 
@@ -118,20 +102,6 @@ public class TodayFragment extends Fragment {
                         Toast.makeText(getContext(), "获取数据失败", Toast.LENGTH_SHORT).show();
                     }
                 });
-
-        //        QNewsClient.getInstance().GetTodayOfHistoryData(month, day,
-        //                new QNewsCallback<TodayOfHistoryBean>() {
-        //                    @Override
-        //                    public void onSuccess(TodayOfHistoryBean response, int id) {
-        //                        List<TodayOfHistoryBean.ResultBean> result = response.getResult();
-        //                        adapter.addData(result);
-        //                    }
-        //
-        //                    @Override
-        //                    public void onError(Exception e, int id) {
-        //
-        //                    }
-        //                });
 
         return view;
     }
