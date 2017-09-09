@@ -1,6 +1,5 @@
 package com.xiaweizi.qnews.fragment;
 
-import android.annotation.SuppressLint;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -38,7 +37,7 @@ import io.reactivex.schedulers.Schedulers;
  * 创建时间： 15:36
  */
 
-@SuppressLint ("ValidFragment") public class NewsDetailFragment extends BaseFragment {
+public class NewsDetailFragment extends BaseFragment {
 
     @BindView (R.id.rv_new_detail)
     RecyclerView rvNewDetail;
