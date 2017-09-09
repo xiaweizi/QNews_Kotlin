@@ -70,9 +70,6 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:24.0.0'
     //圆形头像
     compile 'com.pkmmte.view:circularimageview:1.1'
-    //butterknife
-    compile 'com.jakewharton:butterknife:8.5.1'
-    annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
     //litepal数据库
     compile 'org.litepal.android:core:1.4.1'
     //baseAdapter
