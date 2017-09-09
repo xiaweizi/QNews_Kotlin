@@ -113,7 +113,7 @@ class MainActivity : AppCompatActivity() {
         val ivBmp = nv_left!!.getHeaderView(0).findViewById(R.id.iv_head_bg) as ImageView
         if (!mSPUtils!!.getBoolean("has_head", false)) {
             Glide.with(this)
-                    .load("http://img.17gexing.com/uploadfile/2016/07/2/20160725115642623.gif")
+                    .load("http://i1.img.969g.com/pub/imgx2017/08/29/284_102207_d9d05_lit.gif")
                     .asGif()
                     .centerCrop()
                     .into(mIconImage!!)
@@ -304,7 +304,7 @@ class MainActivity : AppCompatActivity() {
             utils!!.showToast("再按一次退出应用")
             lastTime = curTime
         } else {
-            moveTaskToBack(true)
+            super.onBackPressed()
         }
     }
 
